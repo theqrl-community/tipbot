@@ -6,7 +6,6 @@ module.exports = {
   usage: ' {ARG}\n`args: {market | exchange | faucet | bot | user | qrl}`\nGives details about the network, QRL Market, tipbot etc. Will also print your current tipbot details to DM',
   cooldown: 0,
   execute(message, args) {
-
     const Discord = require('discord.js');
     const dbHelper = require('../../db/dbHelper');
     const config = require('../../../_config/config.json');
@@ -14,7 +13,6 @@ module.exports = {
     const explorer = require('../../qrl/explorerTools');
     const cgTools = require('../../coinGecko/cgTools');
 
-    // use to send a reply to user with delay and stop typing
     // ReplyMessage(' Check your DM\'s');
     function ReplyMessage(content) {
       message.channel.startTyping();
@@ -71,14 +69,7 @@ module.exports = {
         resolve(totBalance);
       });
     }
-    /*
-    function getWalletInfo() {
-      return new Promise(resolve => {
-        const getWalInfo = wallet.getWalletInfo();
-        resolve(getWalInfo);
-      });
-    }
-    */
+
     function getCgData() {
       return new Promise(resolve => {
         const cgdata = cgTools.cgData();
@@ -96,7 +87,6 @@ module.exports = {
     function faucetWalletBalance() {
       return new Promise(resolve => {
         const walletBal = wallet.GetBalance;
-        // console.log('faucet Address: ' + config.faucet.faucet_wallet_pub);
         resolve(walletBal(config.faucet.faucet_wallet_pub));
       });
     }
@@ -104,7 +94,6 @@ module.exports = {
     function userWalletBalance(address) {
       return new Promise(resolve => {
         const walletBal = wallet.GetBalance;
-        // console.log('faucet Address: ' + config.faucet.faucet_wallet_pub);
         resolve(walletBal(address));
       });
     }
@@ -129,16 +118,13 @@ module.exports = {
     }
 
     async function main() {
-      // look in the database for the user
       const username = `${message.author}`;
       const userName = username.slice(1, -1);
       const userInfo = { service: 'discord', service_id: userName };
       const userData = await dbHelper.GetAllUserInfo(userInfo);
-      // parse the user details
       const found = userData[0].userData;
       const optOut = userData[0].opt_out;
       const agree = userData[0].user_agree;
-      // multiplier for balance calculations
 
       // faucet data
       const FaucetWalletPub = config.faucet.faucet_wallet_pub;
@@ -149,41 +135,31 @@ module.exports = {
       const faucetBal = toQuanta(faucetBalShor.balance).toFixed(9);
 
       // general bot data
-      // const botFee = config.wallet.tx_fee;
       const botUrl = config.bot_details.bot_url;
       const explorerURL = config.bot_details.explorer_url;
       // get updated bot wallet balance and faucet wallet balance
       const cgData = JSON.parse(await getCgData());
-
       const priceChange24hPercent = cgData.market_data.price_change_percentage_24h;
       const circulatingSupply = cgData.market_data.circulating_supply;
       const totalSupply = cgData.market_data.total_supply;
-      // console.log(cgData.tickers);
+
       // bittrex info from coinGecko
       const bittrexVolumeRaw = cgData.tickers[0].volume;
-      // const bittrexVolume = thousandths(bittrexVolumeRaw.toFixed(2));
-      // const bittrexIdentifier = cgData.tickers[0].market.name;
       const bittrexURL = cgData.tickers[0].trade_url;
-
       const usdValue = cgData.market_data.current_price.usd;
       const usdATH = cgData.market_data.ath.usd;
-      // const usdATHChange = cgData.market_data.ath_change_percentage.usd;
-
       const usdATL = cgData.market_data.atl.usd;
-      // const usdATLChange = cgData.market_data.atl_change_percentage.usd;
-
       const usdMarketCap = cgData.market_data.market_cap.usd;
       const usdTotalVolume = cgData.market_data.total_volume.usd;
       const usdHigh24h = cgData.market_data.high_24h.usd;
       const usdLow24h = cgData.market_data.low_24h.usd;
       const usdPriceChange24h = cgData.market_data.price_change_24h_in_currency.usd;
       const usdMarketCapChange24h = cgData.market_data.market_cap_change_24h_in_currency.usd;
+
       // BTC market data from CoinGecko
       const btcValue = cgData.market_data.current_price.btc;
       const btcATH = cgData.market_data.ath.btc;
-      // const btcATHChange = cgData.market_data.ath_change_percentage.btc;
       const btcATL = cgData.market_data.atl.btc;
-      // const btcATLChange = cgData.market_data.atl_change_percentage.btc;
       const btcMarketCap = cgData.market_data.market_cap.btc;
       const btcTotalVolume = cgData.market_data.total_volume.btc;
       const btcHigh24h = cgData.market_data.high_24h.btc;
@@ -203,7 +179,6 @@ module.exports = {
           .addFields(
             { name: 'QRL USD Value:', value: '`\u0024' + thousandths(usdValue) + '`', inline: true },
             { name: 'QRL BTC Value:', value: '`\u0024' + thousandths(btcValue) + '`', inline: true },
-
             { name: 'Volume USD / BTC', value: '`\u0024' + thousandths(usdTotalVolume) + ' / \u20BF' + thousandths(btcTotalVolume) + '`', inline: true },
             { name: 'Price Change USD / BTC 24h', value: '`\u0024' + (usdPriceChange24h).toFixed(4) + ' \u20BF' + (btcPriceChange24h).toFixed(9) + ' (%' + (priceChange24hPercent).toFixed(2) + ')`' },
             { name: 'Market Cap:', value: '`\u0024' + thousandths(usdMarketCap) + ' / \u20BF' + thousandths(btcMarketCap) + '`', inline: true },
@@ -279,6 +254,7 @@ module.exports = {
         }
         // if none with API endpoints then give this message.
         // FIX-ME: Need to integrate with additional services or direct from exchange
+
         /* else if (args[1] == 'biteeu' || args[1] == 'bitvoicex' || args[1] == 'cointiger' || args[1] == 'simpleswap' || args[1] == 'swapzone' || args[1] == 'stealthex') {
           const embed = new Discord.MessageEmbed()
             .setColor('GREEN')
@@ -330,10 +306,8 @@ module.exports = {
       // list all information related to QRL
       else if (args[0] == 'QRL' || args[0] == 'qrl' || args[0] == 'project' || args[0] == 'economics' || args[0] == 'about' || args[0] == 'wallet') {
         // give default response with listing info
-        const nodeBlockHeight = JSON.parse(await getHeight());
         const poolData = JSON.parse(await getPoolInfo());
         const poolBlockheight = poolData.lastblock.height;
-        // console.log(poolData);
         const hashrate = getHashRate(poolData.network.difficulty / poolData.config.coinDifficultyTarget) + '/sec';
         const embed = new Discord.MessageEmbed()
           .setColor('GREEN')
@@ -388,7 +362,6 @@ module.exports = {
             { name: 'balance: ', value: 'Print user QRL balance or QRL address balance to DM, `+help balance`', inline: false },
             { name: 'deposit: ', value: 'Deposit information to send funds to your tipbot address, `+help deposit`', inline: false },
             { name: 'drip: ', value: 'Receive a payout from the tipbot faucet, `+help drip`', inline: false },
-            // { name: 'getKeys: ', value: 'Prints the users private keys to a DM, **CAUTION** `+help getKeys`', inline: false },
             { name: 'help: ', value: 'Print help information for the tipbot commands, `+help`', inline: false },
             { name: 'info: ', value: 'This command, giving information on various topics, `+help info`', inline: false },
             { name: 'optin: ', value: 'Opt into the tipbot {default signup condition} after user has opt\'ed out, `+help optin`', inline: false },
@@ -396,13 +369,11 @@ module.exports = {
             { name: 'terms: ', value: 'Print the terms and conditions for using the bot, `+help terms`', inline: false },
             { name: 'tip: ', value: 'Tip another user QRL from your tipbot address, `+help tip`', inline: false },
             { name: 'withdraw: ', value: 'Send your tipbot funds to another address, `+help withdraw`', inline: false },
-
           )
           .setTimestamp()
           .setFooter('  .: Tipbot provided by The QRL Contributors :.');
         message.author.send({ embed })
           .then(() => {
-
             ReplyMessage('The tipbot enables sending QRL tips to other discord users. The bot will create an individual address for each bot user with the `+add` command. \n\n:small_blue_diamond: All tips are on chain and can be seen in the QRL Block Explorer - ' + explorerURL + '. \n:small_blue_diamond: `+transfer` your earned tips out of the tipbot.\n:small_blue_diamond: Use the QRL Web Wallet ' + config.wallet.wallet_url + ' if you need a new address\n\n**More details in your DM**');
             message.channel.stopTyping(true);
           });
@@ -414,17 +385,12 @@ module.exports = {
         const hashrate = getHashRate(poolData.network.difficulty / poolData.config.coinDifficultyTarget) + '/sec';
         // serve the bot info here
         const nodeBlockHeight = JSON.parse(await getHeight());
-
         if (message.channel.type !== 'dm') {
-          // console.log('not a DM');
           if (message.member.roles.cache.some(r=>[config.discord.admin_role, config.discord.mod_role].includes(r.name))) {
           // has a role, admin stuff here
             const wallet_count = JSON.parse(await count());
             const total_balance = JSON.parse(await totalBalance());
             const faucet_balance = await faucetWalletBalance();
-            // console.log('wallet_count: ' + wallet_count);
-            // console.log('faucet_balance: ' + faucet_balance.balance);
-            // console.log('total_balance: ' + JSON.stringify(total_balance));
             const embed = new Discord.MessageEmbed()
               .setColor('GREEN')
               .setTitle('**QRL Tipbot Info**')
@@ -447,59 +413,54 @@ module.exports = {
           }
           // is not a DM and user is Not admin
           const embed = new Discord.MessageEmbed()
-          .setColor('GREEN')
-          .setTitle('**QRL Tipbot Info**')
-          .setURL(botUrl)
-          .setDescription('Tipbot general information.')
-          .addFields(
-            { name: 'Block Height: ', value: '`' + nodeBlockHeight.height + '`', inline: true },
-            { name: 'Network Hashrate:', value: '`' + hashrate + '`', inline: true },
-            // FIX-ME:
-            //    add more information about the bot here
-            //    including how many accounts signed up, total tips sent, servers and other bot stats.
+            .setColor('GREEN')
+            .setTitle('**QRL Tipbot Info**')
+            .setURL(botUrl)
+            .setDescription('Tipbot general information.')
+            .addFields(
+              { name: 'Block Height: ', value: '`' + nodeBlockHeight.height + '`', inline: true },
+              { name: 'Network Hashrate:', value: '`' + hashrate + '`', inline: true },
+              // FIX-ME:
+              //    add more information about the bot
+              //    including how many accounts signed up, total tips sent, servers and other bot stats.
 
-          // { name: 'Bot Transaction Fees:', value: '`\u0024 ' + botFee + '`', inline: true },
-          )
-          .setTimestamp()
-          .setFooter('  .: Tipbot provided by The QRL Contributors :.');
-        message.reply({ embed })
-          .then(() => {
-            message.channel.stopTyping(true);
-          });
+            // { name: 'Bot Transaction Fees:', value: '`\u0024 ' + botFee + '`', in line: true },
+            )
+            .setTimestamp()
+            .setFooter('  .: Tipbot provided by The QRL Contributors :.');
+          message.reply({ embed })
+            .then(() => {
+              message.channel.stopTyping(true);
+            });
         }
         else {
           // message is a DM
-        const embed = new Discord.MessageEmbed()
-          .setColor('GREEN')
-          .setTitle('**QRL Tipbot Info**')
-          .setURL(botUrl)
-          .setDescription('Tipbot general information.')
-          .addFields(
-            { name: 'Block Height: ', value: '`' + nodeBlockHeight.height + '`', inline: true },
-            { name: 'Network Hashrate:', value: '`' + hashrate + '`', inline: true },
-            // FIX-ME:
-            //    add more information about the bot here
-            //    including how many accounts signed up, total tips sent, servers and other bot stats.
+          const embed = new Discord.MessageEmbed()
+            .setColor('GREEN')
+            .setTitle('**QRL Tipbot Info**')
+            .setURL(botUrl)
+            .setDescription('Tipbot general information.')
+            .addFields(
+              { name: 'Block Height: ', value: '`' + nodeBlockHeight.height + '`', inline: true },
+              { name: 'Network Hashrate:', value: '`' + hashrate + '`', inline: true },
+              // FIX-ME:
+              //    add more information about the bot here
+              //    including how many accounts signed up, total tips sent, servers and other bot stats.
 
-          // { name: 'Bot Transaction Fees:', value: '`\u0024 ' + botFee + '`', inline: true },
-          )
-          .setTimestamp()
-          .setFooter('  .: Tipbot provided by The QRL Contributors :.');
-        message.reply({ embed })
-          .then(() => {
-            message.channel.stopTyping(true);
-          });
-
+            // { name: 'Bot Transaction Fees:', value: '`\u0024 ' + botFee + '`', in line: true },
+            )
+            .setTimestamp()
+            .setFooter('  .: Tipbot provided by The QRL Contributors :.');
+          message.reply({ embed })
+            .then(() => {
+              message.channel.stopTyping(true);
+            });
         }
-
-
       }
-
       else if (args[0] == '?$' || args[0] == 'user' || args[0] == 'me' || args[0] == 'account' || args[0] == 'balance' || args[0] == 'bal' || args[0] == 'address') {
       // run through checks and fail if, else serve User info to the user
       // is user found?
         if (found === 'false') {
-          // console.log('!found');
           // not found, give main message and end
           errorMessage({ error: 'Not Found In System...', description: 'You\'re not found in the System. Enter `+help add` for instructions' });
           // ReplyMessage('Your not found in the System. Try `+add` or `+help`');
@@ -507,14 +468,12 @@ module.exports = {
         }
         // check for opt_out status
         if (optOut === 1) {
-          // console.log('opt-out');
           // Opt Out, give main message and end
           errorMessage({ error: 'User Has Opted Out...', description: 'You have opted out of the tipbot. Enter `+help opt-in` for instructions' });
           // ReplyMessage('You have opted out of the tipbot. Please send `+opt-in` to opt back in!');
           return;
         }
         if (agree === 'false') {
-          // console.log('!agree');
           // not Agreed, give main message and end
           errorMessage({ error: 'User Has Not Agreed...', description: 'You have not agreed to the tipbot terms. Enter `+help agree` for instructions' });
           // ReplyMessage('You need to agree, please see the `+terms`');
@@ -534,7 +493,6 @@ module.exports = {
           const userBal = toQuanta(userBalShor.balance).toFixed(9);
           const userBTCValue = (userBal * btcValue).toFixed(9);
           const userUSDValue = (userBal * usdValue).toFixed(3);
-          // console.log('userBal: ' + userBal);
           const embed = new Discord.MessageEmbed()
             .setColor(0x000000)
             .setTitle('**QRL Tipbot Info**')
@@ -554,9 +512,8 @@ module.exports = {
               message.channel.stopTyping(true);
               if (message.channel.type === 'dm') return;
             })
-            .catch(error => {
-              // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-              errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' });
+            .catch(e => {
+              errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' + e.message});
               return;
             });
         }

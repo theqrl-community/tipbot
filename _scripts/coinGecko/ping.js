@@ -18,7 +18,7 @@ async function cgPing() {
     return stderr;
   }
   // console.log('stdout: ' + stdout);
-    const ping = stdout;
+  const ping = stdout;
   // console.log(`qrlState: ${ping}`);
   return ping;
 }

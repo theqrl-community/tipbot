@@ -118,19 +118,21 @@ module.exports = {
       // console.log('userInfo: ' + JSON.stringify(userInfo));
       // if the user is found then continue.
       if (userInfo.user_found) {
-      	if (!userInfo.banned) {
-      		// user is not banned fail and return the user data
-      		console.log('user is not banned');
-      		errorMessage({ error: 'User Not Banned...', description: 'User is found but not banned. Try `+check user <' + service_id + '>`'})
-      		return false;
-      	}
+        if (!userInfo.banned) {
+          // user is not banned fail and return the user data
+          console.log('user is not banned');
+          errorMessage({ error: 'User Not Banned...', description: 'User is found but not banned. Try `+check user <' + service_id + '>`'});
+          return false;
+        }
         // unban the user from the users_info database
+        // eslint-disable-next-line
         const removeBan = await removeBanDBWrite(userInfo.user_id);
         // console.log('User ban removed: ' + JSON.stringify(removeBan));
 
         // generate a new address and set into database and return to user
         const addNewAddress = await addAddress();
         const walletPub = addNewAddress;
+        // eslint-disable-next-line
         const addAddressToDb = await addUserWallet({ user_id: userInfo.user_id, wallet_pub: walletPub });
         // console.log('keys: ' + JSON.stringify(keys));
         const embed = new Discord.MessageEmbed()
@@ -146,9 +148,9 @@ module.exports = {
             if (message.channel.type === 'dm') return;
             ReplyMessage('User has been setup, their new address is in a DM or can be found with the user entering `+info me` or an Admin entering `+check user <' + service_id + '>`');
           })
-          .catch(error => {
+          .catch(e => {
           // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-            errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' });
+            errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' + e.message});
             // ReplyMessage('it seems like I can\'t DM you! Enable DM and try again...');
           });
         const returnArray = [{ check: true }];

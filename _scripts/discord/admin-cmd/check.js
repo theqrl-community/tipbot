@@ -56,17 +56,22 @@ module.exports = {
     }
     // checkForUser function returns results and outputs user info to discord
     async function checkForUser(userargs) {
-      // console.log('hmmm userargs ' + userargs);
+      console.log('hmmm userargs ' + userargs);
       if (userargs != undefined) {
         const uuid = userargs;
-        const UUID = uuid.slice(1, -1);
+        let UUID = uuid.slice(1, -1);
+        if (UUID.includes('!')) {
+          console.log(UUID);
+          UUID = uuid.slice(1);
+        }
+
         const utCheck = { service: 'discord', user_id: UUID };
         const CUPromise = checkUser(utCheck);
 
-        // console.log('check_usr args: ' + JSON.stringify(utCheck));
+        console.log('check_usr args: ' + JSON.stringify(utCheck));
         CUPromise.then(function(result) {
           const found = result.user_found;
-          // console.log('found: ' + found);
+          console.log('found: ' + found);
           if (found === 'true') {
             // GetAllUserInfo
 

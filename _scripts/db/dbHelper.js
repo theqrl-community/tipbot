@@ -28,6 +28,7 @@ async function GetAllUserInfo(args) {
     const input = JSON.parse(JSON.stringify(args));
     const service_id = input.service_id;
     const service = input.service;
+    // eslint-disable-next-line
     let foundResArray = [];
     let has_user_found = false;
     let has_user_agree = false;
@@ -58,16 +59,13 @@ async function GetAllUserInfo(args) {
       const U_id = user_info[0].user_id;
       const banned = user_info[0].banned;
       const banned_date = user_info[0].banned_date;
-      // print variables
       if(opt_out) {
-        // console.log('opt_out true');
         has_opt_out = true;
       }
       // chck if user has already agreed
       if (user_agree) {
         has_user_agree = true;
       }
-      // console.log('1 has_user_found, has_user_agree, has_opt_out: ' + has_user_found + ', ' + has_user_agree + ', ' + has_opt_out);
       if (has_opt_out || !user_agree) {
         // user opted out or is not found in DB. Return values
         foundResArray.push({ user_found: has_user_found, user_agree: has_user_agree, opt_out: has_opt_out, wallet_pub: wallet_pub, user_id: U_id, user_name: user_name, optout_date: optout_date, banned: banned, banned_date: banned_date });
@@ -75,12 +73,9 @@ async function GetAllUserInfo(args) {
         return;
       }
       CheckPendingTx({ user_id: user_id }).then(function(pendingBal) {
-        // console.log('pending BAl Request: ' + JSON.stringify(pendingBal));
         // update the balance in the wallet database and refresh info
         GetUserWalletBal({ user_id: user_id }).then(function(balance) {
-          //check for pending tx's
-          const bal = JSON.stringify(balance);
-          // const pbal = JSON.stringify(pendingBal);
+          // check for pending tx's
           const wallet_bal = balance.wallet_bal;
           foundResArray.push({ user_found: has_user_found, user_agree: has_user_agree, opt_out: has_opt_out, wallet_pub: wallet_pub, wallet_bal: wallet_bal, user_id: U_id, user_name: user_name, optout_date: optout_date, pending: pendingBal });
           resolve(foundResArray);
@@ -90,8 +85,6 @@ async function GetAllUserInfo(args) {
     });
   });
 }
-
-
 
 async function CheckUser(args) {
   /*
@@ -107,7 +100,6 @@ async function CheckUser(args) {
       const service = input.service;
       const input_user_id = input.user_id;
       const searchDB = 'SELECT users.id AS user_id FROM users INNER JOIN ' + service + '_users ON users.discord_user_id = ' + service + '_users.id WHERE ' + service + '_users.' + service + '_id = "' + input_user_id + '"';
-      // console.log(searchDB);
       callmysql.query(searchDB, function(err, result) {
         if (err) {
           console.log('[mysql error]', err);
@@ -123,7 +115,6 @@ async function CheckUser(args) {
                 console.log('[mysql error]', err);
               }
               // assign results to json and pass to return
-              // console.log('CheckUser DB results: ' + JSON.stringify(user_info));
               const searchResult = { user_found: 'true', user_id: id, user_auto_created: user_info[0].user_auto_created, auto_create_date: user_info[0].auto_create_date, signed_up_from: user_info[0].signed_up_from, signup_date: user_info[0].signup_date, opt_out: user_info[0].opt_out, optout_date: user_info[0].optout_date, updated_at: user_info[0].updated_at, banned: user_info[0].banned, banned_date: user_info[0].banned_date };
               const Results = JSON.parse(JSON.stringify(searchResult));
               resolve(Results);
@@ -268,7 +259,7 @@ async function CheckUserSignup(args) {
       });
     }
     else {
-      console.log('error somewhere');
+      console.log('error CheckUserSignup');
     }
   });
 }
@@ -296,7 +287,7 @@ async function GetUserWalletPub(args) {
       });
     }
     else {
-      console.log('error somewhere');
+      console.log('error GetUserWalletPub');
     }
   });
 }
@@ -323,7 +314,6 @@ async function GetUserWalletBal(args) {
           // should have netBal value from the network now, compare them
           const balance = toQuanta(NetBal.balance);
           const OldBal = toQuanta(wallet_bal);
-          // console.log('balance\'s returned. NetBal: ' + JSON.stringify(NetBal) + ' wallet_bal: ' + wallet_bal+ ' balance: ' + balance + ' OldBal: ' + OldBal);
           if (balance != OldBal) {
             // the balances are different, update the DB
             const updateInfo = { user_id: id, new_bal: balance };
@@ -344,7 +334,7 @@ async function GetUserWalletBal(args) {
       });
     }
     else {
-      console.log('error somewhere');
+      console.log('error GetUserWalletBal');
     }
   });
 }
@@ -352,29 +342,21 @@ async function GetUserWalletBal(args) {
 // expects an array from the database lookup. Iterates through and finds all non-confirmed tx'ns.
 async function lastTxCheck(args) {
   // return new Promise(resolve => {
-  // console.log('lastTxCheck args: ' + JSON.stringify(args));
-  // console.log('args.length: ' + args.length)
   const sumArray = [];
   let sum = 0;
   for (let i = 0; i < args.length; i++) {
     const pending = args[i];
-    // console.log('pending.tx_hash: ' + pending.tx_hash);
     // lookup tx to verify if still pending and clear if not.
     // wallet tools GetTxInfo
     const pendingTx = await wallet.GetTxInfo(pending.tx_hash);
-    // console.log('pendingTx: ' + pendingTx);
     const out = JSON.parse(pendingTx);
-    // console.log('confirmations: ' + out.confirmations);
     if (out.confirmations > 0) {
     // write the changes to the database as the tx is confirmed
       const dbInfo = 'UPDATE transactions SET pending = "0" WHERE tx_hash = "' + out.tx.transaction_hash + '"';
-      // console.log(dbInfo)
       callmysql.query(dbInfo, function(err) {
-        // console.log(JSON.stringify(result));
         if (err) {
           console.log('[mysql error]', err);
         }
-        // console.log('db updated:')
       });
     }
     else {
@@ -384,8 +366,6 @@ async function lastTxCheck(args) {
       sumArray.push(Number(txAmt));
     }
   }
-  // console.log('INTERNAL sum: ' + sum);
-  // console.log('INTERNAL sumArray: ' + sumArray);
   sum = sumArray.reduce(function(a, b) {
     return a + b;
   }, 0);
@@ -396,20 +376,16 @@ async function lastTxCheck(args) {
 
 async function CheckPendingTx(args) {
   return new Promise(resolve => {
-    // console.log("ChekcPending Input: " + JSON.stringify(args))
     // get user pending data from database
     const input = JSON.parse(JSON.stringify(args));
     const id = input.user_id;
     // const resultArray = [];
     const searchDB = 'SELECT tips.from_user_id AS discord_user, tips.tip_amount AS tip_amount, tips.id AS tip_id, tips.time_stamp AS tip_timestamp, transactions.pending AS pending, transactions.tx_hash AS tx_hash FROM tips, transactions WHERE transactions.pending = "1" AND tips.from_user_id =  "' + id + '" AND transactions.tip_id = tips.id';
-    // console.log('serchDB: ' + searchDB);
     callmysql.query(searchDB, function(err, result) {
       if (err) {
         console.log('[mysql error]', err);
       }
-      // console.log('searchResults:' + JSON.stringify(result));
       lastTxCheck(result).then(function(sumis) {
-        // console.log('sum is: ' + sumis);
         resolve(sumis);
       });
     });
@@ -442,13 +418,12 @@ async function GetUserWalletQR(args) {
       });
     }
     else {
-      console.log('error somewhere');
+      console.log('error GetUserWalletQR');
     }
   });
 }
 
 async function AddUser(args) {
-  // console.log(JSON.stringify(args));
   /*
   We need to collect the following data
   { service: service, service_id: service_id, user_name: user_name, wallet_pub: wallet_pub, wallet_bal: wallet_bal, user_key: user_key, user_auto_created: user_auto_created, auto_create_date: auto_create_date opt_out, optout_date };
@@ -481,6 +456,7 @@ async function AddUser(args) {
         if (err) {
           console.log('[mysql error]', err);
         }
+
         const searchDB = 'SELECT users.id AS user_id FROM users INNER JOIN ' + service + '_users ON users.' + service + '_user_id = ' + service + '_users.id WHERE ' + service + '_users.' + service + '_id = "' + service_id + '"';
         callmysql.query(searchDB, function(err, result2) {
           if (err) {
@@ -505,25 +481,31 @@ async function AddUser(args) {
               // if faucet balance is greater than 0 send drip
               if (faucet_bal > 0) {
                 // drip the new user from the faucet
-                const dripInfo = { service: service, user_id: userID, drip_amt: dripAmt }
+                const dripInfo = { service: service, user_id: userID, drip_amt: dripAmt };
                 faucetDrip(dripInfo);
               }
 
-              const user_infoValues = [ [userID, 0, 'discord', new Date()]];
+              const addTo_user_infoValues = [ [userID, 0, 'discord', new Date()]];
               const addTo_users_agree = 'INSERT INTO users_agree(user_id, agree, service, time_stamp) VALUES ?';
-              callmysql.query(addTo_users_agree, [user_infoValues], function(err) {
-                // console.log('user_agree set to: 0');
+              callmysql.query(addTo_users_agree, [addTo_user_infoValues], function(err) {
+                if (err) {
+                  console.log('[mysql error]', err);
+                }
                 // check if FUTURE TIPS ARE DUE AND PAYOUT
-                const futureTips_payout = 'SELECT SUM(tip_amount) AS future_tip_amount FROM future_tips WHERE user_id = "' + service_id + '" AND tip_paidout = "0"';
+                const futureTips_payout = 'SELECT SUM(tip_amount) AS future_tip_amount FROM future_tips WHERE service_id = "' + service_id + '" AND tip_paidout = "0"';
                 callmysql.query(futureTips_payout, function(err, futureTipped) {
                   if (err) {
                     console.log('[mysql error]', err);
                   }
+                  // if returns null, set amount to 0, otherwise return the found value
                   if (futureTipped[0].future_tip_amount == 'NULL') {
-                    return futureTipped[0].future_tip_amount;
+                    resultsArray.push({ future_tip_amount: 0 });
+                    // return;
                   }
-                  const future_tip_amount = toShor(futureTipped[0].future_tip_amount);
-                  resultsArray.push({ future_tip_amount: future_tip_amount });
+                  else {
+                    const future_tip_amount = toShor(futureTipped[0].future_tip_amount);
+                    resultsArray.push({ future_tip_amount: future_tip_amount });
+                  }
                   resolve(resultsArray);
                 });
               });
@@ -575,7 +557,6 @@ async function OptOut(args) {
 async function OptIn(args) {
   // this function sets the users_info.opt_out to 1 or true
   // If user has set true dont let tips be sent to them.
-  // console.log('OptIn passed, args: ' + JSON.stringify(args));
   const input = JSON.parse(JSON.stringify(args));
   callmysql.query('UPDATE users_info SET opt_out = ?, optout_date = ?, updated_at = ? WHERE user_id = ?', [false, new Date(), new Date(), input.user_id], function(err, result6) {
     if (err) {
@@ -583,7 +564,6 @@ async function OptIn(args) {
     }
     return(result6);
   });
-
   const optinDB_Results = { opt_out: false, optin_date: new Date() };
   return JSON.stringify(optinDB_Results);
 }
@@ -608,12 +588,10 @@ async function addTip(args) {
     const addTipResultsArray = [];
     // const trans_id = '3333333';
     const from_user_id = args.from_user_id;
-    const to_users_id = args.to_users_id;
     const tip_amount = args.tip_amount;
     const from_service = args.from_service;
     const time_stamp = args.time_stamp;
     const addTip_Values = [ [from_user_id, tip_amount, from_service, time_stamp]];
-    // console.log('addTip_Values: ' + addTip_Values)
     const addTip_info = 'INSERT INTO tips(from_user_id, tip_amount, from_service, time_stamp ) VALUES ?';
     callmysql.query(addTip_info, [addTip_Values], function(err, addTip_ValuesResult) {
       if (err) {
@@ -628,12 +606,13 @@ async function addTip(args) {
 
 async function addFutureTip(args) {
   return new Promise(resolve => {
-  // this will write a user to database
-  // we expect { service: SERVICE, user_id: SERVICE_ID, user_name: SERVICE_user_name, tip_from: TIP_FROM_TIPBOT_user_id, tip_amount: tip_to_user_amount, time_stamp: date_tip_was_made }
+    // this will write a user to database
+    // we expect { service: SERVICE, user_id: SERVICE_ID, user_name: SERVICE_user_name, tip_from: TIP_FROM_TIPBOT_user_id, tip_amount: tip_to_user_amount, time_stamp: date_tip_was_made }
     const input = JSON.parse(JSON.stringify(args));
+    console.log(input);
     const futureTipResultsArray = [];
     const service = input.service;
-    const service_id = input.service_id
+    const service_id = input.service_id;
     const user_id = input.user_id;
     const user_name = input.user_name;
     const tip_id = input.tip_id;
@@ -643,7 +622,6 @@ async function addFutureTip(args) {
     const tip_paidout = '0';
     const user_infoValues = [ [service, service_id, user_id, user_name, tip_id, tip_from, tip_amount, tip_paidout, time_stamp] ];
     const addTo_users_info = 'INSERT INTO future_tips(service, service_id, user_id, user_name, tip_id, tip_from, tip_amount, tip_paidout, time_stamp) VALUES ?';
-    // console.log('addToFutureTipsInfo: ' + addTo_users_info + ' ' + user_infoValues);
     callmysql.query(addTo_users_info, [user_infoValues], function(err, addFutureTipRes) {
       if (err) {
         console.log('[mysql error]', err);
@@ -661,7 +639,6 @@ async function checkFutureTips(args) {
     // we expect { service_id: SERVICE_ID }
     const resultsArray = [];
     const input = JSON.parse(JSON.stringify(args));
-    const service = input.service;
     const service_id = input.service_id;
     // check if FUTURE TIPS ARE DUE AND PAYOUT
     const futureTips_payout = 'SELECT SUM(tip_amount) AS future_tip_amount FROM future_tips WHERE user_id = "' + service_id + '" AND tip_paidout = "0"';
@@ -682,6 +659,7 @@ async function checkFutureTips(args) {
 
 async function clearFutureTips(args) {
   return new Promise(resolve => {
+    console.log('clearFututreTips args:' + JSON.stringify(args));
     callmysql.query('UPDATE future_tips SET tip_paidout = "1" WHERE user_id = ? AND tip_paidout = "0"', [args.user_id], function(err, result) {
       if (err) {
         console.log('[mysql error]', err);
@@ -710,8 +688,6 @@ async function addTransaction(args) {
   // exepct { tip_id: fromTipDB, tx_hash: fromTX_HASH }
   return new Promise(resolve => {
     const txArray = [];
-    const input = JSON.stringify(args);
-    // console.log('input: ' + input);
     const tip_id = args.tip_id;
     const tx_type = args.tx_type;
     const tx_hash = args.tx_hash;
@@ -730,19 +706,16 @@ async function addTransaction(args) {
   });
 }
 
-
-
 async function addTipTo(args) {
   // exepct { tip_id: fromTipDB, user_id: user_id, tip_amt: tip_amt, future_tip_id: future_tip_id }
   return new Promise(resolve => {
     const txArray = [];
-    const input = JSON.parse(JSON.stringify(args));
     const tip_id = args.tip_id;
     const user_id = args.user_id;
     const tip_amt = args.tip_amt;
     const future_tip_id = args.future_tip_id;
     const from_user_id = args.from_user_id;
-    // insert data into transactions db
+    // insert data into tips_to db
     const tip_info_values = [ [tip_id, user_id, from_user_id, future_tip_id, tip_amt, new Date()] ];
     const addto_tips_to_table = 'INSERT INTO tips_to(tip_id, user_id, from_user_id, future_tip_id, tip_amt, time_stamp) VALUES ?';
     callmysql.query(addto_tips_to_table, [tip_info_values], function(err, addFutureTipRes) {
@@ -758,14 +731,11 @@ async function addTipTo(args) {
 }
 
 async function agree(args) {
-  // expect { service: , user_id: }
-  // console.log('\nargee args:' + JSON.stringify(args));
+  // expect { user_id: }
   return new Promise(resolve => {
     const txArray = [];
     const user_id = args.user_id;
-    const service = args.service;
     const agreeIntoDB = 'UPDATE users_agree SET agree="1" WHERE user_id="' + user_id + '"';
-    // console.log(agreeIntoDB);
     callmysql.query(agreeIntoDB, function(err, agreeIntoDBRes) {
       if (err) {
         console.log('[mysql error]', err);
@@ -782,7 +752,6 @@ async function agree(args) {
 
 async function CheckAgree(args) {
   return new Promise(resolve => {
-    // console.log('CheckAgree args: ' + JSON.stringify(args));
     if(args) {
       // args passed, check for the service used
       const input = JSON.parse(JSON.stringify(args));
@@ -826,7 +795,6 @@ async function CheckAgree(args) {
 
 async function withdraw(args) {
   // expect { service: , user_id:, tx_hash:, to_address:, amt: }
-  // console.log('\nwd args:' + JSON.stringify(args));
   return new Promise(resolve => {
     const txArray = [];
     const user_id = args.user_id;
@@ -870,6 +838,7 @@ async function addBan(args) {
     resolve(resultArray);
   });
 }
+
 async function removeBan(args) {
   return new Promise(resolve => {
     // expects { user_id: user_id }

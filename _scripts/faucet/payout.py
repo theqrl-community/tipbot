@@ -17,10 +17,12 @@ import datetime
 import logging
 from decimal import *
 # load the config file (find it at "data['TOPIC']['SETTING'])"
+# make sure this location is correct in the following line
 with open('/home/fr1t2/mainnet-qrl-tipbot/_config/config.json') as json_data_file:
     conf = json.load(json_data_file)
 # logging settings
 logging.getLogger("requests").setLevel(logging.WARNING)
+# make sure this location is correct in the following line
 logging.basicConfig(format='%(asctime)s %(message)s', filename='/home/fr1t2/mainnet-qrl-tipbot/faucet.log', level=logging.INFO)
 
 #logging.info('******************** payout script ************************')
@@ -52,7 +54,8 @@ mycursor = mydb.cursor()
 mycursor.execute(amountInfo)
 
 howMuch = mycursor.fetchall()
-
+# ###### FIXME ########
+# need to add logic here to check for more than 99 payouts and split into multiple payments if so (QRL MAX TRANSACTION ADDRESS LIMIT)
 amount_toSend = []
 for row in howMuch:
   userAmt = Decimal(row[0])

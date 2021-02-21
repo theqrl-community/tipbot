@@ -7,14 +7,13 @@ module.exports = {
   cooldown: 0,
   usage: '\n**opt-in** - Opt in to the tipbot.',
   execute(message) {
-    // use to send a reply to user with delay and stop typing
     const Discord = require('discord.js');
     const dbHelper = require('../../db/dbHelper');
     const wallet = require('../../qrl/walletTools');
     const config = require('../../../_config/config.json');
     const uuid = `${message.author}`;
     const userID = uuid.slice(1, -1);
-
+    let success = '';
     // ReplyMessage(' Check your DM\'s');
     function ReplyMessage(content) {
       message.channel.startTyping();
@@ -23,14 +22,17 @@ module.exports = {
         message.channel.stopTyping(true);
       }, 1000);
     }
+
     function toQuanta(number) {
       const shor = 1000000000;
       return number / shor;
     }
+
     function toShor(number) {
       const shor = 1000000000;
       return number * shor;
     }
+
     // errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
     function errorMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
       message.channel.startTyping();
@@ -71,7 +73,6 @@ module.exports = {
 
     async function sendFutureTips(tipInfo) {
       return new Promise(resolve => {
-        // const future_tip = { amount: tipInfo.future_tip_amount, fee: tipInfo.fee, address_from: config.wallet.hold_address, address_to: tipInfo.ToAddress };
         const send_future_tip = wallet.sendQuanta(tipInfo);
         resolve(send_future_tip);
       });
@@ -87,10 +88,8 @@ module.exports = {
 
     async function main() {
       let found = false;
-      // eslint-disable-next-line
-      let agree = false;
-      // eslint-disable-next-line
-      let optout = false;
+      let user_agree = false;
+      let opt_out = false;
       let future_tip_amount = 0;
       const fee = toShor(config.wallet.tx_fee);
       const user_info = await getUserInfo({ service: 'discord', service_id: userID });
@@ -98,50 +97,74 @@ module.exports = {
         // eslint-disable-next-line
         found = true;
       }
-      else {
-        errorMessage({ error: 'User Not Found', description: 'You need to sign up `+add`' });
-        return;
-      }
+
+      // else {
+      //   errorMessage({ error: 'User Not Found', description: 'You need to sign up `+add`' });
+      //   return;
+      // }
 
       if (user_info[0].user_agree) {
         // eslint-disable-next-line
         user_agree = true;
       }
-      else {
-        errorMessage({ error: 'User Has Not Agreed', description: 'You need to agree to my terms `+agree` or `+terms`' });
-        return;
-      }
+
+      // else {
+      //   errorMessage({ error: 'User Has Not Agreed', description: 'You need to agree to my terms `+agree` or `+terms`' });
+      //   return;
+      // }
+
       if (user_info[0].opt_out) {
         // eslint-disable-next-line
         opt_out = true;
       }
-      else {
-        errorMessage({ error: 'User Still Opted In...', description: 'You have not opted out, `+help` for a list of my functions.' });
+
+      // else {
+      //   errorMessage({ error: 'User Still Opted In...', description: 'You have not opted out, `+help` for a list of my functions.' });
+      //   return;
+      // }
+
+
+      if (found === false) {
+        errorMessage({ error: 'User Not Found', description: 'You need to sign up `+add`' });
+        success = false;
         return;
       }
-
-      // user passed checks, opt them back in and check for future tips
-      const user_id = user_info[0].user_id;
-      const checkFuture = await CheckFuture(user_id);
-      future_tip_amount = checkFuture[0].future_tip_amount;
-      const futureTipPretty = toQuanta(future_tip_amount);
-
-      if (future_tip_amount > 0) {
-        const address_array = [user_info[0].wallet_pub];
-        // send the user their saved tips
-        // eslint-disable-next-line
-        const sendTips = await sendFutureTips({ amount: future_tip_amount, fee: fee, address_to: address_array, address_from: config.wallet.hold_address });
-        // console.log(sendTips);
-        ReplyMessage('Someone sent a tip while you were opted out! `' + futureTipPretty + ' qrl` on the way, look for them once the transaction is confirmed by the network. `+bal` to check your wallet balance.');
-        // clear the saved tips in future_tips db, set to paid for user.
-        // eslint-disable-next-line
-        const wipeSaved = await clearFuture(user_id);
+      else if (opt_out === false) {
+        errorMessage({ error: 'User Still Opted In...', description: 'You have not opted out, `+help` for a list of my functions.' });
+        success = false;
+        return;
       }
-      // eslint-disable-next-line
-      const oi = await optIn(user_id);
+      else if (user_agree === false) {
+        errorMessage({ error: 'User Still Opted In...', description: 'You have not opted out, `+help` for a list of my functions.' });
+        success = false;
+        return;
+      }
+      else {
+        success = true;
+        // user passed checks, opt them back in and check for future tips
+        const user_id = user_info[0].user_id;
+        const checkFuture = await CheckFuture(user_id);
+        future_tip_amount = checkFuture[0].future_tip_amount - fee;
+        const futureTipPretty = toQuanta(future_tip_amount);
+        if (future_tip_amount > 0) {
+          const address_array = [user_info[0].wallet_pub];
+          // send the user their saved tips
+          // eslint-disable-next-line
+          const sendTips = await sendFutureTips({ amount: future_tip_amount, fee: fee, address_to: address_array, address_from: config.wallet.hold_address });
+          ReplyMessage('Someone sent a tip while you were opted out! `' + futureTipPretty + ' qrl` on the way, look for them once the transaction is confirmed by the network. `+bal` to check your wallet balance.');
+          // clear the saved tips in future_tips db, set to paid for user.
+          // eslint-disable-next-line
+          const wipeSaved = await clearFuture(user_id);
+        }
+        // eslint-disable-next-line
+        const oi = await optIn(user_id);
+      }
     }
     // run thew main loop and notify the user upon success
     main().then(function(response, err) {
+      if (!success) {
+        return;
+      }
       if (err) {
         console.log('optin.js main() error: ', err);
         return;

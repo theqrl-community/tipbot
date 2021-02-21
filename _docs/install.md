@@ -114,6 +114,8 @@ wget https://gist.githubusercontent.com/fr1t2/39ab618cef3ad16e7a5833e87d0eeaf1/r
 
 ### Install QRL Wallet-api
 
+follow the docs at https://api.theqrl.org/#automatic-wallet-api
+
 ```bash
 go get github.com/theQRL/walletd-rest-proxy
 cd $GOPATH/src/github.com/theQRL/walletd-rest-proxy
@@ -121,6 +123,7 @@ go build
 ```
 
 ### Start `qrl_walletd` and walletAPI
+
 
 #### Script start
 
@@ -188,10 +191,10 @@ Install the bot, setup the database, generate wallets, config file and start!
 
 ### Get the Bot Code and build
 
-Grab the code from the project repository.
+Grab the code from this project repository.
 
 ```bash
-git clone https://github.com/fr1t2/qrl-tipbot.git
+git clone https://github.com/theqrl-community/tipbot.git
 ```
 
 Change into that directory and install node requirements.
@@ -233,21 +236,13 @@ The bot needs 3 wallets. We have a script for that.
 The script will generate 3 wallets, and store the bot in the database so it can receive tips.
 
 > Save the information that prints out, you will need it again
-> ! DO NOT LOSE THE ENCRYPTION PASSPHRASE!!! THis is needed each time the server reboots...
+> ! DO NOT LOSE THE ENCRYPTION PASSPHRASE!!! This is needed each time the server reboots...
 
 
 
 
 
-
-
-
-
-
-
-
-
-
+## Start the Tipbot
 
 Start the bot in a screen session
 

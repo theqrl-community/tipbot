@@ -25,8 +25,6 @@ module.exports = {
     const user_info = { service: 'discord', user_id: userName };
     const checkUserpromise = checkUser(user_info);
     const getBalance = wallet.GetBalance;
-    const faucet = require('../../faucet/faucetDB_Helper.js');
-    const faucetDrip = faucet.Drip;
     // use to send a reply to user with delay and stop typing
     // ReplyMessage(' Check your DM\'s');
     function ReplyMessage(content) {
@@ -54,17 +52,17 @@ module.exports = {
       const shor = 1000000000;
       return number / shor;
     }
+
     function toShor(number) {
       const shor = 1000000000;
       return number * shor;
     }
+
     async function faucetBalance() {
       return new Promise(function(resolve) {
       // using the faucet address check for a balance
         const walletAddress = config.faucet.faucet_wallet_pub;
         getBalance(walletAddress).then(function(balance) {
-          // console.log('faucet balance: ' + JSON.stringify(balance));
-          // getBalance('Q000300636e629ad3f50791cb2bfb9ed28010f0b072ba1f860763ef634d51225e4e1782f686547e').then(function(balance) {
           resolve(balance);
         });
       });
@@ -74,31 +72,24 @@ module.exports = {
     function dripAmount(min, max) {
       const minAmt = toShor(min);
       const maxAmt = toShor(max);
-      // console.log('min: ' + minAmt + ' max: ' + maxAmt);
       const randomNumber = Math.floor(
         Math.random() * (maxAmt - minAmt) + minAmt,
       );
       const num = toQuanta(randomNumber);
-      // console.log('Random number ' + num);
       return num;
     }
     let dripamt = dripAmount(config.faucet.min_payout, config.faucet.max_payout);
 
     if (args[0] == undefined) {
-
-
-
       checkUserpromise.then(function(result) {
         const output = JSON.parse(JSON.stringify(result));
-        // console.log('checkUserpromise output: ' + JSON.stringify(result));
-      // check for user banned here and fail if so
+        // check for user banned here and fail if so
         const found = result.user_found;
-        // console.log('user found: ' + found);
         // check for the user_found value returned from the promise
         if (found === 'true') {
           // user is found, have they been banned?
           if (result.banned) {
-            errorMessage({ error: 'User is Banned...', description: 'The user has been banned from the tipbot and cannot use the service.\n User Banned on `' + result.banned_date + '`'})
+            errorMessage({ error: 'User is Banned...', description: 'The user has been banned from the tipbot and cannot use the service.\n User Banned on `' + result.banned_date + '`' });
             return;
           }
 
@@ -117,54 +108,40 @@ module.exports = {
 
               //  embed a message to the user with account details
               const userBalance = toQuanta(reply.wallet_bal);
-              // console.log('userBalance ' + userBalance);
               const embed = new Discord.MessageEmbed()
                 .setColor(0x000000)
                 .setTitle('**TipBot Account Exists**')
                 .setDescription('Here is your existing TipBot account information.')
                 .setFooter('  .: Tipbot provided by The QRL Contributors :.')
-                // .setFooter(`TipBot Donation Address: ${config.bot_details.bot_donationAddress}`)
                 .addField('Your QRL Wallet Public Address::', '[' + reply.wallet_pub + '](' + config.bot_details.explorer_url + '/a/' + walletPub.wallet_pub + ')')
                 .addField('Your QRL Wallet Balance:\t', `\`${userBalance}\``)
                 .addField('For all of my commands:\t', '`+help`');
               message.author.send({ embed })
                 .then(() => {
                   if (message.channel.type === 'dm') return;
-                  // message.channel.stopTyping(true);
                   errorMessage({ error: 'User Found In System...', description: 'You\'re signed up already. :thumbsup:\nTry `+help`' });
-                  // ReplyMessage('\nYou\'re signed up already. :thumbsup:\nTry `+help`');
                 })
-                .catch(error => {
-                  errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' });
-                  // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-                  // message.channel.stopTyping(true);
-                  // message.reply('it seems like I can\'t DM you! Do you have DMs disabled?');
+                .catch(e => {
+                  errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again.  ' + e.message });
                 });
             });
           });
-          // message.channel.stopTyping(true);
           return output;
         }
         else if (found === 'false') {
           // user is not found in database. Do things here to add them
           // Create user wallet
-          // ReplyMessage('Adding your address to the system. This will take a bit.');
           const qrlWal = wallet.CreateQRLWallet;
           const WalletPromise = qrlWal();
           WalletPromise.then(function(address) {
             const QRLaddress = JSON.parse(address);
             const discord_id = '@' + MessageAuthorID;
             const wallet_pub = QRLaddress.address;
-
             faucetBalance().then(function(faucBal) {
               if (dripamt > faucBal.balance) {
-                // console.log('Faucet is flat or less than needed for drip');
                 dripamt = 0;
               }
-
               const userInfo = { service: 'discord', service_id: discord_id, user_name: MessageAuthorUsername, wallet_pub: wallet_pub, wallet_bal: 0, user_key: salt, user_auto_created: false, auto_create_date: new Date(), opt_out: false, optout_date: new Date(), drip_amt: dripamt, faucet_bal: faucBal.balance };
-              // console.log('userInfo:' + JSON.stringify(userInfo));
-              // message.channel.stopTyping();
               return userInfo;
             }).then(function(userInfo) {
             // add user to the database and create an account
@@ -172,29 +149,22 @@ module.exports = {
               AddUserPromise.then(function(addUserResp) {
                 const response = JSON.stringify(addUserResp);
                 console.log('AddUserPromise response: ' + response);
-                const future_tip_amount = addUserResp[3].future_tip_amount;
-                // console.log('future_tip_amount: ' + future_tip_amount);
-
+                const fee = toShor(config.wallet.tx_fee);
+                const future_tip_amount = addUserResp[3].future_tip_amount - fee;
                 if (future_tip_amount > 0) {
-                  // console.log('futuretips found');
-
                   const tipToArray = [];
                   const tipToAddress = [userInfo.wallet_pub];
                   tipToArray.push(userInfo);
-                  const fee = toShor(config.wallet.tx_fee);
                   const futureTipPretty = toQuanta(future_tip_amount);
                   const future_tip = { amount: future_tip_amount, fee: fee, address_from: config.wallet.hold_address, address_to: tipToAddress };
-                  // console.log('future_tip data: ' + JSON.stringify(future_tip));
                   const send_future_tip = wallet.sendQuanta;
                   send_future_tip(future_tip).then(function(futureTip) {
-                    // console.log('futureTip: ' + JSON.stringify(futureTip))
                     const futureTipOut = JSON.parse(futureTip);
-                    // console.log(JSON.stringify(futureTipOut));
                     const tx_hash = futureTipOut.tx.transaction_hash;
                     ReplyMessage('Someone sent a tip before you signed up! `' + futureTipPretty + ' qrl` on the way, look for them once the transaction is confirmed by the network. `+bal` to check your wallet balance.');
                     // write to transactions db
                     const tip_id = 1337;
-                    const txInfo = { tip_id: tip_id, tx_hash: tx_hash };
+                    const txInfo = { tip_id: tip_id, tx_hash: tx_hash, tx_type: 'tip' };
                     const addTransactionPromise = addTransaction(txInfo);
                     addTransactionPromise.then(function(txRes) {
                       return txRes;
@@ -204,46 +174,27 @@ module.exports = {
                     clearFutureTips(futureClear).then(function(clearRes) {
                       return clearRes;
                     });
-
-                    /* we do this in the adduser script, and send info above in the userinfo array
-                    // send user faucet drip
-                    if (dripamt > 0) {
-                      // console.log('faucet Payout: ' + dripamt);
-                      const dripInfo = { service: 'discord', user_id: addUserResp[0].user_id, drip_amt: dripamt };
-                      faucetDrip(dripInfo).then(function(dripping) {
-                        return dripping;
-                      });
-                    }
-                    */
-
                   });
                 }
                 return response;
               }).then(function(userresponse) {
                 const userAddress = userInfo.wallet_pub;
-
                 const embed = new Discord.MessageEmbed()
                   .setColor(0x000000)
                   .setTitle('**TipBot Account Info**')
                   .setDescription('Here is your TipBot account information.')
                   .setFooter('  .: Tipbot provided by The QRL Contributors :.')
-                  // .setFooter(`TipBot Donation Address: ${config.bot_details.bot_donationAddress}`)
                   .addField('Your QRL Wallet Public Address::', '[' + userAddress + '](' + config.bot_details.explorer_url + '/a/' + userAddress + ')')
                   .setImage(userInfo.wallet_qr)
+                  // eslint-disable-next-line
                   .addField('**Bonus!** You\'ll receive some Quanta from the faucet. \**Faucet payments can take up to 5 min to reflect in a users wallet*', '`' + dripamt + ' qrl` faucet payout')
                   .addField('For all of my commands:\t', '`+help`. It will take a few minutes for your wallet to be created.')
                   .addField('You must agree to my terms:', 'Enter `+terms` to read the details and `+agree` to start using the tipbot');
                 message.author.send({ embed })
 
-                  .catch(error => {
-                    // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-                    // message.channel.stopTyping(true);
-                    errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' });
-                    // ReplyMessage('it seems like I can\'t DM you! Enable DM and try `+add` again...');
-                    // react to the users message for fun
+                  .catch(e => {
+                    errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again. ' + e.message });
                   }).then(() => {
-                    // if (message.channel.type === 'dm') return;
-
                     message.author.send(`
 __**TipBot Terms and Conditions**__
 :small_orange_diamond: Use of this TipBot and any function it may provide to you, as the user, is at your risk.
@@ -260,13 +211,9 @@ __**TipBot Terms and Conditions**__
 __**You assume all risk by using this service**__
 
                     `)
-                      .catch(error => {
-                        errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' });
-                        // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-                        // ReplyMessage('It seems like I can\'t DM you! Enable DM and try again...');
-                        // deleteMessage();
+                      .catch(e => {
+                        errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again. ' + e.message });
                       }).then(function() {
-
                         message.author.send(`
 :exclamation: __**RULES**__ :exclamation:
 :diamond_shape_with_a_dot_inside: *All tips are final once sent.*
@@ -283,20 +230,14 @@ __**You assume all risk by using this service**__
 **You must \`+agree\` with these terms to use the bot!**
                     `);
                       })
-                      .catch(error => {
-                        // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-                        errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' });
-                        // deleteMessage();
+                      .catch(e => {
+                        errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' + e.message });
                       });
-
-
-
-                    ReplyMessage(' :white_check_mark: You\'re signed up! :white_check_mark: \nPlease `+agree` to my terms in DM to begin using the bot. It will take a few minutes for your wallet to be created.');
+                    ReplyMessage(':white_check_mark: You\'re signed up! A small drip from the faucet is on it\'s way to your new tipbot wallet as a small thanks for being a part of this community!\n Please `+agree` to my terms sent to you in DM to begin using the bot.\n*It may take a few minutes for your wallet to be created and funds deposited.*');
                   })
                   .catch(error => {
                     console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-                    ReplyMessage('it seems like I can\'t DM you! Enable DM and try `+add` again...');
-                  // react to the users message for fun
+                    ReplyMessage('it seems like I can\'t DM you! Enable DM\'s to use this bot...');
                   });
                 message.react('🇶')
                   .then(() => message.react('🇷'))

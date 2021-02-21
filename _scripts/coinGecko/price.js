@@ -20,7 +20,7 @@ async function cgPrice() {
   // price = JSON.stringify(stdout);
   const price = JSON.parse(stdout);
   const QRLtoBTC = price['quantum-resistant-ledger'].btc;
-    const QRLtoUSD = price['quantum-resistant-ledger'].usd;
+  const QRLtoUSD = price['quantum-resistant-ledger'].usd;
   const QRLtoEUR = price['quantum-resistant-ledger'].eur;
   const QRLtoETH = price['quantum-resistant-ledger'].eth;
   const QRLtoCAD = price['quantum-resistant-ledger'].cad;

@@ -2,10 +2,58 @@
 
 ## Tipbot Tables
 
+```sql
++------------------------+
+| Tables_in_qrltips      |
++------------------------+
+| discord_link           |
+| discord_users          |
+| faucet_payouts         |
+| future_tips            |
+| tips                   |
+| tips_to                |
+| transactions           |
+| users                  |
+| users_agree            |
+| users_info             |
+| wallets                |
+| withdrawls             |
++------------------------+
+```
 
-Create a database for each service we extend the bot to.
+### `discord_link` table
 
-Additionally we need a table to validate users across services. 
+The `discord_link` table is used to link accounts to discord acount already setup.
+
+> WIP as there are no other services at this time to sign up
+
+- **id** *primary_key* is created at entry time  
+- **user_id** Initiator's User ID
+- **service** user service intended to link
+- **service_uuid** New service Unique User ID (must be unique)
+- **generated_key** Key to link from alternative service - userkey+salt=generated key. User gets salt. 
+- **validated** Alt service validated? boolean
+- **expired** Is it expired? true if new key is written or if time expired
+- **link_time_stamp** is created at entry time `NOW()`  
+- **valid_time_stamp** is created at validation from alt service   
+- **expired_time_stamp** is created only if key expires 
+
+```sql
+ +--------------------+------------------------------------------------------------------------------------+------+-----+---------+----------------+
+| Field              | Type                                                                               | Null | Key | Default | Extra          |
++--------------------+------------------------------------------------------------------------------------+------+-----+---------+----------------+
+| id                 | int(11)                                                                            | NO   | PRI | NULL    | auto_increment |
+| user_id            | int(11)                                                                            | NO   |     | NULL    |                |
+| service            | enum('keybase','github','reddit','trello','twitter','slack','telegram','whatsapp') | YES  |     | NULL    |                |
+| service_uuid       | varchar(255)                                                                       | NO   |     | NULL    |                |
+| generated_key      | varchar(255)                                                                       | NO   |     | NULL    |                |
+| validated          | tinyint(1)                                                                         | YES  |     | 0       |                |
+| expired            | tinyint(1)                                                                         | YES  |     | 0       |                |
+| link_time_stamp    | datetime                                                                           | NO   |     | NULL    |                |
+| valid_time_stamp   | datetime                                                                           | YES  |     | NULL    |                |
+| expired_time_stamp | datetime                                                                           | YES  |     | NULL    |                |
++--------------------+------------------------------------------------------------------------------------+------+-----+---------+----------------+
+```
 
 ### `discord_users` Table
 
@@ -27,29 +75,33 @@ The `discord_users` table will store all discord user information at account sig
 +------------+--------------+------+-----+---------+----------------+
 ```
 
-### `discord_link` Table
 
-The `discord_link` table will store all discord user linking additional services.
 
-- **id** *primary_key* is created at entry time  
-- **user_id** Initiator's User ID
-- **service** user service intended to link
-- **service_uuid** New service Unique User ID (must be unique)
-- **generated_key** Key to link from alternative service - userkey+salt=generated key. User gets salt. 
-- **validated** Alt service validated? boolean
-- **expired** Is it expired? true if new key is written or if time expired
-- **link_time_stamp** is created at entry time `NOW()`  
-- **valid_time_stamp** is created at validation from alt service   
-- **expired_time_stamp** is created only if key expires 
 
+### `faucet_payouts` Table
+
+Used to track the payouts from the faucet. This will store all of the transaction details including the user_id, tx_hash from the qrl transaction, total amount transfered and the time it all happened.
+
+- **id** *primary_key* is created at entry time
+- **user_ids** the user id from `users.id`
+- **tx_hash** tx hash from the qrl tx
+- **total_payout_amt** - total amount sent through the faucet
+- **time_stamp** the timestamp of entry
 
 ```sql
-+------------+--------------+------+-----+---------+----------------+
-| Field      | Type         | Null | Key | Default | Extra          |
-+------------+--------------+------+-----+---------+----------------+
-
++------------+----------------------------------------------------------------------------------------------+------+-----+---------+----------------+
+| Field      | Type                                                                                         | Null | Key | Default | Extra          |
++------------+----------------------------------------------------------------------------------------------+------+-----+---------+----------------+
+| id         | int(11)                                                                                      | NO   | PRI | NULL    | auto_increment |
+| user_id    | int(11)                                                                                      | NO   |     | NULL    |                |
+| service    | enum('discord','keybase','github','reddit','trello','twitter','slack','telegram','whatsapp') | YES  |     | NULL    |                |
+| drip_amt   | decimal(24,9)                                                                                | NO   |     | NULL    |                |
+| paid       | tinyint(1)                                                                                   | YES  |     | 0       |                |
+| tx_hash    | varchar(255)                                                                                 | YES  |     | NULL    |                |
+| updated_at | datetime                                                                                     | NO   |     | NULL    |                |
+| time_stamp | datetime                                                                                     | NO   |     | NULL    |                |
++------------+----------------------------------------------------------------------------------------------+------+-----+---------+----------------+
 ```
-
 
 
 ### `future_tips` Table
@@ -60,7 +112,8 @@ after this time frame is up the bot will keep these tips in internal wallets.
 
 - **id** *primary_key* auto generated at entry.
 - **service** user service used to send tip
-- **user_id** - Service user_id for the user to tip_to once signed up
+- **service_id** - Social Service_user_id for the user to tip_to once signed up
+- **user_id** - tipbot user_id for the user to tip_to once signed up
 - **user_name** - user name of the tip_to user
 - **tip_from** - Service user_id of the tipped_from user
 - **tip_amount** - exact amount to tip to the user
@@ -74,6 +127,7 @@ after this time frame is up the bot will keep these tips in internal wallets.
 +--------------------+----------------------------------------------------------------------------------------------+------+-----+---------+----------------+
 | id                 | int(11)                                                                                      | NO   | PRI | NULL    | auto_increment |
 | service            | enum('discord','keybase','github','reddit','trello','twitter','slack','telegram','whatsapp') | YES  |     | NULL    |                |
+| service_id         | varchar(255)                                                                                 | YES  |     | NULL    |                |
 | user_id            | varchar(255)                                                                                 | NO   |     | NULL    |                |
 | user_name          | varchar(255)                                                                                 | NO   |     | NULL    |                |
 | tip_id             | int(11)                                                                                      | YES  |     | NULL    |                |
@@ -84,7 +138,6 @@ after this time frame is up the bot will keep these tips in internal wallets.
 | donated_time_stamp | datetime                                                                                     | YES  |     | NULL    |                |
 | time_stamp         | datetime                                                                                     | NO   |     | NULL    |                |
 +--------------------+----------------------------------------------------------------------------------------------+------+-----+---------+----------------+
-
 ```
 ### `tips` Table
 
@@ -107,7 +160,6 @@ Store details from the tip transaction
 | from_service | enum('discord','keybase','github','reddit','trello','twitter','slack','telegram','whatsapp') | YES  |     | NULL    |                |
 | time_stamp   | datetime                                                                                     | NO   |     | NULL    |                |
 +--------------+----------------------------------------------------------------------------------------------+------+-----+---------+----------------+
-
 ```
 
 ### `tips_to` Table
@@ -125,6 +177,7 @@ Store details from the tip transaction
 | id            | int(11)       | NO   | PRI | NULL    | auto_increment |
 | tip_id        | int(11)       | YES  |     | NULL    |                |
 | user_id       | int(11)       | NO   |     | NULL    |                |
+| from_user_id  | int(11)       | NO   |     | NULL    |                |
 | future_tip_id | int(11)       | YES  |     | NULL    |                |
 | tip_amt       | decimal(24,9) | NO   |     | NULL    |                |
 | time_stamp    | datetime      | NO   |     | NULL    |                |
@@ -149,6 +202,7 @@ Store details from the actual QRL transaction here.
 | tip_id     | int(11)                         | NO   |     | NULL    |                |
 | tx_type    | enum('faucet','tip','withdraw') | YES  |     | NULL    |                |
 | tx_hash    | varchar(255)                    | NO   |     | NULL    |                |
+| pending    | tinyint(1)                      | YES  |     | 1       |                |
 | time_stamp | datetime                        | NO   |     | NULL    |                |
 +------------+---------------------------------+------+-----+---------+----------------+
 ```
@@ -232,6 +286,8 @@ The `users_agree` table collects the user agreement from the user. This allows t
 | signup_date       | datetime                                                                                     | YES  |     | NULL    |                |
 | opt_out           | tinyint(1)                                                                                   | YES  |     | 0       |                |
 | optout_date       | datetime                                                                                     | YES  |     | NULL    |                |
+| banned            | tinyint(1)                                                                                   | YES  |     | 0       |                |
+| banned_date       | datetime                                                                                     | YES  |     | NULL    |                |
 | updated_at        | datetime                                                                                     | NO   |     | NULL    |                |
 +-------------------+----------------------------------------------------------------------------------------------+------+-----+---------+----------------+
 ```
@@ -252,17 +308,19 @@ Store wallet details here
 - **updated_at** updated every bal update?
 
 ```sql
-+------------+---------------+------+-----+-------------+----------------+
-| Field      | Type          | Null | Key | Default     | Extra          |
-+------------+---------------+------+-----+-------------+----------------+
-| id         | int(11)       | NO   | PRI | NULL        | auto_increment |
-| user_id    | int(11)       | NO   |     | NULL        |                |
-| wallet_pub | varchar(80)   | NO   |     | NULL        |                |
-| wallet_bal | decimal(24,9) | NO   |     | 0.000000000 |                |
-| wallet_qr  | blob          | YES  |     | NULL        |                |
-| time_stamp | datetime      | NO   |     | NULL        |                |
-| updated_at | datetime      | NO   |     | NULL        |                |
-+------------+---------------+------+-----+-------------+----------------+
++--------------------+---------------+------+-----+-------------+----------------+
+| Field              | Type          | Null | Key | Default     | Extra          |
++--------------------+---------------+------+-----+-------------+----------------+
+| id                 | int(11)       | NO   | PRI | NULL        | auto_increment |
+| user_id            | int(11)       | NO   |     | NULL        |                |
+| wallet_pub         | varchar(80)   | NO   |     | NULL        |                |
+| wallet_bal         | decimal(24,9) | NO   |     | 0.000000000 |                |
+| wallet_qr          | blob          | YES  |     | NULL        |                |
+| retired            | tinyint(1)    | YES  |     | 0           |                |
+| retired_time_stamp | datetime      | YES  |     | NULL        |                |
+| time_stamp         | datetime      | NO   |     | NULL        |                |
+| updated_at         | datetime      | NO   |     | NULL        |                |
++--------------------+---------------+------+-----+-------------+----------------+
 ```
 
 
@@ -287,35 +345,6 @@ store info related to withdraw and transfers from the bot addresses.
 | service    | enum('discord','keybase','github','reddit','trello','twitter','slack','telegram','whatsapp') | YES  |     | NULL    |                |
 | to_address | varchar(80)                                                                                  | NO   |     | NULL    |                |
 | amt        | decimal(24,9)                                                                                | NO   |     | NULL    |                |
-| time_stamp | datetime                                                                                     | NO   |     | NULL    |                |
-+------------+----------------------------------------------------------------------------------------------+------+-----+---------+----------------+
-```
-
-
-
-## Faucet Tables
-
-### `faucet_payouts` Table
-
-Used to track the payouts from the faucet. This will store all of the transaction details including the user_id, tx_hash from the qrl transaction, total amount transfered and the time it all happened.
-
-- **id** *primary_key* is created at entry time
-- **user_ids** the user id from `users.id`
-- **tx_hash** tx hash from the qrl tx
-- **total_payout_amt** - total amount sent through the faucet
-- **time_stamp** the timestamp of entry
-
-```sql
-+------------+----------------------------------------------------------------------------------------------+------+-----+---------+----------------+
-| Field      | Type                                                                                         | Null | Key | Default | Extra          |
-+------------+----------------------------------------------------------------------------------------------+------+-----+---------+----------------+
-| id         | int(11)                                                                                      | NO   | PRI | NULL    | auto_increment |
-| user_id    | int(11)                                                                                      | NO   |     | NULL    |                |
-| service    | enum('discord','keybase','github','reddit','trello','twitter','slack','telegram','whatsapp') | YES  |     | NULL    |                |
-| drip_amt   | decimal(24,9)                                                                                | NO   |     | NULL    |                |
-| paid       | tinyint(1)                                                                                   | YES  |     | 0       |                |
-| tx_hash    | varchar(255)                                                                                 | YES  |     | NULL    |                |
-| updated_at | datetime                                                                                     | NO   |     | NULL    |                |
 | time_stamp | datetime                                                                                     | NO   |     | NULL    |                |
 +------------+----------------------------------------------------------------------------------------------+------+-----+---------+----------------+
 ```

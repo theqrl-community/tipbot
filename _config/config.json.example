@@ -49,13 +49,5 @@
     "faucetLog" : "/home/$USER/qrl-tipbot/faucet.log",
     "botLogFile" : "/home/$USER/qrl-tipbot/discord_bot.log",
     "botConfigFile" : "/home/$USER/qrl-tipbot/_config/config.json",
-    "state_freq" : "",
-    "sync_freq" : "",
-    "aws_access_key_id" : "",
-    "aws_secret_access_key" : "",
-    "rsync_address" : "SERVER_FQDN_or_IP_ADDRESS",
-    "rsync_user" : "SERVER_FQDN_or_IP_ADDRESS",
-    "rsync_backup_dir" : "/DIRECTORY/TO/STORE/BACKUP/ON/REMOTE/SERVER",
-    "rsync_ssh_key_file" : "",
   }
 }

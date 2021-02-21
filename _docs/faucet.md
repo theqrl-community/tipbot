@@ -6,36 +6,24 @@ Setup the faucet to work with a user from social media. Track the users faucet r
 
 ## Operation
 
-Bot is listening for the (+drip || +faucet || +free...) command to be sent from a user. 
+`_scripts/discord/cmd/faucet.js` is where all the magic happens from an end user perspective.
 
-- Once received the bot will check for users account. 
-- If signed up the bot will check for resent faucet withdraws in the `last_drip` table, 
-  - if none then add user to the `faucet_payouts` table and last_drip.
-- script job watches the table `faucet_payouts` for changes and adds all payees to the TX once every 10 min or whatever.
-  - this job changes a boolean from false to true once paid in the faucet_payouts and adds the tx_id to a table..
+1. user requests a *drip* from the faucet
+2. Bot checks the `faucet_payouts` table for the user ID within the last config set interval. `faucet_payouts.time_stamp >= NOW() - INTERVAL ' + config.faucet.payout_interval + ' MINUTE';`
+3. If user is not found within the last *interval* bot adds user to the `faucet_payouts` table with `paid` boolean set to false.
+4. Bot runs the `_scripts/faucet/payout.py` script every so often via a crontab job to check for any unpaid faucet payouts in the table.
+5. If found, bot transfers from the faucet wallet funds and pays users their tip.
+6. Bot marks the `faucet_payout.paid` field to true, and records the transaction ID from the payout there.
 
 
-### Database tracking
+## Setup
 
-There are 2 databases for the faucet
 
-`faucet_requests` `faucet_payouts`
+### QRL automatic OTS Address
+The faucet requires a wallet address in the server to store and send faucet payouts from. This is configured when the bot is initialized first run. See the [install docs](/install.md) for more info here.
 
-these will track all of the various faucet payments and when the uses last requested.
-
+This address needs to be added to the `_config/config.json` file under faucet settings. there are a few other important details to work out there. 
 
 ### Payout Script
 
-script to payout the users on a schedule starts something like
-
-```js
-//snip
-var minutes = 5, the_interval = minutes * 60 * 1000;
-setInterval(function() {
-  console.log("check for payout");
-  // do your stuff here
-  const searchSql = 'SELECT * FROM faucet_payouts WHERE paid 0';
-  mysql.query(searchSql, (function (err, result));
-
-}, the_interval);
-```
+You will also need to modify the `_scripts/faucet/payout.py` file so the script knows where to look for dependencies. `L-21 & L-26`

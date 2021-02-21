@@ -30,6 +30,7 @@ async function cgData() {
   // console.log('coingecko_rank: ' + coingecko_rank);
   const market_data = data['market_data'];
   // console.log('market_data USD price: ' + market_data['current_price'].usd);
+  /* eslint-disable */
   const aed = market_data['current_price'].aed;
   const ars = market_data['current_price'].ars;
   const aud = market_data['current_price'].aud;
@@ -85,6 +86,9 @@ async function cgData() {
   const xlm = market_data['current_price'].xlm;
   const xrp = market_data['current_price'].xrp;
   const zar = market_data['current_price'].zar;
+  
+  /* eslint-enable */
+
   // console.log('aed: ' + aed);
   /*
   const QRLtoBTC = price['quantum-resistant-ledger'].btc;

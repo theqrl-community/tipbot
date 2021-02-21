@@ -324,9 +324,9 @@ client.on('message', message => {
       command = (client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName))) || (client.adminCommands.get(commandName) || client.adminCommands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName)));
     }
     else {
-    // has none of the roles
-    // console.log('boo roles: ')
-    command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+      // has none of the roles
+      // console.log('boo roles: ')
+      command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
     }
   }
   else {

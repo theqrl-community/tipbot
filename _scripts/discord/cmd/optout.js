@@ -7,7 +7,6 @@ module.exports = {
   cooldown: 0,
   usage: '\n## opt-out | | oo - Opt out of the QRL TipBot.',
 
-  // execute(message, args) {
   execute(message) {
     const Discord = require('discord.js');
     const dbHelper = require('../../db/dbHelper');
@@ -27,7 +26,6 @@ module.exports = {
     const info = JSON.parse(JSON.stringify({ service: 'discord', user_id: UUID }));
     const found = checkuser(info);
 
-    // use to send a reply to user with delay and stop typing
     // ReplyMessage(' Check your DM\'s');
     function ReplyMessage(content) {
       message.channel.startTyping();
@@ -36,6 +34,7 @@ module.exports = {
         message.channel.stopTyping(true);
       }, 1000);
     }
+
     // errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
     function errorMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
       message.channel.startTyping();
@@ -85,8 +84,6 @@ module.exports = {
           }).then(function(AddusrResult) {
             // message user of status
             ReplyMessage('You\'re now opted out.\nIf you change your mind `+opt-in` :wave: ...');
-            // message.reply('\nYou\'re now opted out.\nIf you change your mind `+opt-in`\n:wave: ');
-            // message.channel.stopTyping(true);
             return AddusrResult;
           });
         });
@@ -105,8 +102,6 @@ module.exports = {
           if (ooargs.opt_out == 'true') {
             // error, already opted out...
             errorMessage({ error: 'Already opted out...', description: 'If you\'ve changed your mind `+opt-in` to use the bot' });
-            // ReplyMessage(':thumbsup: Already opted out.\nIf you\'ve changed your mind `+opt-in`');
-            // message.reply(':thumbsup: Already opted out.\nIf you\'ve changed your mind `+opt-in`');
             message.channel.stopTyping(true);
           }
           else {
@@ -130,11 +125,8 @@ module.exports = {
                 // message.author.send('You have a balance of `' + wallet_bal_quanta + ' qrl` in your tip wallet. Please `+withdraw` the funds before you opt-out.\n\nTo donate your funds to the TipBot faucet `+withdraw all ' + config.faucet.faucet_wallet_pub + '`')
                   .then(function() {
                     ReplyMessage('Check Your DM\'s');
-                  }).catch(error => {
-                    // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-                    errorMessage({ error: 'Direct Message Disabled', description: 'You have a balance and it seems like I can\'t DM you! Enable DM and try again...' });
-                    // ReplyMessage('You have a balance and it seems like I can\'t DM you! Enable DM and try again...');
-                    // deleteMessage();
+                  }).catch(e => {
+                    errorMessage({ error: 'Direct Message Disabled', description: 'You have a balance and it seems like I can\'t DM you! Enable DM\'s and try again...' + e.message });
                   });
                 return;
               }

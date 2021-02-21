@@ -9,7 +9,6 @@ module.exports = {
   execute(message) {
     const Discord = require('discord.js');
 
-    // use to send a reply to user with delay and stop typing
     // ReplyMessage(' Check your DM\'s');
     function ReplyMessage(content) {
       message.channel.startTyping();
@@ -18,6 +17,7 @@ module.exports = {
         message.channel.stopTyping(true);
       }, 1000);
     }
+
     // errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
     function errorMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
       message.channel.startTyping();
@@ -47,10 +47,8 @@ __**TipBot Terms and Conditions**__
 
 __**You assume all risk by using this service**__
                     `)
-      .catch(error => {
-        // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-        errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' });
-      // deleteMessage();
+      .catch(e => {
+        errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' + e.message});
       }).then(function() {
         message.author.send(`
 :exclamation: __**RULES**__ :exclamation:
@@ -69,21 +67,15 @@ __**You assume all risk by using this service**__
                     `).then(function() {
           ReplyMessage(' Check your DM\'s');
         }).catch((e) => {
-          // console.log('Failed!', e);
           // Do something else instead...
+          errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' + e.message});
         });
       })
-      .catch(error => {
-        // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-        // ReplyMessage('It seems like I can\'t DM you! Enable DM and try again...');
-        errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' });
-
-      // deleteMessage();
+      .catch(e => {
+        errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' + e.message});
       });
     if(message.guild != null) {
       message.delete();
     }
   },
-
-
 };
