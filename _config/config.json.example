@@ -1,0 +1,53 @@
+{ 
+  "bot_details" : {
+    "bot_name"  : "BOT_NAME",
+    "bot_id"  : "BOT_ID",
+    "bot_url" : "https://BOT_URL.COM",
+    "explorer_url" : "https://explorer.theqrl.org",
+    "bot_dir" : "/home/{$USER}/qrltips",
+    "bot_donationAddress" : "Q010500e9ec3de4d403d59be6ff329134c6d6fab4f94ea40eaa443aff47ab76350519e94fe9326b",
+    "ban_channel": "CHANNEL_NAME",
+    "ban_channel_id": "793588953995411506"
+  },
+  "wallet" : {
+    "tx_fee"  : "0.00001",
+    "num_slaves" : "10",
+    "height" : "12",
+    "hash_function" : "shake128",
+    "hold_address" : "Q..."
+    "wallet_url" : "https://wallet.theqrl.org"
+  },  
+  "database" : {
+    "db_name" : "DATABASE_NAME",
+    "db_host" : "DATABASE_HOST",
+    "db_pass" : "DATABASE_SECRET_PASSWORD_CHANGE_ME!!",
+    "db_user" : "DATABASE_USER",
+    "db_port" : "3006"
+  },
+  "discord" : {
+    "token"  : "DISCORD_TOKEN_HERE",
+    "bot_id"  : "BOT_ID",
+    "cmd_dir" : "/home/{$USER}/qrl-tips/_scripts/discord/cmd",
+    "admin_cmd_dir" : "/home/{$USER}/qrl-tips/_scripts/discord/admin-cmd",
+    "prefix" : "+",
+    "bot_admin" : "DISCORD_ID",
+    "admin_role" : "ROLE",
+    "mod_role" : "ROLE"
+  },
+  "faucet" : {
+    "faucet_wallet_pub" : "Q...",
+    "payout_interval" : "1440",
+    "min_payout" : "0.000000001",
+    "max_payout" : "0.5"
+  },
+  "backup" : {
+    "location" : "/FULL/PATH/OF/THE/BACKUP/DIR",
+    "encPass" : "PASSPHRASE_TO_ENCRYPT_THE_DUMP_USING_MYSQLDUMP_TOOLS",
+    "walletFile" : "/home/$USER/.qrl/walletd.json",
+    "walletdLog" : "/home/$USER/.qrl/walletd.log",
+    "nodeConfig" : "/home/$USER/.qrl/config.yml",
+    "faucetLog" : "/home/$USER/qrl-tipbot/faucet.log",
+    "botLogFile" : "/home/$USER/qrl-tipbot/discord_bot.log",
+    "botConfigFile" : "/home/$USER/qrl-tipbot/_config/config.json",
+  }
+}
