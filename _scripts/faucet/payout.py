@@ -41,7 +41,7 @@ current_time = datetime.datetime.now()
 addressInfo = "SELECT wallets.wallet_pub FROM wallets, faucet_payouts WHERE faucet_payouts.paid = 0 AND faucet_payouts.user_id = wallets.user_id AND wallets.retired = 0"
 amountInfo = "SELECT faucet_payouts.drip_amt AS drip_amt FROM wallets, faucet_payouts WHERE faucet_payouts.paid = 0 AND faucet_payouts.user_id = wallets.user_id AND wallets.retired = 0"
 
-combined = "SELECT wallets.wallet_pub AS wallet_pub, faucet_payouts.drip_amt AS drip_amt FROM wallets, faucet_payouts WHERE faucet_payouts.paid = 0 AND faucet_payouts.user_id = wallets.user_id"
+# combined = "SELECT wallets.wallet_pub AS wallet_pub, faucet_payouts.drip_amt AS drip_amt FROM wallets, faucet_payouts WHERE faucet_payouts.paid = 0 AND faucet_payouts.user_id = wallets.user_id"
 #UpdateSQL = "UPDATE ADMIN SET PAID = 0 WHERE PAID = 1"
 # DB Connection
 mydb = mysql.connector.connect(
