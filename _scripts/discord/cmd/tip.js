@@ -30,7 +30,7 @@ module.exports = {
     let tippingUserOpt_Out = true;
     let tippingUserBanned = true;
     // let tippingUserBannedDate = '';
-    message.channel.startTyping();
+    // message.channel.startTyping();
 
     // ReplyMessage(' Check your DM\'s');
     function ReplyMessage(content) {
@@ -279,7 +279,7 @@ module.exports = {
             // do  nothing
           }
           else {
-            errorMessage({ error: 'Bots Won\'t Be Tipped!', description: 'You have tipped a bot, and that is not allowed. Please check your tip and try again.' });
+            errorMessage({ error: 'Bot Tipped!', description: 'You have tipped a bot, and that\'s not allowed. Please check your tip and try again.\nIf you would like to donate to the tipbot please send a withdraw to the faucet address `+info faucet` for more.' });
           }
           for(let i = 0, l = filteredBotList.length; i < l; i++) {
             bots.push(' ' + filteredBotList[i].userid);
