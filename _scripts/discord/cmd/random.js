@@ -51,7 +51,7 @@ module.exports = {
           .setDescription(content.description)
           .addFields(
             { name: 'Random Data:', value: '```yaml\n' + content.randomness + '```', inline: false },
-            { name: 'Current Signature:', value: '```yaml\n' + content.signiture + '```', inline: false },
+            { name: 'Current Signature:', value: '```yaml\n' + content.signature + '```', inline: false },
             { name: 'Previous Signature:', value: '```yaml\n' + content.previous_signature + '```', inline: false },
           )
           .setFooter(footer);
@@ -84,7 +84,7 @@ module.exports = {
       else {
         // random data found
         ReplyMessage('Have some random data!');
-        randomMessage({ round: rand.round, randomness: rand.randomness, signiture: rand.signiture, previous_signature: rand.previous_signature });
+        randomMessage({ round: rand.round, description: 'Verifiable, unpredictable and unbiased random numbers as a *bot*!', randomness: rand.randomness, signature: rand.signature, previous_signature: rand.previous_signature });
       }
     }
 
