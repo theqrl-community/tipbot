@@ -19,7 +19,7 @@ async function random(){
     options
   );
   const res = await client.get(); // gets the latest randomness round
-  console.log(`random data: ${JSON.stringify(res)}`);
+  // console.log(`random data: ${JSON.stringify(res)}`);
   return res;
 }
 
