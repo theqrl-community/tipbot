@@ -183,7 +183,7 @@ module.exports = {
           // user not found
           const embed = new Discord.MessageEmbed()
             .setColor(0x000000)
-            .setDescription('Looks like you are not found.\n`+add` to add and account `+help` for the rest.')
+            .setDescription('Looks like you are not found.\n`' + config.discord.prefix + 'add` to add and account `' + config.discord.prefix + 'help` for the rest.')
             .addField('User Found:\t', `\`${found}\``);
           message.channel.send({ embed })
             .then(guid => guid.channel.stopTyping())
@@ -216,7 +216,7 @@ module.exports = {
           // user not found
           const embed = new Discord.MessageEmbed()
             .setColor(0x000000)
-            .setDescription('Looks like you are not found.\n`+add` to add and account `+help` for the rest.')
+            .setDescription('Looks like you are not found.\n`' + config.discord.prefix + 'add` to add and account `' + config.discord.prefix + 'help` for the rest.')
             .addField('User Found:\t', `\`${found}\``);
           message.author.send({ embed })
             .then(cuoo => cuoo.channel.stopTyping())
@@ -274,7 +274,7 @@ module.exports = {
         // console.log('found = ' + found)
         if (found !== 'true') {
           // user not found
-          message.reply('Your not found in the System. Try `+add` or `+help`');
+          message.reply('Your not found in the System. Try `' + config.discord.prefix + 'add` or `' + config.discord.prefix + 'help`');
           message.channel.stopTyping(true);
           return console.log('error, user not found');
         }
@@ -301,7 +301,7 @@ module.exports = {
           else {
             // user not opted out
             // console.log('opt_out = ' + opt_out);
-            message.author.send('You were automaticaly enrolled when you recieved some tips! To claim them type `+add` or `+help` form more info.');
+            message.author.send('You were automaticaly enrolled when you recieved some tips! To claim them type `' + config.discord.prefix + 'add` or `' + config.discord.prefix + 'help` form more info.');
             message.react('🇶')
               .then(() => message.react('🇷'))
               .then(() => message.react('🇱'))
@@ -321,7 +321,7 @@ module.exports = {
       CheckUserPromise.then(function(check) {
         const found = check.user_found;
         if (found !== 'true') {
-          message.reply('Your not found in the System. Try `+add` or `+help`');
+          message.reply('Your not found in the System. Try `' + config.discord.prefix + 'add` or `' + config.discord.prefix + 'help`');
           message.channel.stopTyping();
           return console.log('error, user not found');
         }
@@ -344,7 +344,7 @@ module.exports = {
       CheckUserPromise.then(function(check) {
         const found = check.user_found;
         if (found !== 'true') {
-          message.reply('Your not found in the System. Try `+add` or `+help`');
+          message.reply('Your not found in the System. Try `' + config.discord.prefix + 'add` or `' + config.discord.prefix + 'help`');
           message.channel.stopTyping();
           return console.log('error, user not found');
         }
@@ -368,7 +368,7 @@ module.exports = {
       CheckUserPromise.then(function(check) {
         const found = check.user_found;
         if (found !== 'true') {
-          message.reply('Your not found in the System. Try `+add` or `+help`');
+          message.reply('Your not found in the System. Try `' + config.discord.prefix + 'add` or `' + config.discord.prefix + 'help`');
           message.channel.stopTyping();
           return console.log('error, user not found');
         }
@@ -393,7 +393,7 @@ module.exports = {
             .attachFile(newBuff)
             .setImage('attachment://' + result.fileName)
 
-            .addField('For all of my commands:\t', '`+help`');
+            .addField('For all of my commands:\t', '`' + config.discord.prefix + 'help`');
           message.author.send({ embed })
             .then(() => {
               if (message.channel.type === 'dm') return;

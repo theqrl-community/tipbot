@@ -78,7 +78,7 @@ module.exports = {
     if (args.length) {
       // given a user not an address we just fail.
       if (message.mentions.users.size > 0) {
-        errorMessage({ error: 'Invalid entry given...', description: 'Enter an address to query, or simply `+bal` to get your balance.' });
+        errorMessage({ error: 'Invalid entry given...', description: 'Enter an address to query, or simply `' + config.discord.prefix + 'bal` to get your balance.' });
         deleteMessage();
         return;
       }
@@ -86,7 +86,7 @@ module.exports = {
       const givenAddress = args[0];
       const checkAddress = isQRLAddress(givenAddress);
       if(!checkAddress) {
-        errorMessage({ error: 'Invalid entry given...', description: 'Enter an address to query, or simply `+bal` to get your balance.' });
+        errorMessage({ error: 'Invalid entry given...', description: 'Enter an address to query, or simply `' + config.discord.prefix + 'bal` to get your balance.' });
         deleteMessage();
         return;
       }
@@ -137,19 +137,19 @@ module.exports = {
         const output = JSON.parse(JSON.stringify(result));
         const found = output[0].user_found;
         if (!found) {
-          errorMessage({ error: 'User Not Found...', description: 'You\'re not found in the System. Try `+add` or `+help`' });
+          errorMessage({ error: 'User Not Found...', description: 'You\'re not found in the System. Try `' + config.discord.prefix + 'add` or `' + config.discord.prefix + 'help`' });
           return;
         }
         const opt_out = output[0].opt_out;
         if (opt_out) {
           message.channel.stopTyping(true);
-          errorMessage({ error: 'User Opted Out...', description: 'You\'ve previously opted out of the tipbot. Please send `+opt-in` to opt back in!' });
+          errorMessage({ error: 'User Opted Out...', description: 'You\'ve previously opted out of the tipbot. Please send `' + config.discord.prefix + 'opt-in` to opt back in!' });
           return;
         }
         const user_agree = result[0].user_agree;
         if (!user_agree) {
           message.channel.stopTyping(true);
-          errorMessage({ error: 'User Has Not Agreed...', description: 'You must agree to the tipbot terms, type `+terms` to read them and then `+agree`' });
+          errorMessage({ error: 'User Has Not Agreed...', description: 'You must agree to the tipbot terms, type `' + config.discord.prefix + 'terms` to read them and then `' + config.discord.prefix + 'agree`' });
           return;
         }
         const UserAddress = result[0].wallet_pub;

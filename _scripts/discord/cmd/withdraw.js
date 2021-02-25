@@ -1,3 +1,4 @@
+const config = require('../../../_config/config.json');
 module.exports = {
 
 
@@ -10,12 +11,11 @@ module.exports = {
   guildOnly: false,
   cooldown: 0,
   aliases: ['wd', 'transfer', 'cashout', 'Withdraw', 'WD', 'extract'],
-  usage: '\n__**withdraw** { ***wd***, ***transfer***, ***cashout***, ***send*** }__\nTransfer or withdraw QRL from your TIpBot account to another QRL address.\nRequires amount/all and a QRL address to send to.\n\nExample to transfer all funds from the tipbot wallet: `+transfer all QRLADDRESS`\nExample to transfer an amount of funds: `+transfer 2.01 QRLADDRESS` ',
+  usage: '\n__**withdraw** { ***wd***, ***transfer***, ***cashout***, ***send*** }__\nTransfer or withdraw QRL from your TIpBot account to another QRL address.\nRequires amount/all and a QRL address to send to.\n\nExample to transfer all funds from the tipbot wallet: `' + config.discord.prefix + 'transfer all QRLADDRESS`\nExample to transfer an amount of funds: `' + config.discord.prefix + 'transfer 2.01 QRLADDRESS` ',
   execute(message, args) {
     // console.log('transfer called...' + JSON.stringify(args));
     const dbHelper = require('../../db/dbHelper');
     const wallet = require('../../qrl/walletTools');
-    const config = require('../../../_config/config.json');
     const Discord = require('discord.js');
     const uuid = `${message.author}`;
     const UUID = uuid.slice(1, -1);
@@ -150,7 +150,7 @@ module.exports = {
     async function commandChecks() {
       // Check args are not blank, as we need args to function
       if ((args[0] == undefined) || (args[1] == undefined)) {
-        errorMessage({ error: 'Incorrect info given...', description: 'Use this function to withdraw funds from the Tipbot. `+help withdraw` for more' });
+        errorMessage({ error: 'Incorrect info given...', description: 'Use this function to withdraw funds from the Tipbot. `' + config.discord.prefix + 'help withdraw` for more' });
         const returnArray = [{ check: false }];
         return returnArray;
       }
@@ -163,7 +163,7 @@ module.exports = {
       }
       else {
         // fail on error
-        errorMessage({ error: 'User Not Found...', description: 'You are not signed up yet!. `+add` to get started.' });
+        errorMessage({ error: 'User Not Found...', description: 'You are not signed up yet!. `' + config.discord.prefix + 'add` to get started.' });
         const returnArray = [{ check: false }];
         return returnArray;
       }
@@ -174,7 +174,7 @@ module.exports = {
       }
       else {
         // fail on error
-        errorMessage({ error: 'User Has Not Agreed...', description: 'You must agree to the terms and conditions. `+terms` to read them.' });
+        errorMessage({ error: 'User Has Not Agreed...', description: 'You must agree to the terms and conditions. `' + config.discord.prefix + 'terms` to read them.' });
         const returnArray = [{ check: false }];
         return returnArray;
       }
@@ -185,7 +185,7 @@ module.exports = {
       }
       else {
         // fail on error
-        errorMessage({ error: 'User Has Opted Out...', description: 'You have previously opted out of the tipbot. Enter `+opt-in` to start using the tipbot.' });
+        errorMessage({ error: 'User Has Opted Out...', description: 'You have previously opted out of the tipbot. Enter `' + config.discord.prefix + 'opt-in` to start using the tipbot.' });
         const returnArray = [{ check: false }];
         return returnArray;
       }
@@ -194,7 +194,7 @@ module.exports = {
       // incorrect address
       if (!transfer_to) {
         // transfer address not given or incorrect
-        errorMessage({ error: 'Incorrect Address Given...', description: 'Please enter a correct QRL Address. To donate to the bot use\n `+wd all ' + config.faucet.faucet_wallet_pub });
+        errorMessage({ error: 'Incorrect Address Given...', description: 'Please enter a correct QRL Address. To donate to the bot use\n `' + config.discord.prefix + 'wd all ' + config.faucet.faucet_wallet_pub });
         const returnArray = [{ check: false }];
         return returnArray;
       }
@@ -212,7 +212,7 @@ module.exports = {
       // wallet is flat
       if (wallet_bal === 0) {
         // Wallet Balance is Flat
-        errorMessage({ error: 'Wallet Balance is Flat...', description: 'You don\'t have any funds to withdraw. Get a tip or try the faucet `+drip`' });
+        errorMessage({ error: 'Wallet Balance is Flat...', description: 'You don\'t have any funds to withdraw. Get a tip or try the faucet `' + config.discord.prefix + 'drip`' });
         const returnArray = [{ check: false }];
         return returnArray;
       }
@@ -244,14 +244,14 @@ module.exports = {
       // incorrect info in the transfer command
       if (trans_amt === 0) {
         // no transfer or incorrect transfer amount given
-        errorMessage({ error: 'Invalid Amount Given...', description: 'Please enter a valid number to withdraw or `+transfer all {QRL-ADDRESS}`.' });
+        errorMessage({ error: 'Invalid Amount Given...', description: 'Please enter a valid number to withdraw or `' + config.discord.prefix + 'transfer all {QRL-ADDRESS}`.' });
         const returnArray = [{ check: false }];
         return returnArray;
       }
       // wallet balance is less than balance
       if (wallet_bal < trans_amt) {
         // trying to send more than you have
-        errorMessage({ error: 'Wallet Balance Is Less Than Withdraw...', description: 'You Don\'t have enough finds for that, check you `+bal` and try again.' });
+        errorMessage({ error: 'Wallet Balance Is Less Than Withdraw...', description: 'You Don\'t have enough finds for that, check you `' + config.discord.prefix + 'bal` and try again.' });
         const returnArray = [{ check: false }];
         return returnArray;
       }

@@ -35,7 +35,7 @@ module.exports = {
 
     if (!args.length) {
       // no args given give the list of commands
-      messagedata.push('Here are all of my commands.\n*If you need more help try:* `+help {COMMAND}`\n```diff\n');
+      messagedata.push('Here are all of my commands.\n*If you need more help try:* `' + config.discord.prefix + 'help {COMMAND}`\n```diff\n');
       messagedata.push(commands.map(command => config.discord.prefix + command.name + ' - ' + command.description).join('\n'));
       messagedata.push('```');
       // add the adminCommands as well to the help file for mods and admin

@@ -83,7 +83,7 @@ module.exports = {
             return response;
           }).then(function(AddusrResult) {
             // message user of status
-            ReplyMessage('You\'re now opted out.\nIf you change your mind `+opt-in` :wave: ...');
+            ReplyMessage('You\'re now opted out.\nIf you change your mind `' + config.discord.prefix + 'opt-in` :wave: ...');
             return AddusrResult;
           });
         });
@@ -101,7 +101,7 @@ module.exports = {
         }).then(function(ooargs) {
           if (ooargs.opt_out == 'true') {
             // error, already opted out...
-            errorMessage({ error: 'Already opted out...', description: 'If you\'ve changed your mind `+opt-in` to use the bot' });
+            errorMessage({ error: 'Already opted out...', description: 'If you\'ve changed your mind `' + config.discord.prefix + 'opt-in` to use the bot' });
             message.channel.stopTyping(true);
           }
           else {
@@ -114,15 +114,15 @@ module.exports = {
                 const embed = new Discord.MessageEmbed()
                   .setColor('BLACK')
                   .setTitle('**Error Opting Out**')
-                  .setDescription('You need to transfer or send all funds prior to opting out. Use the `+withdraw` function to transfer out of the tipbot.\nIf you need a new wallet, create one in the [Web Wallet](' + config.wallet.wallet_url + ')')
+                  .setDescription('You need to transfer or send all funds prior to opting out. Use the `' + config.discord.prefix + 'withdraw` function to transfer out of the tipbot.\nIf you need a new wallet, create one in the [Web Wallet](' + config.wallet.wallet_url + ')')
                   .addFields(
                     { name: 'Current Wallet Balance:', value: '`' + wallet_bal_quanta + '`', inline: true },
-                    { name: 'To donate your funds to the TipBot faucet:', value: '`+withdraw all ' + config.faucet.faucet_wallet_pub + '`', inline: false },
+                    { name: 'To donate your funds to the TipBot faucet:', value: '`' + config.discord.prefix + 'withdraw all ' + config.faucet.faucet_wallet_pub + '`', inline: false },
                   )
                   .setTimestamp()
                   .setFooter('  .: Tipbot provided by The QRL Contributors :.');
                 message.author.send({ embed })
-                // message.author.send('You have a balance of `' + wallet_bal_quanta + ' qrl` in your tip wallet. Please `+withdraw` the funds before you opt-out.\n\nTo donate your funds to the TipBot faucet `+withdraw all ' + config.faucet.faucet_wallet_pub + '`')
+                // message.author.send('You have a balance of `' + wallet_bal_quanta + ' qrl` in your tip wallet. Please `' + config.discord.prefix + 'withdraw` the funds before you opt-out.\n\nTo donate your funds to the TipBot faucet `' + config.discord.prefix + 'withdraw all ' + config.faucet.faucet_wallet_pub + '`')
                   .then(function() {
                     ReplyMessage('Check Your DM\'s');
                   }).catch(e => {
