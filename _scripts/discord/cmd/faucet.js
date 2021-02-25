@@ -107,7 +107,7 @@ module.exports = {
               else{
                 // user not found
                 userInfoArray.push({ checkUserPassed: false, checkUserPassedError: 'not_found' });
-                errorMessage({ error: 'User Not Found...', description: 'Please enter `+add` to sign-up then `+agree` to start using the bot' });
+                errorMessage({ error: 'User Not Found...', description: 'Please enter `' + config.discord.prefix + 'add` to sign-up then `' + config.discord.prefix + 'agree` to start using the bot' });
                 return;
               }
               // check if agreed
@@ -119,14 +119,14 @@ module.exports = {
               else {
                 // not agreed to terms
                 userInfoArray.push({ checkUserPassed: false, checkUserPassedError: 'not_agreed' });
-                errorMessage({ error: 'User Has Not Agreed to Terms...', description: 'You must agree to the terms, enter `+terms` to read the terms and conditions, `+agree` to start using the bot.' });
+                errorMessage({ error: 'User Has Not Agreed to Terms...', description: 'You must agree to the terms, enter `' + config.discord.prefix + 'terms` to read the terms and conditions, `' + config.discord.prefix + 'agree` to start using the bot.' });
                 return;
               }
               // check if opt out
               if (opt_out) {
               // user has opted out
                 userInfoArray.push({ checkUserPassed: false, checkUserPassedError: 'opted_out' });
-                errorMessage({ error: 'User Has Opted Out...', description: 'Please `+opt-in` to use the bot.' });
+                errorMessage({ error: 'User Has Opted Out...', description: 'Please `' + config.discord.prefix + 'opt-in` to use the bot.' });
                 return;
               }
               resolve(userInfoArray);

@@ -115,11 +115,11 @@ module.exports = {
                 .setFooter('  .: Tipbot provided by The QRL Contributors :.')
                 .addField('Your QRL Wallet Public Address::', '[' + reply.wallet_pub + '](' + config.bot_details.explorer_url + '/a/' + walletPub.wallet_pub + ')')
                 .addField('Your QRL Wallet Balance:\t', `\`${userBalance}\``)
-                .addField('For all of my commands:\t', '`+help`');
+                .addField('For all of my commands:\t', '`' + config.discord.prefix + 'help`');
               message.author.send({ embed })
                 .then(() => {
                   if (message.channel.type === 'dm') return;
-                  errorMessage({ error: 'User Found In System...', description: 'You\'re signed up already. :thumbsup:\nTry `+help`' });
+                  errorMessage({ error: 'User Found In System...', description: 'You\'re signed up already. :thumbsup:\nTry `' + config.discord.prefix + 'help`' });
                 })
                 .catch(e => {
                   errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again.  ' + e.message });
@@ -161,7 +161,7 @@ module.exports = {
                   send_future_tip(future_tip).then(function(futureTip) {
                     const futureTipOut = JSON.parse(futureTip);
                     const tx_hash = futureTipOut.tx.transaction_hash;
-                    ReplyMessage('Someone sent a tip before you signed up! `' + futureTipPretty + ' qrl` on the way, look for them once the transaction is confirmed by the network. `+bal` to check your wallet balance.');
+                    ReplyMessage('Someone sent a tip before you signed up! `' + futureTipPretty + ' qrl` on the way, look for them once the transaction is confirmed by the network. `' + config.discord.prefix + 'bal` to check your wallet balance.');
                     // write to transactions db
                     const tip_id = 1337;
                     const txInfo = { tip_id: tip_id, tx_hash: tx_hash, tx_type: 'tip' };
@@ -188,8 +188,8 @@ module.exports = {
                   .setImage(userInfo.wallet_qr)
                   // eslint-disable-next-line
                   .addField('**Bonus!** You\'ll receive some Quanta from the faucet. \**Faucet payments can take up to 5 min to reflect in a users wallet*', '`' + dripamt + ' qrl` faucet payout')
-                  .addField('For all of my commands:\t', '`+help`. It will take a few minutes for your wallet to be created.')
-                  .addField('You must agree to my terms:', 'Enter `+terms` to read the details and `+agree` to start using the tipbot');
+                  .addField('For all of my commands:\t', '`' + config.discord.prefix + 'help`. It will take a few minutes for your wallet to be created.')
+                  .addField('You must agree to my terms:', 'Enter `' + config.discord.prefix + 'terms` to read the details and `' + config.discord.prefix + 'agree` to start using the tipbot');
                 message.author.send({ embed })
 
                   .catch(e => {
@@ -221,19 +221,19 @@ __**You assume all risk by using this service**__
 :diamond_shape_with_a_dot_inside: *This service is for tipping or giving small amounts of QRL to other users.*
 :diamond_shape_with_a_dot_inside: *You agree to not store or trade currency or for any other reason than tipping users.*
 :diamond_shape_with_a_dot_inside: *You will not store large amounts of QRL in this address at any time.*
-:diamond_shape_with_a_dot_inside: *You take full responsibility for transferring funds out of the Tipbot, using the \`+transfer\` function into a wallet you control.*
-:diamond_shape_with_a_dot_inside: *You will not use this bot if it will in any way break any law, in any jurisdiction. \`+opt-out\` to disable your account.*
+:diamond_shape_with_a_dot_inside: *You take full responsibility for transferring funds out of the Tipbot, using the \`${config.discord.prefix}transfer\` function into a wallet you control.*
+:diamond_shape_with_a_dot_inside: *You will not use this bot if it will in any way break any law, in any jurisdiction. \`${config.discord.prefix}opt-out\` to disable your account.*
 :diamond_shape_with_a_dot_inside: *You will not use this bot in any way that is not intended or identified in these rules.*
 :diamond_shape_with_a_dot_inside: *Any tips sent to a user that has not signed up will be saved by the bot for that user. Failure of the user to collect tips may result in a loss of funds for that user. They will not be returned to the sender.*
 :diamond_shape_with_a_dot_inside: *Any abuse of the service will result in a ban, and if warranted legal action may be taken accordingly. Funds will not be returned to banned users.*
 
-**You must \`+agree\` with these terms to use the bot!**
+**You must \`${config.discord.prefix}agree\` with these terms to use the bot!**
                     `);
                       })
                       .catch(e => {
                         errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' + e.message });
                       });
-                    ReplyMessage(':white_check_mark: You\'re signed up! A small drip from the faucet is on it\'s way to your new tipbot wallet as a small thanks for being a part of this community!\n Please `+agree` to my terms sent to you in DM to begin using the bot.\n*It may take a few minutes for your wallet to be created and funds deposited.*');
+                    ReplyMessage(':white_check_mark: You\'re signed up! A small drip from the faucet is on it\'s way to your new tipbot wallet as a small thanks for being a part of this community!\n Please `' + config.discord.prefix + 'agree` to my terms sent to you in DM to begin using the bot.\n*It may take a few minutes for your wallet to be created and funds deposited.*');
                   })
                   .catch(error => {
                     console.error(`Could not send help DM to ${message.author.tag}.\n`, error);

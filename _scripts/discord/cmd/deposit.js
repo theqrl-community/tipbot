@@ -33,14 +33,14 @@ module.exports = {
     CheckUserPromise.then(function(check) {
       const found = check.user_found;
       if (found !== 'true') {
-        errorMessage({ error: 'User Not Found...', description: 'You\'re not found in the System. Try `+add` or `+help`' });
+        errorMessage({ error: 'User Not Found...', description: 'You\'re not found in the System. Try `' + config.discord.prefix + 'add` or `' + config.discord.prefix + 'help`' });
         return console.log('error, user not found');
       }
       // check for opt_out status
       const optOutCheck = dbHelper.CheckUserOptOut({ service: 'discord', user_id: check.user_id });
       optOutCheck.then(function(optout) {
         if (optout.opt_out == 'true') {
-          errorMessage({ error: 'User Opted Out...', description: 'You have opted out of the tipbot. Please send `+opt-in` to opt back in!' });
+          errorMessage({ error: 'User Opted Out...', description: 'You have opted out of the tipbot. Please send `' + config.discord.prefix + 'opt-in` to opt back in!' });
           return;
         }
         else {
@@ -58,7 +58,7 @@ module.exports = {
                 .setDescription('Deposit funds to the address shown below to begin tipping. Please don\'t make large deposits or store funds here.')
                 .setFooter('  .: Tipbot provided by The QRL Contributors :.')
                 .addField('Your QRL Wallet Public Address::', '[' + wallet_pub + '](' + config.bot_details.explorer_url + '/a/' + wallet_pub + ')')
-                .addField('For all of my commands:\t', '`+help`');
+                .addField('For all of my commands:\t', '`' + config.discord.prefix + 'help`');
               message.author.send({ embed })
                 .then(() => {
                   message.author.send(wallet_pub);
@@ -92,7 +92,7 @@ module.exports = {
                 .setFooter('  .: Tipbot provided by The QRL Contributors :.')
                 .addField('Your QRL Wallet Public Address::', '[' + wallet_pub + '](' + config.bot_details.explorer_url + '/a/' + wallet_pub + ')')
                 // figure out how to attach the qr image here...
-                .addField('For all of my commands:\t', '`+help`');
+                .addField('For all of my commands:\t', '`' + config.discord.prefix + 'help`');
               message.author.send({ embed })
                 .then(() => {
                   if (message.channel.type === 'dm') return;

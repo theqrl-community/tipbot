@@ -1,3 +1,4 @@
+const config = require('../../../_config/config.json');
 module.exports = {
   name: 'tip',
   description: 'Send QRL to other users on Discord',
@@ -5,11 +6,10 @@ module.exports = {
   args: false,
   cooldown: 1,
   aliases: ['!$', 'send', 'Tip', 'give', 'gift', 'TIP'],
-  usage: '\n<tip amount> <user1> <user2> <user3> <etc.> \nEXAMPLE: `+tip 1 @CoolUser`',
+  usage: '\n<tip amount> <user1> <user2> <user3> <etc.> \nEXAMPLE: `' + config.discord.prefix + 'tip 1 @CoolUser`',
   execute(message, args) {
     const Discord = require('discord.js');
     const dbHelper = require('../../db/dbHelper');
-    const config = require('../../../_config/config.json');
     const wallet = require('../../qrl/walletTools');
     const futureTippedUserInfo = [];
     const futureTippedUserIDs = [];
@@ -154,7 +154,7 @@ module.exports = {
 
     // check if user mentioned another user to tip
     if (!message.mentions.users.size) {
-      errorMessage({ error: 'No User(s) Mentioned...', description: 'Who are you tipping? enter `+help tip` for instructions' });
+      errorMessage({ error: 'No User(s) Mentioned...', description: 'Who are you tipping? enter `' + config.discord.prefix + 'help tip` for instructions' });
       return ;
     }
     // check if mentioned group and fail if so
@@ -168,7 +168,7 @@ module.exports = {
     const givenTip = tipAmount();
     // check if amount is NaN
     if (isNaN(givenTip)) {
-      errorMessage({ error: 'Invalid Amount Given...', description: 'Please enter a valid amount to tip! `+tip {AMOUNT} @USER(\'s)`' });
+      errorMessage({ error: 'Invalid Amount Given...', description: 'Please enter a valid amount to tip! `' + config.discord.prefix + 'tip {AMOUNT} @USER(\'s)`' });
       return ;
     }
     // Check that tip amount is above fee
@@ -192,18 +192,18 @@ module.exports = {
         tippingUserOpt_Out = JSON.stringify(tipingUserInfo[0].opt_out);
         // check for tipping user in the system
         if (tippingUserUser_Found == 'false') {
-          errorMessage({ error: 'User Not Found...', description: 'Please sign up to the tipbot. Enter `+add` to create a wallet then `+agree` to use the bot' });
+          errorMessage({ error: 'User Not Found...', description: 'Please sign up to the tipbot. Enter `' + config.discord.prefix + 'add` to create a wallet then `' + config.discord.prefix + 'agree` to use the bot' });
           return;
         }
         // check for tipping user agree
         if (tippingUserUser_agree == 'false') {
-          errorMessage({ error: 'User Has Not Agreed to Terms...', description: 'Please agree to the terms to start using the bot. Enter `+terms` to read or `+agree`' });
+          errorMessage({ error: 'User Has Not Agreed to Terms...', description: 'Please agree to the terms to start using the bot. Enter `' + config.discord.prefix + 'terms` to read or `' + config.discord.prefix + 'agree`' });
           return;
         }
         // check for tipping user opt-out
         if (tippingUserOpt_Out == 'true') {
           const tippingUserOptOut_Date = JSON.stringify(tipingUserInfo[0].optout_date);
-          errorMessage({ error: 'User Has `Opt-Out` Status...', description: 'You opted out on ' + tippingUserOptOut_Date + '. Please opt back in to use the bot. `+opt-in`' });
+          errorMessage({ error: 'User Has `Opt-Out` Status...', description: 'You opted out on ' + tippingUserOptOut_Date + '. Please opt back in to use the bot. `' + config.discord.prefix + 'opt-in`' });
           return;
         }
         // user found in database and passes initial checks.
@@ -212,7 +212,7 @@ module.exports = {
         const tippingUserUser_Id = JSON.stringify(tipingUserInfo[0].user_id);
         // check balance to tip amount
         if (Number(tipingUserInfo[0].wallet_bal) <= 0) {
-          errorMessage({ error: 'User Wallet Empty...', description: 'No funds to tip. Transfer funds with `+deposit` or pull from the faucet if full with `+drip`' });
+          errorMessage({ error: 'User Wallet Empty...', description: 'No funds to tip. Transfer funds with `' + config.discord.prefix + 'deposit` or pull from the faucet if full with `' + config.discord.prefix + 'drip`' });
           return;
         }
         // check balance to tip amount pending balance
@@ -279,7 +279,7 @@ module.exports = {
             // do  nothing
           }
           else {
-            errorMessage({ error: 'Bot Tipped!', description: 'You have tipped a bot, and that\'s not allowed. Please check your tip and try again.\nIf you would like to donate to the tipbot please send a withdraw to the faucet address `+info faucet` for more.' });
+            errorMessage({ error: 'Bot Tipped!', description: 'You have tipped a bot, and that\'s not allowed. Please check your tip and try again.\nIf you would like to donate to the tipbot please send a withdraw to the faucet address `' + config.discord.prefix + 'info faucet` for more.' });
           }
           for(let i = 0, l = filteredBotList.length; i < l; i++) {
             bots.push(' ' + filteredBotList[i].userid);
@@ -290,7 +290,7 @@ module.exports = {
         // get the total tip amount plus the fee
         const tipTotal = ((givenTip * tipUserCount) + fee);
         if (Number(tipingUserInfo[0].wallet_bal) - tippingUserWallet_PendingBal < tipTotal) {
-          errorMessage({ error: 'Tipping more than you have...', description: 'Enter `+bal` to get your current balance.' });
+          errorMessage({ error: 'Tipping more than you have...', description: 'Enter `' + config.discord.prefix + 'bal` to get your current balance.' });
           return;
         }
 

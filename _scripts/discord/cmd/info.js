@@ -355,26 +355,26 @@ module.exports = {
           .setColor('GREEN')
           .setTitle('**QRL Tipbot Info**')
           .setURL(botUrl)
-          .setDescription('List of all tipbot commands. Enter `+help COMMAND` for more info on each command below.\n')
+          .setDescription('List of all tipbot commands. Enter `' + config.discord.prefix + 'help COMMAND` for more info on each command below.\n')
           .addFields(
-            { name: 'add: ', value: 'Add user to tipbot, creating a wallet and account, `+help add`', inline: false },
-            { name: 'agree: ', value: 'Agree to the terms and conditions, `+help agree`', inline: false },
-            { name: 'balance: ', value: 'Print user QRL balance or QRL address balance to DM, `+help balance`', inline: false },
-            { name: 'deposit: ', value: 'Deposit information to send funds to your tipbot address, `+help deposit`', inline: false },
-            { name: 'drip: ', value: 'Receive a payout from the tipbot faucet, `+help drip`', inline: false },
-            { name: 'help: ', value: 'Print help information for the tipbot commands, `+help`', inline: false },
-            { name: 'info: ', value: 'This command, giving information on various topics, `+help info`', inline: false },
-            { name: 'optin: ', value: 'Opt into the tipbot {default signup condition} after user has opt\'ed out, `+help optin`', inline: false },
-            { name: 'optout: ', value: 'Opt out of the tipbot and all tipping functions including the faucet. `+help optout`', inline: false },
-            { name: 'terms: ', value: 'Print the terms and conditions for using the bot, `+help terms`', inline: false },
-            { name: 'tip: ', value: 'Tip another user QRL from your tipbot address, `+help tip`', inline: false },
-            { name: 'withdraw: ', value: 'Send your tipbot funds to another address, `+help withdraw`', inline: false },
+            { name: 'add: ', value: 'Add user to tipbot, creating a wallet and account, `' + config.discord.prefix + 'help add`', inline: false },
+            { name: 'agree: ', value: 'Agree to the terms and conditions, `' + config.discord.prefix + 'help agree`', inline: false },
+            { name: 'balance: ', value: 'Print user QRL balance or QRL address balance to DM, `' + config.discord.prefix + 'help balance`', inline: false },
+            { name: 'deposit: ', value: 'Deposit information to send funds to your tipbot address, `' + config.discord.prefix + 'help deposit`', inline: false },
+            { name: 'drip: ', value: 'Receive a payout from the tipbot faucet, `' + config.discord.prefix + 'help drip`', inline: false },
+            { name: 'help: ', value: 'Print help information for the tipbot commands, `' + config.discord.prefix + 'help`', inline: false },
+            { name: 'info: ', value: 'This command, giving information on various topics, `' + config.discord.prefix + 'help info`', inline: false },
+            { name: 'optin: ', value: 'Opt into the tipbot {default signup condition} after user has opt\'ed out, `' + config.discord.prefix + 'help optin`', inline: false },
+            { name: 'optout: ', value: 'Opt out of the tipbot and all tipping functions including the faucet. `' + config.discord.prefix + 'help optout`', inline: false },
+            { name: 'terms: ', value: 'Print the terms and conditions for using the bot, `' + config.discord.prefix + 'help terms`', inline: false },
+            { name: 'tip: ', value: 'Tip another user QRL from your tipbot address, `' + config.discord.prefix + 'help tip`', inline: false },
+            { name: 'withdraw: ', value: 'Send your tipbot funds to another address, `' + config.discord.prefix + 'help withdraw`', inline: false },
           )
           .setTimestamp()
           .setFooter('  .: Tipbot provided by The QRL Contributors :.');
         message.author.send({ embed })
           .then(() => {
-            ReplyMessage('The tipbot enables sending QRL tips to other discord users. The bot will create an individual address for each bot user with the `+add` command. \n\n:small_blue_diamond: All tips are on chain and can be seen in the QRL Block Explorer - ' + explorerURL + '. \n:small_blue_diamond: `+transfer` your earned tips out of the tipbot.\n:small_blue_diamond: Use the QRL Web Wallet ' + config.wallet.wallet_url + ' if you need a new address\n\n**More details in your DM**');
+            ReplyMessage('The tipbot enables sending QRL tips to other discord users. The bot will create an individual address for each bot user with the `' + config.discord.prefix + 'add` command. \n\n:small_blue_diamond: All tips are on chain and can be seen in the QRL Block Explorer - ' + explorerURL + '. \n:small_blue_diamond: `' + config.discord.prefix + 'transfer` your earned tips out of the tipbot.\n:small_blue_diamond: Use the QRL Web Wallet ' + config.wallet.wallet_url + ' if you need a new address\n\n**More details in your DM**');
             message.channel.stopTyping(true);
           });
       }
@@ -462,21 +462,21 @@ module.exports = {
       // is user found?
         if (found === 'false') {
           // not found, give main message and end
-          errorMessage({ error: 'Not Found In System...', description: 'You\'re not found in the System. Enter `+help add` for instructions' });
-          // ReplyMessage('Your not found in the System. Try `+add` or `+help`');
+          errorMessage({ error: 'Not Found In System...', description: 'You\'re not found in the System. Enter `' + config.discord.prefix + 'help add` for instructions' });
+          // ReplyMessage('Your not found in the System. Try `' + config.discord.prefix + 'add` or `' + config.discord.prefix + 'help`');
           return;
         }
         // check for opt_out status
         if (optOut === 1) {
           // Opt Out, give main message and end
-          errorMessage({ error: 'User Has Opted Out...', description: 'You have opted out of the tipbot. Enter `+help opt-in` for instructions' });
-          // ReplyMessage('You have opted out of the tipbot. Please send `+opt-in` to opt back in!');
+          errorMessage({ error: 'User Has Opted Out...', description: 'You have opted out of the tipbot. Enter `' + config.discord.prefix + 'help opt-in` for instructions' });
+          // ReplyMessage('You have opted out of the tipbot. Please send `' + config.discord.prefix + 'opt-in` to opt back in!');
           return;
         }
         if (agree === 'false') {
           // not Agreed, give main message and end
-          errorMessage({ error: 'User Has Not Agreed...', description: 'You have not agreed to the tipbot terms. Enter `+help agree` for instructions' });
-          // ReplyMessage('You need to agree, please see the `+terms`');
+          errorMessage({ error: 'User Has Not Agreed...', description: 'You have not agreed to the tipbot terms. Enter `' + config.discord.prefix + 'help agree` for instructions' });
+          // ReplyMessage('You need to agree, please see the `' + config.discord.prefix + 'terms`');
           return;
         }
         else {
@@ -520,7 +520,7 @@ module.exports = {
       }
       // get block height from node
       else {
-        ReplyMessage('Use this bot to send and receive tips on the QRL network. `+help info` for more commands.');
+        ReplyMessage('Use this bot to send and receive tips on the QRL network. `' + config.discord.prefix + 'help info` for more commands.');
       }
     }
     main();

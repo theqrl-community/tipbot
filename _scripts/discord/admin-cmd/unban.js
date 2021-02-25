@@ -121,7 +121,7 @@ module.exports = {
         if (!userInfo.banned) {
           // user is not banned fail and return the user data
           console.log('user is not banned');
-          errorMessage({ error: 'User Not Banned...', description: 'User is found but not banned. Try `+check user <' + service_id + '>`'});
+          errorMessage({ error: 'User Not Banned...', description: 'User is found but not banned. Try `' + config.discord.prefix + 'check user <' + service_id + '>`'});
           return false;
         }
         // unban the user from the users_info database
@@ -146,7 +146,7 @@ module.exports = {
         user.send({ embed })
           .then(() => {
             if (message.channel.type === 'dm') return;
-            ReplyMessage('User has been setup, their new address is in a DM or can be found with the user entering `+info me` or an Admin entering `+check user <' + service_id + '>`');
+            ReplyMessage('User has been setup, their new address is in a DM or can be found with the user entering `' + config.discord.prefix + 'info me` or an Admin entering `' + config.discord.prefix + 'check user <' + service_id + '>`');
           })
           .catch(e => {
           // console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
@@ -159,7 +159,7 @@ module.exports = {
       else {
         // fail on error
         // console.log('userFound: ' + userInfo.userFound);
-        errorMessage({ error: 'User Not Found...', description: 'The user is not found in the tipbot, Have them signup `+add`' });
+        errorMessage({ error: 'User Not Found...', description: 'The user is not found in the tipbot, Have them signup `' + config.discord.prefix + 'add`' });
         const returnArray = [{ check: false }];
         return returnArray;
       }
