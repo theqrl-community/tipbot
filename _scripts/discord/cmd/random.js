@@ -49,7 +49,7 @@ module.exports = {
         .setTitle('Fresh Randomness')
         .setURL('https://www.cloudflare.com/leagueofentropy/')
         .setDescription(content.description)
-        .setThumbnail('https://github.com/drand/website/raw/master/docs/.vuepress/public/drand_with_logotype.png')
+        .setThumbnail('https://github.com/drand/website/raw/master/docs/.vuepress/public/images/logo-drand-text-right-dark.png')
         .addFields(
           { name: 'Current Round:', value: '```css\n' + content.round + '```', inline: true },
           { name: 'Random Data:', value: '```yaml\n' + content.randomness + '```', inline: false },
