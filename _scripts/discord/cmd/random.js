@@ -1,6 +1,6 @@
 module.exports = {
   name: 'random',
-  description: 'Get random data from drand',
+  description: 'Get random data from the League of Entropy and the drand network',
   args: false,
   aliases: ['rand', 'Random'],
   guildOnly: false,
@@ -16,6 +16,7 @@ module.exports = {
     // const wallet = require('../../qrl/walletTools');
     // const explorer = require('../../qrl/explorerTools');
     // const cgTools = require('../../coinGecko/cgTools');
+    message.channel.startTyping();
 
     // ReplyMessage(' Check your DM\'s');
     function ReplyMessage(content) {
@@ -85,5 +86,6 @@ module.exports = {
     }
 
     main();
+    message.channel.stopTyping(true);
   }
 };
