@@ -7,10 +7,15 @@ async function random(){
   global.fetch = fetch;
   global.AbortController = AbortController;
 
-  const chainHash = '138a324aa6540f93d0dad002aa89454b1bec2b6e948682cde6bd4db40f4b7c9b'; // (hex encoded)
+  const chainHash = '8990e7a9aaed2ffed73dbd7092123d6f289930540d7651336225dc172e51b2ce'; // (hex encoded)
   const options = { chainHash };
   const client = await Client.wrap(
-    HTTP.forURLs(['http://drand.network'], chainHash),
+    HTTP.forURLs([
+      'http://api.drand.sh',
+      'http://api2.drand.sh',
+      'http://api3.drand.sh',
+      'https://drand.cloudflare.com',
+    ], chainHash),
     options
   );
   const res = await client.get(); // gets the latest randomness round
