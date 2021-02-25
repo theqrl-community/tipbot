@@ -1,11 +1,11 @@
-import Client, { HTTP } from 'drand-client';
-import fetch from 'node-fetch';
-import AbortController from 'abort-controller';
- 
-global.fetch = fetch;
-global.AbortController = AbortController;
-
 async function random(){
+
+  const fetch = require('node-fetch');
+  const AbortController = require('abort-controller');
+  const { default: Client, HTTP } = await import('drand-client');
+
+  global.fetch = fetch;
+  global.AbortController = AbortController;
 
   const chainHash = '138a324aa6540f93d0dad002aa89454b1bec2b6e948682cde6bd4db40f4b7c9b'; // (hex encoded)
   const options = { chainHash };
