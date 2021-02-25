@@ -7,7 +7,7 @@ module.exports = {
   usage: '',
   cooldown: 0,
 
-  execute(message, args) {
+  execute(message) {
   // random data retriever 
 
     const Discord = require('discord.js');
@@ -40,6 +40,30 @@ module.exports = {
       }, 1000);
     }
 
+    function randomMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
+      message.channel.startTyping();
+      setTimeout(function() {
+        const embed = new Discord.MessageEmbed()
+          // .setColor(0x000000)
+          .setColor('GREEN')
+          .setTitle('DRAND Current Round: ' + content.round)
+          .setURL('https://drand.love/')
+          .setDescription(content.description)
+          .addFields(
+            { name: 'Random Data:', value: '```yaml\n' + content.randomness + '```', inline: false },
+            { name: 'Current Signature:', value: '```yaml\n' + content.signiture + '```', inline: false },
+            { name: 'Previous Signature:', value: '```yaml\n' + content.previous_signature + '```', inline: false },
+          )
+          .setFooter(footer);
+          
+
+
+        message.reply({ embed });
+        message.channel.stopTyping(true);
+      }, 1000);
+    }
+
+
     function random() {
       return new Promise(resolve => {
         const randomData = Random.random();
@@ -52,12 +76,15 @@ module.exports = {
       let rand = false;
       rand = await random();
 
+
+
       if (!rand) {
         errorMessage({ error: 'Something is wrong', description: 'no random data found' });
       }
       else {
         // random data found
-        ReplyMessage(`Random Data ${rand.randomness}`);
+        ReplyMessage('Have some random data!');
+        randomMessage({ round: rand.round, randomness: rand.randomness, signiture: rand.signiture, previous_signature: rand.previous_signature });
       }
     }
 
