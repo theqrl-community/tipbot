@@ -49,14 +49,15 @@ module.exports = {
 
     async function main() {
       // main function 
-      const rand = await random();
+      let rand = false;
+      rand = await random();
 
-      if (rand.length > 0) {
-        // random data found
-        ReplyMessage(`Random Data ${rand}`);
+      if (!rand) {
+        errorMessage({ error: 'Something is wrong', description: 'no random data found' });
       }
       else {
-        errorMessage({ error: 'Something is wrong', description: 'no random data found' });
+        // random data found
+        ReplyMessage(`Random Data ${rand.randomness}`);
       }
     }
 
