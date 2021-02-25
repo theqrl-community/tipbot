@@ -40,9 +40,6 @@ module.exports = {
       }, 1000);
     }
 
-
-
-
     function random() {
       return new Promise(resolve => {
         const randomData = Random.random();
@@ -54,7 +51,7 @@ module.exports = {
       // main function 
       const rand = await random();
 
-      if (rand.lenght > 0) {
+      if (rand.length > 0) {
         // random data found
         ReplyMessage(`Random Data ${rand}`);
       }
