@@ -42,26 +42,21 @@ module.exports = {
 
     function randomMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
       message.channel.startTyping();
-      setTimeout(function() {
-        const embed = new Discord.MessageEmbed()
-          // .setColor(0x000000)
-          .setColor('GREEN')
-          .setTitle('League of Entropy Randomness')
-          .setURL('https://drand.love/')
-          .setDescription(content.description)
-          .addFields(
-            { name: 'Current Round:', value: '```yaml\n' + content.round + '```', inline: false },
-            { name: 'Random Data:', value: '```yaml\n' + content.randomness + '```', inline: false },
-            { name: 'Current Signature:', value: '```yaml\n' + content.signature + '```', inline: false },
-            { name: 'Previous Signature:', value: '```yaml\n' + content.previous_signature + '```', inline: false },
-          )
-          .setFooter(footer);
-          
-
-
-        message.reply({ embed });
-        message.channel.stopTyping(true);
-      }, 1000);
+      const embed = new Discord.MessageEmbed()
+        // .setColor(0x000000)
+        .setColor('GREEN')
+        .setTitle('League of Entropy Randomness')
+        .setURL('https://drand.love/')
+        .setDescription(content.description)
+        .addFields(
+          { name: 'Current Round:', value: '```yaml\n' + content.round + '```', inline: false },
+          { name: 'Random Data:', value: '```yaml\n' + content.randomness + '```', inline: false },
+          { name: 'Current Signature:', value: '```yaml\n' + content.signature + '```', inline: false },
+          { name: 'Previous Signature:', value: '```yaml\n' + content.previous_signature + '```', inline: false },
+        )
+        .setFooter(footer);
+      message.reply({ embed });
+      message.channel.stopTyping(true);
     }
 
 
