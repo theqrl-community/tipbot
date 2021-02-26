@@ -18,15 +18,6 @@ module.exports = {
     // const cgTools = require('../../coinGecko/cgTools');
     message.channel.startTyping();
 
-    // ReplyMessage(' Check your DM\'s');
-    function ReplyMessage(content) {
-      message.channel.startTyping();
-      setTimeout(function() {
-        message.reply(content);
-        message.channel.stopTyping(true);
-      }, 1000);
-    }
-
     // errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
     function errorMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
       // message.channel.startTyping();
