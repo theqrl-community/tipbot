@@ -46,7 +46,7 @@ module.exports = {
       const embed = new Discord.MessageEmbed()
         // .setColor(0x000000)
         .setColor('GREEN')
-        .setTitle('Fresh Randomness')
+        .setTitle('Randomness from the League of Entropy')
         .setURL('https://www.cloudflare.com/leagueofentropy/')
         .setDescription(content.description)
         .setThumbnail('https://github.com/drand/website/raw/master/docs/.vuepress/public/images/logo-drand-text-right-dark.png')
@@ -68,15 +68,16 @@ module.exports = {
         .setColor('BLUE')
         .setTitle('League Of Entropy Information')
         .setURL('https://www.cloudflare.com/leagueofentropy/')
-        .setDescription('We are big fans or genuine random data at the QRL, and it looks like you are as well! The League of Entropy is tackling one of the more difficult problems with cryptography, *randomness*. The QRL submits entropy from our blockchain to the DRAND network, helping make the random data more random. We thought this was cool and we wanted to share. To learn more have a look at the links below to see how this technology hopes to make the world a little more random.')
-        .setThumbnail('https://github.com/drand/website/blob/master/docs/.vuepress/public/images/logo-loe.png')
+        .setDescription('We are big fans or genuine random data at the QRL, and it looks like you are as well!')
+        .setThumbnail('https://github.com/drand/website/raw/master/docs/.vuepress/public/images/logo-drand-text-right-dark.png')
         .addFields(
-          { name: 'Main Site:', value: 'https://drand.love', inline: false },
-          { name: 'Introduction Blog:', value: 'https://blog.cloudflare.com/league-of-entropy/', inline: false },
-          { name: 'QRL LoE Blog:', value: 'https://www.theqrl.org/blog/the-qrl-foundation-joins-forces-with-the-league-of-entropy/', inline: false },
-          { name: 'QRL Announcement:', value: 'https://drand.love/blog/2021/01/11/qrl-joins-league-of-entropy/', inline: true },
-          { name: 'DRAND Github:', value: 'https://github.com/drand/drand', inline: true },
-          { name: 'Developer Documentation:', value: 'https://drand.love/developer/', inline: true },
+          { name: 'About LoE', value: 'The League of Entropy is tackling one of the more difficult problems with cryptography, *randomness*. The QRL submits entropy from our blockchain to the DRAND network, helping make the random data more random. We thought this was cool and we wanted to share. To learn more have a look at the links below to see how this technology hopes to make the world a little more random.', inline: false },
+          { name: 'Main Site:', value: '[drand.love](https://drand.love)', inline: false },
+          { name: 'Introduction Blog:', value: '[League of Entropy](https://blog.cloudflare.com/league-of-entropy/)', inline: false },
+          { name: 'DRAND Github:', value: '[github.com/drand/drand](https://github.com/drand/drand)', inline: false },
+          { name: 'Developer Documentation:', value: '[drand Developer Docs](https://drand.love/developer/)', inline: false },
+          { name: 'QRL LoE Blog:', value: '[QRL Joins LoE](https://www.theqrl.org/blog/the-qrl-foundation-joins-forces-with-the-league-of-entropy/)', inline: false },
+          { name: 'LoE QRL Announcement:', value: '[Announcement](https://drand.love/blog/2021/01/11/qrl-joins-league-of-entropy/)', inline: false },
         )
         .setFooter(footer);
       message.author.send({ embed });
