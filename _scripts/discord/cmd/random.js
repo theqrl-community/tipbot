@@ -68,10 +68,10 @@ module.exports = {
         .setColor('BLUE')
         .setTitle('League Of Entropy Information')
         .setURL('https://www.cloudflare.com/leagueofentropy/')
-        .setDescription('We are big fans or genuine random data at the QRL, and it looks like you are as well!')
+        .setDescription('We are big fans or genuine random data at the QRL, and it looks like you are as well!\nThe QRL submits entropy from our blockchain to the DRAND network, helping make the random data more random. We thought this was cool and we wanted to share.')
         .setThumbnail('https://github.com/drand/website/raw/master/docs/.vuepress/public/images/logo-drand-text-right-dark.png')
         .addFields(
-          { name: 'About LoE', value: 'The League of Entropy is tackling one of the more difficult problems with cryptography, *randomness*. The QRL submits entropy from our blockchain to the DRAND network, helping make the random data more random. We thought this was cool and we wanted to share. To learn more have a look at the links below to see how this technology hopes to make the world a little more random.', inline: false },
+          { name: 'About LoE', value: 'The League of Entropy is tackling one of the more difficult problems with cryptography, *randomness*. To learn more have a look at the links below to see how this technology hopes to make the world a little more random.', inline: false },
           { name: 'Main Site:', value: '[drand.love](https://drand.love)', inline: false },
           { name: 'Introduction Blog:', value: '[League of Entropy](https://blog.cloudflare.com/league-of-entropy/)', inline: false },
           { name: 'DRAND Github:', value: '[github.com/drand/drand](https://github.com/drand/drand)', inline: false },
