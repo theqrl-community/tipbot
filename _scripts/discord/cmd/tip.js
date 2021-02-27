@@ -277,7 +277,7 @@ module.exports = {
         if (botUserCount > 0) {
           if (botUserCount == 1 && message.mentions.users.first() == botId) {
             // Bot matches tipped, give warning
-            errorMessage({ error: 'Tipbot Can\'t be Tipped!', description: 'Tipbot is not accepting tips at this time. If you would like to donate to the tipbot please send a transaction to the faucet address\n`' + config.discord.prefix + 'send AMOUNT ' + config.faucet.faucet_wallet_pub + '`' });
+            errorMessage({ error: 'Tipbot Can\'t be Tipped!', description: 'Tipbot is not accepting tips at this time. If you would like to donate to the tipbot please send a transaction to the faucet address\n`' + config.discord.prefix + 'transfer AMOUNT ' + config.faucet.faucet_wallet_pub + '`' });
           }
           else {
             errorMessage({ error: 'Bot Tipped!', description: 'You have tipped a bot, and that\'s not allowed. Please check your tip and try again.' });
