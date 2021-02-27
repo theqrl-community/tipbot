@@ -380,6 +380,7 @@ module.exports = {
               .setColor('GREEN')
               .setTitle('**QRL Tipbot Info**')
               .setURL(botUrl)
+              .setThumbnail('https://qrl.tips/img/qrl-logo.png')
               .setDescription('The QRL Tipbot enables tipping QRL to other Discord users on-chain through the Discord chat interface. Read more about the system at the main [project website qrl.tips](https://qrl.tips).')
               .addFields(
                 { name: 'Create new account generating a new Tipbot QRL address', value: 'Send the: `' + config.discord.prefix + 'add` command', inline: false },
