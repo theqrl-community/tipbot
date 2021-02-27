@@ -382,11 +382,11 @@ module.exports = {
               .setURL(botUrl)
               .setDescription('The QRL Tipbot enables tipping QRL to other Discord users on-chain through the Discord chat interface. Read more about the system at the main [project website qrl.tips](https://qrl.tips).')
               .addFields(
-                { name: 'Create new account', value: 'Add user to tipbot, creating a wallet and account send the `' + config.discord.prefix + 'add` command', inline: false },
-                { name: 'Check Balance', value: 'Check your Tipbot balance with `' + config.discord.prefix + 'balance`', inline: false },
-                { name: 'Faucet Payment', value: 'Receive funds from the Tipbot faucet with `' + config.discord.prefix + 'faucet`, *available once a day per user*', inline: false },
-                { name: 'Withdraw ', value: 'Use `' + config.discord.prefix + 'transfer QRLADDRESS` to send your earned tips out of the tipbot', inline: false },
-                { name: 'Tip: ', value: 'Tip another user QRL from your tipbot address, `' + config.discord.prefix + 'tip AMOUNT USER1 USER2` *up to 99 users in one tip*', inline: false },
+                { name: 'Create new account generating a new Tipbot QRL address', value: '`' + config.discord.prefix + 'add`', inline: false },
+                { name: 'Check your Tipbot account Balance', value: '`' + config.discord.prefix + 'balance`', inline: false },
+                { name: 'Receive funds from the Tipbot faucet *available once a day per user*', value: '`' + config.discord.prefix + 'faucet`', inline: false },
+                { name: 'Withdraw your tips out of the Tipbot', value: '`' + config.discord.prefix + 'transfer QRLADDRESS`', inline: false },
+                { name: 'Tip another user QRL from your tipbot address *up to 99 users in one tip*', value: '`' + config.discord.prefix + 'tip AMOUNT USER1 USER2`', inline: false },
               )
               .setTimestamp()
               .setFooter('  .: Tipbot provided by The QRL Contributors :.');
@@ -394,9 +394,6 @@ module.exports = {
               .then(() => {
                 message.channel.stopTyping(true);
               });
-
-
-            ReplyMessage(':small_blue_diamond: Use `' + config.discord.prefix + 'transfer QRLADDRESS` to send your earned tips out of the tipbot. *([QRL Web Wallet](' + config.wallet.wallet_url + '))*\n:small_blue_diamond: All tips are on chain and can be seen in the QRL Block Explorer - ' + explorerURL + '.\n\n**More details in your DM** :qrl:');
           });
       }
 
