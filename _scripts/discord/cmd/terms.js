@@ -8,6 +8,7 @@ module.exports = {
   cooldown: 0,
   execute(message) {
     const Discord = require('discord.js');
+    const config = require('../../../_config/config.json');
 
     // ReplyMessage(' Check your DM\'s');
     function ReplyMessage(content) {
@@ -57,13 +58,13 @@ __**You assume all risk by using this service**__
 :diamond_shape_with_a_dot_inside: *This service is for tipping or giving small amounts of QRL to other users.*
 :diamond_shape_with_a_dot_inside: *You agree to not store or trade currency or for any other reason than tipping users.*
 :diamond_shape_with_a_dot_inside: *You will not store large amounts of QRL in this address at any time.*
-:diamond_shape_with_a_dot_inside: *You take full responsibility for transferring funds out of the Tipbot, using the \`+transfer\` function into a wallet you control.*
-:diamond_shape_with_a_dot_inside: *You will not use this bot if it will in any way break any law, in any jurisdiction. \`+opt-out\` to disable your account.*
+:diamond_shape_with_a_dot_inside: *You take full responsibility for transferring funds out of the Tipbot, using the \`${config.discord.prefix}transfer\` function into a wallet you control.*
+:diamond_shape_with_a_dot_inside: *You will not use this bot if it will in any way break any law, in any jurisdiction. \`${config.discord.prefix}opt-out\` to disable your account.*
 :diamond_shape_with_a_dot_inside: *You will not use this bot in any way that is not intended or identified in these rules.*
 :diamond_shape_with_a_dot_inside: *Any tips sent to a user that has not signed up will be saved by the bot for that user. Failure of the user to collect tips may result in a loss of funds for that user. They will not be returned to the sender.*
 :diamond_shape_with_a_dot_inside: *Any abuse of the service will result in a ban, and if warranted legal action may be taken accordingly. Funds will not be returned to banned users.*
 
-**You must \`+agree\` with these terms to use the bot!**
+**You must \`${config.discord.prefix}agree\` with these terms to use the bot!**
                     `).then(function() {
           ReplyMessage(' Check your DM\'s');
         }).catch((e) => {

@@ -12,6 +12,7 @@ module.exports = {
     const dbHelper = require('../../db/dbHelper');
     const username = `${message.author}`;
     const userID = username.slice(1, -1);
+    const config = require('../../../_config/config.json');
 
     // errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
     function errorMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
@@ -44,7 +45,7 @@ module.exports = {
           .then(() => {
             if (message.channel.type === 'dm') return;
             message.channel.stopTyping(true);
-            message.reply('Thanks for agreeing to the terms. :thumbsup:\nTry `+help` for a list of my commands.');
+            message.reply('Thanks for agreeing to the terms. :thumbsup:\nTry `' + config.discord.prefix + 'help` for a list of my commands.');
           })
           .catch(e => {
             errorMessage({ error: 'Direct Message Disabled', description: 'Somethings wrong...' + e.message });
@@ -86,7 +87,7 @@ module.exports = {
       if (userFound) {
         const userAgreeStatus = infoReturned[0].user_agree;
         if (userAgreeStatus) {
-          errorMessage({ error: 'You\'ve already agreed...', description: 'No need to agree again. Enter `+help` for bot instructions' });
+          errorMessage({ error: 'You\'ve already agreed...', description: 'No need to agree again. Enter `' + config.discord.prefix + 'help` for bot instructions' });
         }
         else {
           // check for dm and fail if not in DM
@@ -101,7 +102,7 @@ module.exports = {
         }
       }
       else {
-        errorMessage({ error: 'No Account Found!', description: 'You must signup to use the tipbot. enter `+help` for bot instructions' });
+        errorMessage({ error: 'No Account Found!', description: 'You must signup to use the tipbot. enter `' + config.discord.prefix + 'help` for bot instructions' });
       }
     });
   },

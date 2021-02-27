@@ -99,7 +99,7 @@ module.exports = {
       }
 
       // else {
-      //   errorMessage({ error: 'User Not Found', description: 'You need to sign up `+add`' });
+      //   errorMessage({ error: 'User Not Found', description: 'You need to sign up `' + config.discord.prefix + 'add`' });
       //   return;
       // }
 
@@ -109,7 +109,7 @@ module.exports = {
       }
 
       // else {
-      //   errorMessage({ error: 'User Has Not Agreed', description: 'You need to agree to my terms `+agree` or `+terms`' });
+      //   errorMessage({ error: 'User Has Not Agreed', description: 'You need to agree to my terms `' + config.discord.prefix + 'agree` or `' + config.discord.prefix + 'terms`' });
       //   return;
       // }
 
@@ -119,23 +119,23 @@ module.exports = {
       }
 
       // else {
-      //   errorMessage({ error: 'User Still Opted In...', description: 'You have not opted out, `+help` for a list of my functions.' });
+      //   errorMessage({ error: 'User Still Opted In...', description: 'You have not opted out, `' + config.discord.prefix + 'help` for a list of my functions.' });
       //   return;
       // }
 
 
       if (found === false) {
-        errorMessage({ error: 'User Not Found', description: 'You need to sign up `+add`' });
+        errorMessage({ error: 'User Not Found', description: 'You need to sign up `' + config.discord.prefix + 'add`' });
         success = false;
         return;
       }
       else if (opt_out === false) {
-        errorMessage({ error: 'User Still Opted In...', description: 'You have not opted out, `+help` for a list of my functions.' });
+        errorMessage({ error: 'User Still Opted In...', description: 'You have not opted out, `' + config.discord.prefix + 'help` for a list of my functions.' });
         success = false;
         return;
       }
       else if (user_agree === false) {
-        errorMessage({ error: 'User Still Opted In...', description: 'You have not opted out, `+help` for a list of my functions.' });
+        errorMessage({ error: 'User Still Opted In...', description: 'You have not opted out, `' + config.discord.prefix + 'help` for a list of my functions.' });
         success = false;
         return;
       }
@@ -151,7 +151,7 @@ module.exports = {
           // send the user their saved tips
           // eslint-disable-next-line
           const sendTips = await sendFutureTips({ amount: future_tip_amount, fee: fee, address_to: address_array, address_from: config.wallet.hold_address });
-          ReplyMessage('Someone sent a tip while you were opted out! `' + futureTipPretty + ' qrl` on the way, look for them once the transaction is confirmed by the network. `+bal` to check your wallet balance.');
+          ReplyMessage('Someone sent a tip while you were opted out! `' + futureTipPretty + ' qrl` on the way, look for them once the transaction is confirmed by the network. `' + config.discord.prefix + 'bal` to check your wallet balance.');
           // clear the saved tips in future_tips db, set to paid for user.
           // eslint-disable-next-line
           const wipeSaved = await clearFuture(user_id);
