@@ -387,6 +387,7 @@ module.exports = {
                 { name: 'Receive funds from the Tipbot faucet `available once a day per user`', value: 'Send the: `' + config.discord.prefix + 'faucet` command', inline: false },
                 { name: 'Withdraw your tips out of the Tipbot', value: '`' + config.discord.prefix + 'transfer QRLADDRESS`', inline: false },
                 { name: 'Tip another user QRL from your tipbot address `up to 99 users in one tip`', value: 'Send the: `' + config.discord.prefix + 'tip AMOUNT USER1 USER2` command', inline: false },
+                { name: 'More details in your DM, for full list of commands', value: 'Send the: `' + config.discord.prefix + 'help` command', inline: false },
               )
               .setTimestamp()
               .setFooter('  .: Tipbot provided by The QRL Contributors :.');
