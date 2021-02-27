@@ -276,10 +276,11 @@ module.exports = {
         const botId = config.bot_details.bot_id;
         if (botUserCount > 0) {
           if (botUserCount == 1 && message.mentions.users.first() == botId) {
-            // do  nothing
+            // Bot matches tipped, give warning
+            errorMessage({ error: 'Tippbot Can\'t be Tipped!', description: 'Tipbot is not accepting tips at this time, If you would like to donate to the tipbot please send a transaction to the faucet address `' + config.discord.prefix + 'send {AMOUNT}' + config.faucet.faucet_wallet_pub + '`' });
           }
           else {
-            errorMessage({ error: 'Bot Tipped!', description: 'You have tipped a bot, and that\'s not allowed. Please check your tip and try again.\nIf you would like to donate to the tipbot please send a withdraw to the faucet address `' + config.discord.prefix + 'info faucet` for more.' });
+            errorMessage({ error: 'Bot Tipped!', description: 'You have tipped a bot, and that\'s not allowed. Please check your tip and try again.' });
           }
           for(let i = 0, l = filteredBotList.length; i < l; i++) {
             bots.push(' ' + filteredBotList[i].userid);
