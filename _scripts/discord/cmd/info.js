@@ -349,7 +349,7 @@ module.exports = {
       // Bot Request                  //
       // ///////////////////////////////
 
-      else if (args[0] == 'help' || args[0] == 'info' || args[0] == 'use' || args[0] == 'what') {
+      else if (args[0] == 'help' || args[0] == 'info' || args[0] == 'use' || args[0] == 'what' || args[0] == 'useage') {
         // serve the bot info here
         const embed = new Discord.MessageEmbed()
           .setColor('GREEN')
@@ -361,11 +361,12 @@ module.exports = {
             { name: 'agree: ', value: 'Agree to the terms and conditions, `' + config.discord.prefix + 'help agree`', inline: false },
             { name: 'balance: ', value: 'Print user QRL balance or QRL address balance to DM, `' + config.discord.prefix + 'help balance`', inline: false },
             { name: 'deposit: ', value: 'Deposit information to send funds to your tipbot address, `' + config.discord.prefix + 'help deposit`', inline: false },
-            { name: 'drip: ', value: 'Receive a payout from the tipbot faucet, `' + config.discord.prefix + 'help drip`', inline: false },
+            { name: 'faucet: ', value: 'Receive a payout from the tipbot faucet, `' + config.discord.prefix + 'help drip`', inline: false },
             { name: 'help: ', value: 'Print help information for the tipbot commands, `' + config.discord.prefix + 'help`', inline: false },
             { name: 'info: ', value: 'This command, giving information on various topics, `' + config.discord.prefix + 'help info`', inline: false },
             { name: 'optin: ', value: 'Opt into the tipbot {default signup condition} after user has opt\'ed out, `' + config.discord.prefix + 'help optin`', inline: false },
             { name: 'optout: ', value: 'Opt out of the tipbot and all tipping functions including the faucet. `' + config.discord.prefix + 'help optout`', inline: false },
+            { name: 'random: ', value: 'Get random data from the drand network and the League of Entropy, `' + config.discord.prefix + 'help random`', inline: false },
             { name: 'terms: ', value: 'Print the terms and conditions for using the bot, `' + config.discord.prefix + 'help terms`', inline: false },
             { name: 'tip: ', value: 'Tip another user QRL from your tipbot address, `' + config.discord.prefix + 'help tip`', inline: false },
             { name: 'withdraw: ', value: 'Send your tipbot funds to another address, `' + config.discord.prefix + 'help withdraw`', inline: false },
@@ -374,7 +375,7 @@ module.exports = {
           .setFooter('  .: Tipbot provided by The QRL Contributors :.');
         message.author.send({ embed })
           .then(() => {
-            ReplyMessage('The tipbot enables sending QRL tips to other discord users. The bot will create an individual address for each bot user with the `' + config.discord.prefix + 'add` command. \n\n:small_blue_diamond: All tips are on chain and can be seen in the QRL Block Explorer - ' + explorerURL + '. \n:small_blue_diamond: `' + config.discord.prefix + 'transfer` your earned tips out of the tipbot.\n:small_blue_diamond: Use the QRL Web Wallet ' + config.wallet.wallet_url + ' if you need a new address\n\n**More details in your DM**');
+            ReplyMessage('the QRL tipbot enables tipping QRL to other discord users onchain. The bot creates an individual address for each bot user with the \n\n:small_blue_diamond: Create a new tipbot account by sending the `' + config.discord.prefix + 'add` command.\n:small_blue_diamond: Tipbot balances can be access with - `' + config.discord.prefix + 'balance`.\n:small_blue_diamond: A faucet is provided through the bot, send the  - `' + config.discord.prefix + 'faucet` command to recieve some quanta.\n:small_blue_diamond: Use `' + config.discord.prefix + 'transfer QRLADDRESS` to send your earned tips out of the tipbot. *([QRL Web Wallet](' + config.wallet.wallet_url + '))*\n:small_blue_diamond: All tips are on chain and can be seen in the QRL Block Explorer - ' + explorerURL + '.\n\n**More details in your DM** :qrl:');
             message.channel.stopTyping(true);
           });
       }
