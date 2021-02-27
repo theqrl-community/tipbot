@@ -382,11 +382,11 @@ module.exports = {
               .setURL(botUrl)
               .setDescription('The QRL Tipbot enables tipping QRL to other Discord users on-chain through the Discord chat interface. Read more about the system at the main [project website qrl.tips](https://qrl.tips).')
               .addFields(
-                { name: 'Create new account generating a new Tipbot QRL address', value: '`' + config.discord.prefix + 'add`', inline: false },
-                { name: 'Check your Tipbot account Balance', value: '`' + config.discord.prefix + 'balance`', inline: false },
-                { name: 'Receive funds from the Tipbot faucet *available once a day per user*', value: '`' + config.discord.prefix + 'faucet`', inline: false },
+                { name: 'Create new account generating a new Tipbot QRL address', value: 'Send the: `' + config.discord.prefix + 'add` command', inline: false },
+                { name: 'Check your Tipbot account Balance', value: 'Send the: `' + config.discord.prefix + 'balance` command', inline: false },
+                { name: 'Receive funds from the Tipbot faucet `available once a day per user`', value: 'Send the: `' + config.discord.prefix + 'faucet` command', inline: false },
                 { name: 'Withdraw your tips out of the Tipbot', value: '`' + config.discord.prefix + 'transfer QRLADDRESS`', inline: false },
-                { name: 'Tip another user QRL from your tipbot address *up to 99 users in one tip*', value: '`' + config.discord.prefix + 'tip AMOUNT USER1 USER2`', inline: false },
+                { name: 'Tip another user QRL from your tipbot address `up to 99 users in one tip`', value: 'Send the: `' + config.discord.prefix + 'tip AMOUNT USER1 USER2` command', inline: false },
               )
               .setTimestamp()
               .setFooter('  .: Tipbot provided by The QRL Contributors :.');
