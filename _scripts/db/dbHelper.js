@@ -301,7 +301,7 @@ async function GetUserWalletBal(args) {
       // args passed, check for the service used
       const input = JSON.parse(JSON.stringify(args));
       const id = input.user_id;
-      const searchDB = 'SELECT wallets.wallet_bal AS wallet_bal, wallets.wallet_pub AS wallet_pub FROM users INNER JOIN wallets ON users.id = wallets.user_id WHERE wallets.user_id = "1" AND wallets.retired = "0"';
+      const searchDB = 'SELECT wallets.wallet_bal AS wallet_bal, wallets.wallet_pub AS wallet_pub FROM users INNER JOIN wallets ON users.id = wallets.user_id WHERE wallets.user_id = "' + id + '" AND wallets.retired = "0"';
       callmysql.query(searchDB, function(err, result) {
         if (err) {
           console.log('[mysql error]', err);
@@ -322,6 +322,8 @@ async function GetUserWalletBal(args) {
             });
           }
           // check for pending tx here and update the balance if found
+
+
           // const return_bal = balance;
           const return_bal = NetBal.balance;
           const searchResult = { wallet_bal: return_bal };
@@ -330,8 +332,6 @@ async function GetUserWalletBal(args) {
           return Results;
         });
       });
-      // check for pending balances and clear if found
-      CheckPendingTx(id);
     }
     else {
       console.log('error GetUserWalletBal');
@@ -372,6 +372,8 @@ async function lastTxCheck(args) {
   return sum;
 }
 // expects { user_id: user_id }
+// expects { user_id: @734267018701701242 }
+
 async function CheckPendingTx(args) {
   return new Promise(resolve => {
     // get user pending data from database
@@ -379,7 +381,6 @@ async function CheckPendingTx(args) {
     const id = input.user_id;
     // const resultArray = [];
     const searchDB = 'SELECT tips.from_user_id AS discord_user, tips.tip_amount AS tip_amount, tips.id AS tip_id, tips.time_stamp AS tip_timestamp, transactions.pending AS pending, transactions.tx_hash AS tx_hash FROM tips, transactions WHERE transactions.pending = "1" AND tips.from_user_id =  "' + id + '" AND transactions.tip_id = tips.id';
-
     callmysql.query(searchDB, function(err, result) {
       if (err) {
         console.log('[mysql error]', err);
@@ -868,31 +869,31 @@ async function addWallet(args) {
 }
 
 module.exports = {
-  addBan : addBan,
-  addFutureTip : addFutureTip,
-  addTip : addTip,
-  addTipTo : addTipTo,
-  addTransaction : addTransaction,
-  AddUser : AddUser,
-  addWallet : addWallet,
-  AddWalletQR: AddWalletQR,
-  agree : agree,
-  CheckAgree: CheckAgree,
-  checkFutureTips : checkFutureTips,
-  CheckPendingTx : CheckPendingTx,
+  GetAllUserInfo : GetAllUserInfo,
   CheckUser : CheckUser,
   CheckUserOptOut : CheckUserOptOut,
   CheckUserSignup : CheckUserSignup,
-  clearFutureTips : clearFutureTips,
-  GetAllUserInfo : GetAllUserInfo,
   GetUserID : GetUserID,
   GetUserWalletPub : GetUserWalletPub,
   GetUserWalletBal : GetUserWalletBal,
   GetUserWalletQR : GetUserWalletQR,
-  newUserClearFutureTips: newUserClearFutureTips,
-  removeBan : removeBan,
+  AddUser : AddUser,
+  AddWalletQR: AddWalletQR,
   OptOut : OptOut,
   OptIn : OptIn,
+  addFutureTip : addFutureTip,
+  addTip : addTip,
+  clearFutureTips : clearFutureTips,
+  checkFutureTips : checkFutureTips,
+  addTransaction : addTransaction,
+  CheckPendingTx : CheckPendingTx,
+  addTipTo : addTipTo,
+  agree : agree,
+  CheckAgree: CheckAgree,
   updateWalletBal : updateWalletBal,
   withdraw : withdraw,
+  addBan : addBan,
+  removeBan : removeBan,
+  addWallet : addWallet,
+  newUserClearFutureTips: newUserClearFutureTips,
 };
