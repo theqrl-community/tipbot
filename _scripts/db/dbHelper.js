@@ -301,15 +301,7 @@ async function GetUserWalletBal(args) {
       // args passed, check for the service used
       const input = JSON.parse(JSON.stringify(args));
       const id = input.user_id;
-      const searchDB = '\
-      SELECT wallets.wallet_bal \
-        AS wallet_bal, wallets.wallet_pub \
-        AS wallet_pub \
-      FROM users \
-      INNER JOIN wallets \
-        ON users.id = wallets.user_id \
-      WHERE wallets.user_id = "1" \
-        AND wallets.retired = "0"';
+      const searchDB = 'SELECT wallets.wallet_bal AS wallet_bal, wallets.wallet_pub AS wallet_pub FROM users INNER JOIN wallets ON users.id = wallets.user_id WHERE wallets.user_id = "1" AND wallets.retired = "0"';
       callmysql.query(searchDB, function(err, result) {
         if (err) {
           console.log('[mysql error]', err);
@@ -338,7 +330,6 @@ async function GetUserWalletBal(args) {
           return Results;
         });
       });
-
       // check for pending balances and clear if found
       CheckPendingTx(id);
     }
@@ -387,17 +378,7 @@ async function CheckPendingTx(args) {
     const input = JSON.parse(JSON.stringify(args));
     const id = input.user_id;
     // const resultArray = [];
-    const searchDB = '\
-    SELECT tips.from_user_id AS discord_user, \
-      tips.tip_amount AS tip_amount, \
-      tips.id AS tip_id, \
-      tips.time_stamp AS tip_timestamp, \
-      transactions.pending AS pending, \
-      transactions.tx_hash AS tx_hash \
-    FROM tips, transactions \
-    WHERE transactions.pending = "1" \
-      AND tips.from_user_id =  "' + id + '" \
-      AND transactions.tip_id = tips.id';
+    const searchDB = 'SELECT tips.from_user_id AS discord_user, tips.tip_amount AS tip_amount, tips.id AS tip_id, tips.time_stamp AS tip_timestamp, transactions.pending AS pending, transactions.tx_hash AS tx_hash FROM tips, transactions WHERE transactions.pending = "1" AND tips.from_user_id =  "' + id + '" AND transactions.tip_id = tips.id';
 
     callmysql.query(searchDB, function(err, result) {
       if (err) {
