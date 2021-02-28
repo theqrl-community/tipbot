@@ -8,6 +8,7 @@ module.exports = {
   execute(message, args) {
     const Discord = require('discord.js');
     const dbHelper = require('../../db/dbHelper');
+    const dbInfo = require('../../db/dbHelper');
     const config = require('../../../_config/config.json');
     const wallet = require('../../qrl/walletTools');
     const explorer = require('../../qrl/explorerTools');
