@@ -342,7 +342,13 @@ module.exports = {
                 // user found and opted out. Add to the future_tips table and set the wallet address to the hold address...
                 futureTippedUserInfo.push(filteredTipList[i]);
                 const futureTippedUserId = JSON.stringify(tipToUserInfo[0].user_id);
-                const futureTippedUserUsername = filteredTipList[i].userName;
+
+                let futureTippedUserUsername = filteredTipList[i].userName;
+                const validUserName = CheckValidChars(futureTippedUserUsername);
+                if (validUserName) {
+                  futureTippedUserUsername = 'haxorDiscordUser';
+                }
+                
                 const futureTippedUserServiceID = filteredTipList[i].userid;
                 futureTippedUserIDs.push(futureTippedUserId);
                 futureTippedUserUsernames.push(futureTippedUserUsername);
@@ -356,7 +362,13 @@ module.exports = {
               // user found and not opted out, add to array and move on
                 const tipToUserUserId = tipToUserInfo[0].user_id;
                 const tippedUserServiceID = filteredTipList[i].userid;
-                const tippedUserUsername = filteredTipList[i].userName;
+
+
+                let tippedUserUsername = filteredTipList[i].userName;
+                const validUserName = CheckValidChars(tippedUserUsername);
+                if (validUserName) {
+                  tippedUserUsername = 'haxorDiscordUser';
+                }
                 const tipToUserUserWalletPub = tipToUserInfo[0].wallet_pub;
                 // push user data to arrays for tipping
                 tippedUserIDs.push(tipToUserUserId);
