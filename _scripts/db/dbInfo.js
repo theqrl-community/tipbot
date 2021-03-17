@@ -80,17 +80,21 @@ async function GetUserWalletBal(args) {
 }
 
 async function tipBotInfo(args) {
-  // GetUserBal
-  // expcts { user_id: user_id }
-  // returns { wallet_bal: 100.000 }
   return new Promise(resolve => {
-  	// get info from database here and return in an array
-    const searchDB = 'SELECT wallets.wallet_bal AS wallet_bal, wallets.wallet_pub AS wallet_pub FROM users INNER JOIN wallets ON users.id = wallets.user_id WHERE wallets.user_id = "' + id + '"';
-    
+    // get info from database here and return in an array
+
+
+
+
+    const searchDB = 'SELECT wallets.wallet_bal AS wallet_bal, \
+    wallets.wallet_pub AS wallet_pub \
+    FROM users \
+    INNER JOIN wallets \
+    ON users.id = wallets.user_id \
+    WHERE wallets.user_id = "' + args.id + '"';
+    return searchDB;
   });
 }
-
-
 
 
 async function getUserTips(args) {
@@ -100,8 +104,11 @@ async function getUserTips(args) {
   const id = args.user_id;
   const searchDB = 'SELECT tips.*, transactions.*, tips_to.*  FROM users, tips, transactions, tips_to WHERE tips.from_user_id = "' + id + '" AND transactions.tip_id = tips.id AND tips_to.tip_id = tips.id';
   'SELECT tips.*, transactions.*, discord_users.*, users_info.* FROM tips, transactions, discord_users, users_info WHERE tips.from_user_id = "1" AND transactions.tip_id = tips.id and discord_users.discord_id = "@328611434177101835" AND users_info.user_id = "1";'
+  
   const tips_recievedSearch = 'SELECT tips_to.*, transactions.* FROM tips_to, transactions WHERE tips_to.user_id = "@734267018701701242" AND transactions.tip_id = tips_to.tip_id';
   const users_tip_sum = ' SELECT SUM(tip_amount) FROM tips, transactions WHERE tips.from_user_id = "' + args.user_id + '" AND transactions.tip_id = tips.id';
+
+
   return new Promise(resolve => {
     callmysql.query(searchDB, function(err, result) {
       if (err) {
