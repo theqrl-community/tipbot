@@ -36,7 +36,8 @@ module.exports = {
     function CheckValidChars(userName) {
       // ^\u\]/.test()
       let test = false;
-      if(/[^a-zA-Z0-9]$/.test(userName)) {
+      // eslint-disable-next-line
+      if(/[\u0000-\u00FF][^a-zA-Z0-9]/.test(userName)) {
         test = true;
       }
       return test;
