@@ -244,6 +244,8 @@ module.exports = {
           else {
             tippedUserName = 'haxorDiscordUser';
           }
+          console.log('username: ' + tippedUserName);
+          
           const output = '@' + JSON.parse(JSON.stringify(tippedUserName));
           const service_user_ID = user.id;
           const userid = '@' + user.id;
