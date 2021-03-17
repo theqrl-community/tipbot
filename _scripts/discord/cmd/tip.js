@@ -110,7 +110,12 @@ module.exports = {
     // send the users data to future_tips for when they sign up
     async function futureTipsDBWrite(futureTipInfo) {
       return new Promise(resolve => {
-        const infoToSubmit = { service: 'discord', user_id: futureTipInfo.user_id, service_id: futureTipInfo.service_id, user_name: futureTipInfo.user_name, tip_id: futureTipInfo.tip_id, tip_from: futureTipInfo.tip_from, tip_amount: toQuanta(futureTipInfo.tip_amount), time_stamp: new Date() };
+        let username = futureTipInfo.user_name;
+        const checkUsername = CheckValidChars(username);
+        if (checkUsername) {
+          username = 'discordUserUTF8';
+        }
+        const infoToSubmit = { service: 'discord', user_id: futureTipInfo.user_id, service_id: futureTipInfo.service_id, user_name: username, tip_id: futureTipInfo.tip_id, tip_from: futureTipInfo.tip_from, tip_amount: toQuanta(futureTipInfo.tip_amount), time_stamp: new Date() };
         const addToFutureTipsDBinfoWrite = dbHelper.addFutureTip(infoToSubmit);
         resolve(addToFutureTipsDBinfoWrite);
       });
