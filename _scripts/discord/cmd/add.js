@@ -36,6 +36,7 @@ module.exports = {
       let test = false;
       // eslint-disable-next-line
       if(/[\u0000-\u00FF][^a-zA-Z0-9]/.test(userName)) {
+        console.log('Its True! non-latin detected?');
         test = true;
       }
       return test;
