@@ -88,7 +88,7 @@ callmysql.connect(function(err) {
   const createDiscordUsers = `create table if not exists discord_users(
                                id int primary key auto_increment,
                                user_name varchar(255) not null,
-                               discord_id varchar(255) not null,
+                               discord_id varchar(255) null,
                                time_stamp DATETIME not null
                              )`;
   callmysql.query(createDiscordUsers, function(err, results) {
@@ -373,7 +373,7 @@ callmysql.connect(function(err) {
                               service ENUM('discord', 'keybase', 'github', 'reddit', 'trello', 'twitter', 'slack', 'telegram', 'whatsapp'),
                               service_id varchar(255),
                               user_id int,
-                              user_name varchar(255) not null,
+                              user_name varchar(255) null,
                               tip_id int,
                               tip_from varchar(255) not null,
                               tip_amount DECIMAL(24,9) not null,
