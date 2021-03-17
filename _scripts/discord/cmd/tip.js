@@ -345,9 +345,11 @@ module.exports = {
 
                 let futureTippedUserUsername = filteredTipList[i].userName;
                 const validUserName = CheckValidChars(futureTippedUserUsername);
+console.log(`validUserName: ${validUserName}`);
                 if (validUserName) {
                   futureTippedUserUsername = 'haxorDiscordUser';
                 }
+console.log(`futureTippedUserUsername: ${futureTippedUserUsername}`);
                 
                 const futureTippedUserServiceID = filteredTipList[i].userid;
                 futureTippedUserIDs.push(futureTippedUserId);
@@ -366,9 +368,11 @@ module.exports = {
 
                 let tippedUserUsername = filteredTipList[i].userName;
                 const validUserName = CheckValidChars(tippedUserUsername);
+console.log(`validUserName: ${validUserName}`);
                 if (validUserName) {
                   tippedUserUsername = 'haxorDiscordUser';
                 }
+console.log(`tippedUserUsername: ${tippedUserUsername}`);
                 const tipToUserUserWalletPub = tipToUserInfo[0].wallet_pub;
                 // push user data to arrays for tipping
                 tippedUserIDs.push(tipToUserUserId);
@@ -421,7 +425,8 @@ module.exports = {
           // For each user found, adds their info to the future_tips_to database. One entry each user to be paid out in the future
           // /////////////////////////////////////////////// //
           for(let i = 0, l = futureTippedUserInfo.length; i < l; i++) {
-            const addFutureTipToInfo = { user_id: futureTippedUserIDs[i], service_id: futureTippedUserServiceIDs[i], user_name: futureTippedUserInfo[i].userName, tip_id: tip_id, tip_from: tippingUserUser_Id, tip_amount: givenTip };
+            // const addFutureTipToInfo = { user_id: futureTippedUserIDs[i], service_id: futureTippedUserServiceIDs[i], user_name: futureTippedUserInfo[i].userName, tip_id: tip_id, tip_from: tippingUserUser_Id, tip_amount: givenTip };
+            const addFutureTipToInfo = { user_id: futureTippedUserIDs[i], service_id: futureTippedUserServiceIDs[i], user_name: 'discordUser', tip_id: tip_id, tip_from: tippingUserUser_Id, tip_amount: givenTip };
             const addFutureTipToCall = await futureTipsDBWrite(addFutureTipToInfo);
             const future_tip_id = addFutureTipToCall[0].tip_id;
             const addTipToInfo = { tip_id: tip_id, tip_amt: givenTip, user_id: futureTippedUserIDs[i], from_user_id: tippingUserUser_Id,  future_tip_id: future_tip_id };
