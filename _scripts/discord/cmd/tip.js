@@ -38,7 +38,6 @@ module.exports = {
       let test = false;
       // eslint-disable-next-line
       if(/[\u0000-\u00FF][^a-zA-Z0-9]/.test(userName)) {
-        console.log('Its True! non-latin detected?');
         test = true;
       }
       return test;
@@ -243,9 +242,7 @@ module.exports = {
           }
           else {
             tippedUserName = 'haxorDiscordUser';
-          }
-          console.log('username: ' + tippedUserName);
-          
+          }        
           const output = '@' + JSON.parse(JSON.stringify(tippedUserName));
           const service_user_ID = user.id;
           const userid = '@' + user.id;
