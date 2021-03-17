@@ -29,8 +29,19 @@ module.exports = {
     let tippingUserUser_agree = false;
     let tippingUserOpt_Out = true;
     let tippingUserBanned = true;
+    let tippedUserName;
     // let tippingUserBannedDate = '';
     // message.channel.startTyping();
+
+    function CheckValidChars(userName) {
+      // ^\u\]/.test()
+      let test = false;
+      if(/[^a-zA-Z0-9]$/.test(userName)) {
+        test = true;
+      }
+      return test;
+    }
+
 
     // ReplyMessage(' Check your DM\'s');
     function ReplyMessage(content) {
@@ -223,7 +234,15 @@ module.exports = {
         // Get the tipList (send tip to) without bots in the array
         const tipList = message.mentions.users.map(user => {
           const userName = user.username;
-          const output = '@' + JSON.parse(JSON.stringify(userName));
+
+          const validUserName = CheckValidChars(userName);
+          if (validUserName) {
+            tippedUserName = userName;
+          }
+          else {
+            tippedUserName = 'haxorDiscordUser';
+          }
+          const output = '@' + JSON.parse(JSON.stringify(tippedUserName));
           const service_user_ID = user.id;
           const userid = '@' + user.id;
           const bot = user.bot;
@@ -254,7 +273,14 @@ module.exports = {
         // get the bots into array
         const botList = message.mentions.users.map(user => {
           const userName = user.username;
-          const output = '@' + JSON.parse(JSON.stringify(userName));
+          const validUserName = CheckValidChars(userName);
+          if (validUserName) {
+            tippedUserName = userName;
+          }
+          else {
+            tippedUserName = 'haxorDiscordBot';
+          }
+          const output = '@' + JSON.parse(JSON.stringify(tippedUserName));
           const userid = '<@!' + user.id + '>';
           const bot = user.bot;
           if (!bot) {
