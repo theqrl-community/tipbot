@@ -131,7 +131,7 @@ module.exports = {
                 .setTitle('**TipBot Account Exists**')
                 .setDescription('Here is your existing TipBot account information.')
                 .setFooter('  .: Tipbot provided by The QRL Contributors :.')
-                .addField('Your QRL Wallet Public Address::', '[' + reply.wallet_pub + '](' + config.bot_details.explorer_url + '/a/' + walletPub.wallet_pub + ')')
+                .addField('Your QRL Wallet Public Address::', '[' + reply.wallet_pub + '](' + config.bot_details.explorer_url + '/a/' + reply.wallet_pub + ')')
                 .addField('Your QRL Wallet Balance:\t', `\`${userBalance}\``)
                 .addField('For all of my commands:\t', '`' + config.discord.prefix + 'help`');
               message.author.send({ embed })
