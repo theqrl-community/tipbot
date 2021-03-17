@@ -38,6 +38,7 @@ module.exports = {
       if(/[\u0000-\u00FF][^a-zA-Z0-9]/.test(userName)) {
         test = true;
       }
+console.log(`test ${test}`)
       return test;
     }
 
