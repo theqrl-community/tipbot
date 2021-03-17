@@ -34,7 +34,8 @@ module.exports = {
     function CheckValidChars(userName) {
       // ^\u\]/.test()
       let test = false;
-      if(/[^a-zA-Z0-9]$/.test(userName)) {
+      // eslint-disable-next-line
+      if(/[\u0000-\u00FF][^a-zA-Z0-9]/.test(userName)) {
         test = true;
       }
       return test;
@@ -161,7 +162,7 @@ module.exports = {
 
               // test username for valid char and if not valid use default from above
               const usernameCheck = CheckValidChars(message.author.username);
-              if (usernameCheck) {
+              if (!usernameCheck) {
                 MessageAuthorUsername = message.author.username;
               }
               const userInfo = { service: 'discord', service_id: discord_id, user_name: MessageAuthorUsername, wallet_pub: wallet_pub, wallet_bal: 0, user_key: salt, user_auto_created: false, auto_create_date: new Date(), opt_out: false, optout_date: new Date(), drip_amt: dripamt, faucet_bal: faucBal.balance };

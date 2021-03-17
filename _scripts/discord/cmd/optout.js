@@ -15,7 +15,9 @@ module.exports = {
     const bcrypt = require('bcryptjs');
     const salt = bcrypt.genSaltSync(25);
     const MessageAuthorID = message.author.id;
-    const MessageAuthorUsername = message.author.username;
+    let MessageAuthorUsername = 'haxerFromDiscord';
+
+    // const MessageAuthorUsername = message.author.username;
     const uuid = `${message.author}`;
     const UUID = uuid.slice(1, -1);
     // get the user_found status
@@ -25,6 +27,17 @@ module.exports = {
     // const GetAllUserInfo = dbHelper.GetAllUserInfo;
     const info = JSON.parse(JSON.stringify({ service: 'discord', user_id: UUID }));
     const found = checkuser(info);
+
+
+    function CheckValidChars(userName) {
+      // ^\u\]/.test()
+      let test = false;
+      // eslint-disable-next-line
+      if(/[\u0000-\u00FF][^a-zA-Z0-9]/.test(userName)) {
+        test = true;
+      }
+      return test;
+    }
 
     // ReplyMessage(' Check your DM\'s');
     function ReplyMessage(content) {
@@ -61,6 +74,13 @@ module.exports = {
           return JSON.parse(address);
         }).then(function(address) {
           // define user info
+
+          const usernameCheck = CheckValidChars(message.author.username);
+          if (!usernameCheck) {
+            MessageAuthorUsername = message.author.username;
+          }
+
+
           const discord_id = '@' + MessageAuthorID;
           const wallet_pub = address.address;
           const userInfo = { service: 'discord',
