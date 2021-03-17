@@ -238,10 +238,10 @@ module.exports = {
 
           const validUserName = CheckValidChars(userName);
           if (validUserName) {
-            tippedUserName = userName;
+            tippedUserName = 'haxorDiscordUser';
           }
           else {
-            tippedUserName = 'haxorDiscordUser';
+            tippedUserName = userName;
           }        
           const output = '@' + JSON.parse(JSON.stringify(tippedUserName));
           const service_user_ID = user.id;
