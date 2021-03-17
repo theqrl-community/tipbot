@@ -20,7 +20,7 @@ module.exports = {
     const addTransaction = dbHelper.addTransaction;
     const MessageAuthorID = message.author.id;
     // add check for unicode
-    let MessageAuthorUsername = 'haxerFromDiscord';
+    let MessageAuthorUsername;
 
 
 
@@ -35,9 +35,10 @@ module.exports = {
       // ^\u\]/.test()
       let test = false;
       // eslint-disable-next-line
-      if(/[\u0000-\u00FF][^a-zA-Z0-9]/.test(userName)) {
+      if(/[^\u0000-\u00FF][^a-zA-Z0-9]/.test(userName)) {
         test = true;
       }
+console.log(`test ${test}`)
       return test;
     }
 
@@ -131,7 +132,7 @@ module.exports = {
                 .setTitle('**TipBot Account Exists**')
                 .setDescription('Here is your existing TipBot account information.')
                 .setFooter('  .: Tipbot provided by The QRL Contributors :.')
-                .addField('Your QRL Wallet Public Address::', '[' + reply.wallet_pub + '](' + config.bot_details.explorer_url + '/a/' + walletPub.wallet_pub + ')')
+                .addField('Your QRL Wallet Public Address::', '[' + reply.wallet_pub + '](' + config.bot_details.explorer_url + '/a/' + reply.wallet_pub + ')')
                 .addField('Your QRL Wallet Balance:\t', `\`${userBalance}\``)
                 .addField('For all of my commands:\t', '`' + config.discord.prefix + 'help`');
               message.author.send({ embed })
@@ -162,9 +163,13 @@ module.exports = {
 
               // test username for valid char and if not valid use default from above
               const usernameCheck = CheckValidChars(message.author.username);
-              if (!usernameCheck) {
+              if (usernameCheck) {
+                MessageAuthorUsername = 'haxerFromDiscord';
+              }
+              else {
                 MessageAuthorUsername = message.author.username;
               }
+
               const userInfo = { service: 'discord', service_id: discord_id, user_name: MessageAuthorUsername, wallet_pub: wallet_pub, wallet_bal: 0, user_key: salt, user_auto_created: false, auto_create_date: new Date(), opt_out: false, optout_date: new Date(), drip_amt: dripamt, faucet_bal: faucBal.balance };
               return userInfo;
             }).then(function(userInfo) {
