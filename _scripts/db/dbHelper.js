@@ -322,7 +322,7 @@ async function GetUserWalletBal(args) {
             });
           }
           // check for pending tx here and update the balance if found
-
+          CheckPendingTx(id);
 
           // const return_bal = balance;
           const return_bal = NetBal.balance;
