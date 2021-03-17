@@ -163,7 +163,7 @@ module.exports = {
 
               // test username for valid char and if not valid use default from above
               const usernameCheck = CheckValidChars(message.author.username);
-              if (usernameCheck) {
+              if (!usernameCheck) {
                 MessageAuthorUsername = message.author.username;
               }
               console.log(`username: ${MessageAuthorUsername}`);
