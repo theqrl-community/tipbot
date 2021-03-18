@@ -11,7 +11,7 @@ module.exports = {
   guildOnly: false,
   cooldown: 0,
   aliases: ['wd', 'transfer', 'cashout', 'Withdraw', 'WD', 'extract'],
-  usage: '\n__**withdraw** { ***wd***, ***transfer***, ***cashout***, ***send*** }__\nTransfer or withdraw QRL from your TIpBot account to another QRL address.\nRequires amount/all and a QRL address to send to.\n\nExample to transfer all funds from the tipbot wallet: `' + config.discord.prefix + 'transfer all QRLADDRESS`\nExample to transfer an amount of funds: `' + config.discord.prefix + 'transfer 2.01 QRLADDRESS` ',
+  usage: '\n__**withdraw** { ***wd***, ***transfer***, ***cashout***, ***send*** }__\nWithdraw QRL tips from your TIpBot account.\nRequires amount/all and a QRL address to send to.\n\nExample to withdraw all funds from the tipbot wallet: `' + config.discord.prefix + 'withdraw all QRLADDRESS`\nExample to transfer an amount of funds: `' + config.discord.prefix + 'withdraw 2.01 QRLADDRESS` ',
   execute(message, args) {
     // console.log('transfer called...' + JSON.stringify(args));
     const dbHelper = require('../../db/dbHelper');
