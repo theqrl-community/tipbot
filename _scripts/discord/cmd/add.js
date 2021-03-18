@@ -38,10 +38,8 @@ module.exports = {
       if(/[^\u0000-\u00FF][^a-zA-Z0-9]/.test(userName)) {
         test = true;
       }
-console.log(`test ${test}`)
       return test;
     }
-
 
 
     // use to send a reply to user with delay and stop typing
@@ -51,7 +49,7 @@ console.log(`test ${test}`)
       setTimeout(function() {
         message.reply(content);
         message.channel.stopTyping(true);
-      }, 1000);
+      }, 500);
     }
     // errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
     function errorMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
@@ -149,6 +147,7 @@ console.log(`test ${test}`)
         }
         else if (found === 'false') {
           // user is not found in database. Do things here to add them
+          ReplyMessage('Be right back, generating a new quantum secure address for you!');
           // Create user wallet
           const qrlWal = wallet.CreateQRLWallet;
           const WalletPromise = qrlWal();
