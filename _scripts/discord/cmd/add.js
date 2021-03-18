@@ -147,7 +147,7 @@ module.exports = {
         }
         else if (found === 'false') {
           // user is not found in database. Do things here to add them
-          ReplyMessage('Be right back, generating a new quantum secure address for you!');
+          ReplyMessage('Be right back, generating a new quantum secure address for you to send tips from...');
           // Create user wallet
           const qrlWal = wallet.CreateQRLWallet;
           const WalletPromise = qrlWal();
@@ -189,7 +189,7 @@ module.exports = {
                   send_future_tip(future_tip).then(function(futureTip) {
                     const futureTipOut = JSON.parse(futureTip);
                     const tx_hash = futureTipOut.tx.transaction_hash;
-                    ReplyMessage('Someone sent a tip before you signed up! `' + futureTipPretty + ' qrl` on the way, look for them once the transaction is confirmed by the network. `' + config.discord.prefix + 'bal` to check your wallet balance.');
+                    ReplyMessage('Someone sent a tip before you signed up!\n`' + futureTipPretty + ' qrl` on the way, look for them once the transaction is confirmed by the network. `' + config.discord.prefix + 'bal` to check your wallet balance.');
                     // write to transactions db
                     const tip_id = 1337;
                     const txInfo = { tip_id: tip_id, tx_hash: tx_hash, tx_type: 'tip' };
