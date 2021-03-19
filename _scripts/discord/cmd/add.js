@@ -100,6 +100,7 @@ module.exports = {
                 .then(() => {
                   if (message.channel.type === 'dm') return;
                   console.log(JSON.stringify(message));
+                  console.log(message.channel);
                   discordHelpers.errorMessage({ error: 'User Found In System...', description: 'You\'re signed up already. :thumbsup:\nTry `' + config.discord.prefix + 'help`' }, message);
                 })
                 .catch(e => {
