@@ -31,7 +31,6 @@ module.exports = {
     // use to send a reply to user with delay and stop typing
     // ReplyMessage(' Check your DM\'s');
     function ReplyMessage(content, message) {
-      console.log(JSON.stringify(message));
       message.channel.startTyping();
       setTimeout(function() {
         message.reply(content);
@@ -41,7 +40,6 @@ module.exports = {
 
     // errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
     function ErrorMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
-      console.log(`discord-hellpers: ${JSON.stringify(message)}`);
       message.channel.startTyping();
       setTimeout(function() {
         const embed = new Discord.MessageEmbed()
