@@ -5,7 +5,7 @@ module.exports = {
   aliases: ['join', 'signup', 'su', 'Add', 'ADD'],
   guildOnly: false,
   usage: '',
-  cooldown: 60,
+  cooldown: 2,
 
   execute(message, args) {
     const Discord = require('discord.js');
@@ -94,7 +94,7 @@ module.exports = {
         if (found === 'true') {
           // user is found, have they been banned?
           if (result.banned) {
-            ErrorMessage({ error: 'User is Banned...', description: 'The user has been banned from the tipbot and cannot use the service.\n User Banned on `' + result.banned_date + '`' });
+            ErrorMessage({ error: 'User is Banned...' + result.banned, description: 'The user has been banned from the tipbot and cannot use the service.\n User Banned on `' + result.banned_date + '`' });
             return;
           }
 
@@ -127,7 +127,7 @@ module.exports = {
                   ErrorMessage({ error: 'User Found In System...', description: 'You\'re signed up already. :thumbsup:\nTry `' + config.discord.prefix + 'help`' });
                 })
                 .catch(e => {
-                  ErrorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again.  ' + e.message });
+                  ErrorMessage({ error: e.message, description: 'It seems you have DM\'s blocked, please enable DM\'s for this server...\n'});
                 });
             });
           });
@@ -209,7 +209,7 @@ module.exports = {
                 message.author.send({ embed })
 
                   .catch(e => {
-                    ErrorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again. ' + e.message });
+                    ErrorMessage({ error: e.message, description: 'It seems you have DM\'s blocked, please enable DM\'s for this server...\n'});
                   }).then(() => {
                     message.author.send(`
 __**TipBot Terms and Conditions**__
@@ -228,7 +228,7 @@ __**You assume all risk by using this service**__
 
                     `)
                       .catch(e => {
-                        ErrorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again. ' + e.message });
+                        ErrorMessage({ error: e.message, description: 'It seems you have DM\'s blocked, please enable DM\'s for this server...\n'});
                       }).then(function() {
                         message.author.send(`
 :exclamation: __**RULES**__ :exclamation:
@@ -247,13 +247,13 @@ __**You assume all risk by using this service**__
                     `);
                       })
                       .catch(e => {
-                        ErrorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' + e.message });
+                        ErrorMessage({ error: e.message, description: 'It seems you have DM\'s blocked, please enable DM\'s for this server...\n'});
                       });
-                    ReplyMessage(':white_check_mark: You\'re signed up! A small drip from the faucet is on it\'s way to your new tipbot wallet as a small thanks for being a part of this community!\n Please `' + config.discord.prefix + 'agree` to my terms sent to you in DM to begin using the bot.\n*It may take a few minutes for your wallet to be created and funds deposited.*', message);
+                    ReplyMessage(':white_check_mark: You\'re signed up! A small drip from the faucet is on it\'s way to your new tipbot wallet. Thanks for being a part of this community!', message);
                   })
                   .catch(error => {
                     console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-                    ErrorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' + error.message });
+                    ErrorMessage({ error: error.message, description: 'It seems you have DM\'s blocked, please enable DM\'s for this server...\n'});
                   });
                 message.react('🇶')
                   .then(() => message.react('🇷'))
