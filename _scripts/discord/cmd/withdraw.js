@@ -270,6 +270,7 @@ module.exports = {
         return false;
       }
       else {
+        ReplyMessage('Sending your withdraw transaction now, Be right back..');
         // check passed, do stuff
         const transferAmount = check[0].amtArray;
         const transferInfo = { address_to: check[0].addressArray, amount: transferAmount, fee: fee, address_from: check[0].userArray[0][0].wallet_pub };
