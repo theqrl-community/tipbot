@@ -480,9 +480,11 @@ async function AddUser(args) {
               resultsArray.push({ user_added: 'true' });
               // if faucet balance is greater than 0 send drip
               if (faucet_bal > 0) {
-                // drip the new user from the faucet
-                const dripInfo = { service: service, user_id: userID, drip_amt: dripAmt };
-                faucetDrip(dripInfo);
+                if (!opt_out) {
+                // drip the new user from the faucet if not opted out
+                  const dripInfo = { service: service, user_id: userID, drip_amt: dripAmt, date: '1970-01-01 00:00:00' };
+                  faucetDrip(dripInfo);
+                }
               }
 
               const addTo_user_infoValues = [ [userID, 0, 'discord', new Date()]];
