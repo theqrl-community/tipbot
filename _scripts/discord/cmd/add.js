@@ -30,7 +30,7 @@ module.exports = {
 
     // use to send a reply to user with delay and stop typing
     // ReplyMessage(' Check your DM\'s');
-    function ReplyMessage(content, message) {
+    function ReplyMessage(content) {
       message.channel.startTyping();
       setTimeout(function() {
         message.reply(content);
