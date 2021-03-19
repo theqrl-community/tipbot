@@ -277,7 +277,7 @@ module.exports = {
         const transferFunds = await sendFunds(transferInfo);
         const transferFundsOut = JSON.parse(transferFunds);
         if (transferFundsOut.tx.transaction_hash != undefined) {
-          const wdDbInfo = { user_id: check[0].userArray[0][0].user_id, tx_hash: transferFundsOut.tx.transaction_hash, to_address: check[0].addressArray[0], amt: check[0].amtArray[0] };
+          const wdDbInfo = { user_id: check[0].userArray[0][0].user_id, tx_hash: transferFundsOut.tx.transaction_hash, to_address: check[0].addressArray[0], amt: (check[0].amtArray[0] / toShor) };
           const wdDbWrite = await withdrawDBWrite(wdDbInfo);
           const txDbInfo = { tip_id: wdDbWrite[0].transaction_db_id, tx_hash: transferFundsOut.tx.transaction_hash };
           // eslint-disable-next-line
