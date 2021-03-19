@@ -25,7 +25,7 @@ function ReplyMessage(content, message) {
 
 // errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
 function errorMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.', message) {
-  console.log(JSON.stringify(message));
+  console.log(`discord-hellpers: ${JSON.stringify(message)}`);
   message.channel.startTyping();
   setTimeout(function() {
     const embed = new Discord.MessageEmbed()
