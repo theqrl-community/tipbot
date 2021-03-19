@@ -21,7 +21,16 @@ async function Drip(args) {
     const user_id = args.user_id;
     const service = args.service;
     const drip_amt = args.drip_amt;
-    const faucet_usersValues = [ [ user_id, service, drip_amt, new Date(), new Date()]];
+    let date = '';
+    if (args.date) {
+      date = args.date;
+    }
+    else {
+      date = new Date();
+    }
+
+    const faucet_usersValues = [ [ user_id, service, drip_amt, new Date(), date]];
+
     const addTo_faucet_payments = 'INSERT INTO faucet_payouts(user_id, service, drip_amt, updated_at, time_stamp) VALUES ?';
     callmysqlTipBot.query(addTo_faucet_payments, [faucet_usersValues], function(err, result) {
       if (err) {
