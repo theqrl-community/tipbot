@@ -69,7 +69,7 @@ module.exports = {
         if (found === 'true') {
           // user is found, have they been banned?
           if (result.banned) {
-            discordHelpers.ErrorMessage({ error: 'User is Banned...', description: 'The user has been banned from the tipbot and cannot use the service.\n User Banned on `' + result.banned_date + '`' }, message);
+            discordHelpers.errorMessage({ error: 'User is Banned...', description: 'The user has been banned from the tipbot and cannot use the service.\n User Banned on `' + result.banned_date + '`' }, message);
             return;
           }
 
@@ -99,7 +99,7 @@ module.exports = {
               message.author.send({ embed })
                 .then(() => {
                   if (message.channel.type === 'dm') return;
-                  discordHelpers.ErrorMessage({ error: 'User Found In System...', description: 'You\'re signed up already. :thumbsup:\nTry `' + config.discord.prefix + 'help`' }, message);
+                  discordHelpers.errorMessage({ error: 'User Found In System...', description: 'You\'re signed up already. :thumbsup:\nTry `' + config.discord.prefix + 'help`' }, message);
                 })
                 .catch(e => {
                   discordHelpers.ErrrorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again.  ' + e.message }, message);
