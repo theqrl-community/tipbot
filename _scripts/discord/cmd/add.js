@@ -102,7 +102,7 @@ module.exports = {
                   discordHelpers.errorMessage({ error: 'User Found In System...', description: 'You\'re signed up already. :thumbsup:\nTry `' + config.discord.prefix + 'help`' }, message);
                 })
                 .catch(e => {
-                  discordHelpers.ErrrorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again.  ' + e.message }, message);
+                  discordHelpers.errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again.  ' + e.message }, message);
                 });
             });
           });
