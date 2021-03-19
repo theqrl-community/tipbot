@@ -5,7 +5,7 @@ module.exports = {
   aliases: ['join', 'signup', 'su', 'Add', 'ADD'],
   guildOnly: false,
   usage: '',
-  cooldown: 0,
+  cooldown: 60,
 
   execute(message, args) {
     const Discord = require('discord.js');
@@ -13,57 +13,20 @@ module.exports = {
     const dbHelper = require('../../db/dbHelper');
     const config = require('../../../_config/config.json');
     const wallet = require('../../qrl/walletTools');
+    const discordHelpers = require('../discord-helpers.js');
     const bcrypt = require('bcryptjs');
     const salt = bcrypt.genSaltSync(25);
     const checkUser = dbHelper.CheckUser;
     const addUser = dbHelper.AddUser;
     const addTransaction = dbHelper.addTransaction;
     const MessageAuthorID = message.author.id;
-    // add check for unicode
     let MessageAuthorUsername;
-
-
-
     const username = `${message.author}`;
     const userName = username.slice(1, -1);
     const user_info = { service: 'discord', user_id: userName };
     const checkUserpromise = checkUser(user_info);
     const getBalance = wallet.GetBalance;
 
-
-    function CheckValidChars(userName) {
-      // ^\u\]/.test()
-      let test = false;
-      // eslint-disable-next-line
-      if(/[^\u0000-\u00FF][^a-zA-Z0-9]/.test(userName)) {
-        test = true;
-      }
-      return test;
-    }
-
-
-    // use to send a reply to user with delay and stop typing
-    // ReplyMessage(' Check your DM\'s');
-    function ReplyMessage(content) {
-      message.channel.startTyping();
-      setTimeout(function() {
-        message.reply(content);
-        message.channel.stopTyping(true);
-      }, 500);
-    }
-    // errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
-    function errorMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
-      message.channel.startTyping();
-      setTimeout(function() {
-        const embed = new Discord.MessageEmbed()
-          .setColor(0x000000)
-          .setTitle(':warning:  ERROR: ' + content.error)
-          .setDescription(content.description)
-          .setFooter(footer);
-        message.reply({ embed });
-        message.channel.stopTyping(true);
-      }, 1000);
-    }
 
     function toQuanta(number) {
       const shor = 1000000000;
@@ -106,7 +69,7 @@ module.exports = {
         if (found === 'true') {
           // user is found, have they been banned?
           if (result.banned) {
-            errorMessage({ error: 'User is Banned...', description: 'The user has been banned from the tipbot and cannot use the service.\n User Banned on `' + result.banned_date + '`' });
+            discordHelpers.ErrorMessage({ error: 'User is Banned...', description: 'The user has been banned from the tipbot and cannot use the service.\n User Banned on `' + result.banned_date + '`' }, message);
             return;
           }
 
@@ -136,10 +99,10 @@ module.exports = {
               message.author.send({ embed })
                 .then(() => {
                   if (message.channel.type === 'dm') return;
-                  errorMessage({ error: 'User Found In System...', description: 'You\'re signed up already. :thumbsup:\nTry `' + config.discord.prefix + 'help`' });
+                  discordHelpers.ErrorMessage({ error: 'User Found In System...', description: 'You\'re signed up already. :thumbsup:\nTry `' + config.discord.prefix + 'help`' }, message);
                 })
                 .catch(e => {
-                  errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again.  ' + e.message });
+                  discordHelpers.ErrrorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again.  ' + e.message }, message);
                 });
             });
           });
@@ -147,7 +110,7 @@ module.exports = {
         }
         else if (found === 'false') {
           // user is not found in database. Do things here to add them
-          ReplyMessage('Be right back, generating a new quantum secure address for you to send tips from...');
+          discordHelpers.ReplyMessage('Be right back, generating a new quantum secure address for you to send tips from...', message);
           // Create user wallet
           const qrlWal = wallet.CreateQRLWallet;
           const WalletPromise = qrlWal();
@@ -161,7 +124,7 @@ module.exports = {
               }
 
               // test username for valid char and if not valid use default from above
-              const usernameCheck = CheckValidChars(message.author.username);
+              const usernameCheck = discordHelpers.CheckValidChars(message.author.username);
               if (usernameCheck) {
                 MessageAuthorUsername = 'haxerFromDiscord';
               }
@@ -189,7 +152,7 @@ module.exports = {
                   send_future_tip(future_tip).then(function(futureTip) {
                     const futureTipOut = JSON.parse(futureTip);
                     const tx_hash = futureTipOut.tx.transaction_hash;
-                    ReplyMessage('Someone sent a tip before you signed up!\n`' + futureTipPretty + ' qrl` on the way, look for them once the transaction is confirmed by the network. `' + config.discord.prefix + 'bal` to check your wallet balance.');
+                    discordHelpers.ReplyMessage('Someone sent a tip before you signed up!\n`' + futureTipPretty + ' qrl` on the way, look for them once the transaction is confirmed by the network. `' + config.discord.prefix + 'bal` to check your wallet balance.', message);
                     // write to transactions db
                     const tip_id = 1337;
                     const txInfo = { tip_id: tip_id, tx_hash: tx_hash, tx_type: 'tip' };
@@ -221,7 +184,7 @@ module.exports = {
                 message.author.send({ embed })
 
                   .catch(e => {
-                    errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again. ' + e.message });
+                    discordHelpers.ErrrorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again. ' + e.message }, message);
                   }).then(() => {
                     message.author.send(`
 __**TipBot Terms and Conditions**__
@@ -240,7 +203,7 @@ __**You assume all risk by using this service**__
 
                     `)
                       .catch(e => {
-                        errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again. ' + e.message });
+                        discordHelpers.ErrrorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again. ' + e.message }, message);
                       }).then(function() {
                         message.author.send(`
 :exclamation: __**RULES**__ :exclamation:
@@ -259,13 +222,13 @@ __**You assume all risk by using this service**__
                     `);
                       })
                       .catch(e => {
-                        errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' + e.message });
+                        discordHelpers.ErrrorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' + e.message }, message);
                       });
-                    ReplyMessage(':white_check_mark: You\'re signed up! A small drip from the faucet is on it\'s way to your new tipbot wallet as a small thanks for being a part of this community!\n Please `' + config.discord.prefix + 'agree` to my terms sent to you in DM to begin using the bot.\n*It may take a few minutes for your wallet to be created and funds deposited.*');
+                    discordHelpers.ReplyMessage(':white_check_mark: You\'re signed up! A small drip from the faucet is on it\'s way to your new tipbot wallet as a small thanks for being a part of this community!\n Please `' + config.discord.prefix + 'agree` to my terms sent to you in DM to begin using the bot.\n*It may take a few minutes for your wallet to be created and funds deposited.*', message);
                   })
                   .catch(error => {
                     console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-                    ReplyMessage('it seems like I can\'t DM you! Enable DM\'s to use this bot...');
+                    discordHelpers.ErrrorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' + error.message }, message);
                   });
                 message.react('🇶')
                   .then(() => message.react('🇷'))
