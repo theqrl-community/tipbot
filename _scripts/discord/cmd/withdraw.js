@@ -59,6 +59,13 @@ module.exports = {
       }, 1000);
     }
 
+    function deleteMessage() {
+      // Delete the previous message
+      if(message.guild != null) {
+        message.delete();
+      }
+    }
+   
     function isQRLValue(str) {
       // Fail immediately.
       let test = false;
@@ -263,6 +270,7 @@ module.exports = {
     }
 
     async function main() {
+      deleteMessage();
       // run commandChecks and fail if not successful
       const check = await commandChecks();
       if (!pass) {
