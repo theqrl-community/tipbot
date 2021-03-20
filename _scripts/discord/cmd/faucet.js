@@ -109,7 +109,7 @@ module.exports = {
             // generate a random number from a range set in the config file passed as min and max.
             Math.random() * (messageCount - 0) + 0,
           );
-          const messageArray = JSON.parse(faucetResponse);
+          const messageArray = faucetResponse;
           const finalMessage = messageArray[randomNumber];
           console.log(JSON.stringify(finalMessage));
           return finalMessage;
