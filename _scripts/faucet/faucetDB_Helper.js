@@ -21,7 +21,16 @@ async function Drip(args) {
     const user_id = args.user_id;
     const service = args.service;
     const drip_amt = args.drip_amt;
-    const faucet_usersValues = [ [ user_id, service, drip_amt, new Date(), new Date()]];
+    let date = '';
+    if (args.date) {
+      date = args.date;
+    }
+    else {
+      date = new Date();
+    }
+
+    const faucet_usersValues = [ [ user_id, service, drip_amt, new Date(), date]];
+
     const addTo_faucet_payments = 'INSERT INTO faucet_payouts(user_id, service, drip_amt, updated_at, time_stamp) VALUES ?';
     callmysqlTipBot.query(addTo_faucet_payments, [faucet_usersValues], function(err, result) {
       if (err) {
@@ -46,6 +55,7 @@ async function checkPayments(args) {
     const service = args.service;
     // search for user mentionend in the last config.faucer.payout_interval time. set in the config file
     const FaucetSearch = 'SELECT faucet_payouts.* FROM faucet_payouts, ' + service + '_users, users WHERE users.' + service + '_user_id = ' + service + '_users.id AND users.id = faucet_payouts.user_id AND ' + service + '_users.' + service + '_id = "' + service_id + '" AND faucet_payouts.time_stamp >= NOW() - INTERVAL ' + config.faucet.payout_interval + ' MINUTE';
+    // console.log(`FaucetSearch: ${FaucetSearch}`);
     callmysqlTipBot.query(FaucetSearch, function(err, faucet_result) {
       if (err) {
         console.log('[mysql error]', err);
@@ -55,17 +65,74 @@ async function checkPayments(args) {
         resolve(checkPaymentsArray);
         return;
       }
-      // drip found in db for user
-      checkPaymentsArray.push({ drip_found: true });
-      checkPaymentsArray.push(faucet_result);
+      // drip found in db for user Don't pay them.
+      checkPaymentsArray.push({ drip_found: true, faucet_result });
+      // returns for found { drip_found: true }
+      // checkPaymentsArray.push(faucet_result);
       // returns for found { drip_found, drip_service, last_drip_amt, request_date, paid, tx_hash, paid_date }
-      // returns for not found { drip_found }
       resolve(checkPaymentsArray);
     });
   });
 }
 
+async function lastDrip(args) {
+  // expect { service: 'discord, service_id: service_id }
+  return new Promise(resolve => {
+    // check the faucet_oayments db for the last time user recieved a tip, if ever.
+    // set all results to an array to respond to user.
+    const lastDripArray = [];
+    const service_id = args.service_id;
+    const service = args.service;
+    const FaucetSearch = 'SELECT faucet_payouts.* FROM faucet_payouts, ' + service + '_users, users WHERE users.' + service + '_user_id = ' + service + '_users.id AND users.id = faucet_payouts.user_id AND ' + service + '_users.' + service + '_id = "' + service_id + '" LIMIT 1';
+    // console.log(`FaucetSearch: ${FaucetSearch}`);
+    callmysqlTipBot.query(FaucetSearch, function(err, faucet_result) {
+      if (err) {
+        console.log('[mysql error]', err);
+      }
+      if (!faucet_result.length) {
+        lastDripArray.push({ drip_found: false });
+        resolve(lastDripArray);
+      }
+      // drip found in db
+      lastDripArray.push({ drip_found: true, faucet_result });
+      resolve(lastDripArray);
+    });
+  });
+}
+
+
+async function allDrips(args) {
+  // expect { service: 'discord, service_id: service_id }
+  return new Promise(resolve => {
+    // check the faucet_oayments db for the last time user recieved a tip, if ever.
+    // set all results to an array to respond to user.
+    const lastDripArray = [];
+    const service_id = args.service_id;
+    const service = args.service;
+    const FaucetSearch = 'SELECT faucet_payouts.* FROM faucet_payouts, ' + service + '_users, users WHERE users.' + service + '_user_id = ' + service + '_users.id AND users.id = faucet_payouts.user_id AND ' + service + '_users.' + service + '_id = "' + service_id + '"';
+    // console.log(`FaucetSearch: ${FaucetSearch}`);
+    callmysqlTipBot.query(FaucetSearch, function(err, faucet_result) {
+      if (err) {
+        console.log('[mysql error]', err);
+      }
+      if (!faucet_result.length) {
+        lastDripArray.push({ drip_found: false });
+        resolve(lastDripArray);
+      }
+      // drip found in db
+      lastDripArray.push({ drip_found: true });
+      // returns for found { drip_found: true }
+      lastDripArray.push(faucet_result);
+      // returns for all found { drip_found, drip_service, last_drip_amt, request_date, paid, tx_hash, paid_date }
+      resolve(lastDripArray);
+    });
+  });
+}
+
+
 module.exports = {
   Drip : Drip,
-  checkPayments: checkPayments,
+  checkPayments : checkPayments,
+  lastDrip : lastDrip,
+  allDrips : allDrips,
 };

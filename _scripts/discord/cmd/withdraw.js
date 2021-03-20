@@ -11,7 +11,7 @@ module.exports = {
   guildOnly: false,
   cooldown: 0,
   aliases: ['wd', 'transfer', 'cashout', 'Withdraw', 'WD', 'extract'],
-  usage: '\n__**withdraw** { ***wd***, ***transfer***, ***cashout***, ***send*** }__\nTransfer or withdraw QRL from your TIpBot account to another QRL address.\nRequires amount/all and a QRL address to send to.\n\nExample to transfer all funds from the tipbot wallet: `' + config.discord.prefix + 'transfer all QRLADDRESS`\nExample to transfer an amount of funds: `' + config.discord.prefix + 'transfer 2.01 QRLADDRESS` ',
+  usage: '\n__**withdraw** { ***wd***, ***transfer***, ***cashout***, ***send*** }__\nWithdraw QRL tips from your TIpBot account.\nRequires amount/all and a QRL address to send to.\n\nExample to withdraw all funds from the tipbot wallet: `' + config.discord.prefix + 'withdraw all QRLADDRESS`\nExample to transfer an amount of funds: `' + config.discord.prefix + 'withdraw 2.01 QRLADDRESS` ',
   execute(message, args) {
     // console.log('transfer called...' + JSON.stringify(args));
     const dbHelper = require('../../db/dbHelper');
@@ -59,6 +59,13 @@ module.exports = {
       }, 1000);
     }
 
+    function deleteMessage() {
+      // Delete the previous message
+      if(message.guild != null) {
+        message.delete();
+      }
+    }
+   
     function isQRLValue(str) {
       // Fail immediately.
       let test = false;
@@ -263,6 +270,7 @@ module.exports = {
     }
 
     async function main() {
+      deleteMessage();
       // run commandChecks and fail if not successful
       const check = await commandChecks();
       if (!pass) {
@@ -270,13 +278,14 @@ module.exports = {
         return false;
       }
       else {
+        ReplyMessage('Sending your withdraw transaction now, Be right back..');
         // check passed, do stuff
         const transferAmount = check[0].amtArray;
         const transferInfo = { address_to: check[0].addressArray, amount: transferAmount, fee: fee, address_from: check[0].userArray[0][0].wallet_pub };
         const transferFunds = await sendFunds(transferInfo);
         const transferFundsOut = JSON.parse(transferFunds);
         if (transferFundsOut.tx.transaction_hash != undefined) {
-          const wdDbInfo = { user_id: check[0].userArray[0][0].user_id, tx_hash: transferFundsOut.tx.transaction_hash, to_address: check[0].addressArray[0], amt: check[0].amtArray[0] };
+          const wdDbInfo = { user_id: check[0].userArray[0][0].user_id, tx_hash: transferFundsOut.tx.transaction_hash, to_address: check[0].addressArray[0], amt: (check[0].amtArray[0] / toShor) };
           const wdDbWrite = await withdrawDBWrite(wdDbInfo);
           const txDbInfo = { tip_id: wdDbWrite[0].transaction_db_id, tx_hash: transferFundsOut.tx.transaction_hash };
           // eslint-disable-next-line

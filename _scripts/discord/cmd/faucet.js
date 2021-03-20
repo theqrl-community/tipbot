@@ -14,6 +14,7 @@ module.exports = {
     const faucetHelper = require('../../faucet/faucetDB_Helper');
     const wallet = require('../../qrl/walletTools');
     const config = require('../../../_config/config.json');
+    const faucetResponse = require('../faucet-response.json');
     const uuid = `${message.author}`;
     const service_id = uuid.slice(1, -1);
     const GetAllUserInfo = dbHelper.GetAllUserInfo;
@@ -44,6 +45,21 @@ module.exports = {
         message.channel.stopTyping(true);
       }, 1000);
     }
+
+    function dripMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
+      message.channel.startTyping();
+      setTimeout(function() {
+        const embed = new Discord.MessageEmbed()
+          .setColor('BLUE')
+          .setURL(content.source)
+          .setTitle('QRL Faucet Tidbits')
+          .setDescription(`**${content.title}** ${content.message} [More here](${content.source})`)
+          .setFooter(footer);
+        message.reply({ embed });
+        message.channel.stopTyping(true);
+      }, 1000);
+    }
+
     function toQuanta(number) {
       const shor = 1000000000;
       return number / shor;
@@ -85,6 +101,18 @@ module.exports = {
           );
           const num = toQuanta(randomNumber);
           return num;
+        }
+
+        function chooseMessage() {
+          const messageCount = faucetResponse.length;
+          const randomNumber = Math.floor(
+            // generate a random number from a range set in the config file passed as min and max.
+            Math.random() * (messageCount - 0) + 0,
+          );
+          const messageArray = faucetResponse;
+          const finalMessage = messageArray[randomNumber];
+          // console.log(JSON.stringify(finalMessage));
+          return finalMessage;
         }
 
         async function checkUser(user) {
@@ -157,9 +185,18 @@ module.exports = {
         }
 
         checkUser(service_id).then(function() {
+
           checkFaucet(service_id).then(function(faucetCheck) {
+
+            console.log(JSON.stringify(faucetCheck));
+
             if (faucetCheck[0].drip_found === true) {
-              errorMessage({ error: 'Already Recieved Faucet Payout...', description: 'You\'ve pulled from the faucet recently\n*Faucet will only pay out once every  **' + config.faucet.payout_interval / 60 + '*** hours.' });
+              const updated = faucetCheck[0].faucet_result[0].updated_at;
+              const now = new Date();
+              const itsBeen = Date.parse(now) - Date.parse(updated);
+              console.log(itsBeen);
+              const timetill = (config.faucet.payout_interval - itsBeen) + Date.parse(now);
+              errorMessage({ error: 'Already Recieved Faucet Payout...', description: 'Please come back after ' + new Date(timetill) + '\n*Faucet will only pay out once every  **' + config.faucet.payout_interval / 60 + '*** hours.' });
               return;
             }
             else if (faucetCheck[0].drip_found === false) {
@@ -170,8 +207,10 @@ module.exports = {
               const dripInfo = { user_id: user_id, service: 'discord', drip_amt: Drip };
               drip(dripInfo).then(function() {
               });
-              message.channel.stopTyping(true);
-              ReplyMessage(':droplet: ' + Drip + ' Quanta sent! :droplet:\n*Funds take up to 5 min to deposit.*');
+              const userMessage = chooseMessage();
+              // console.log(JSON.stringify(userMessage));
+              ReplyMessage(':droplet: ' + Drip + ' Quanta sent from the faucet! :droplet:\n*Funds take up to 5 min to deposit.*');
+              dripMessage(userMessage);
             }
           });
         });
