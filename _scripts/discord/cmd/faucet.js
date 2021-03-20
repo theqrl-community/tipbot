@@ -14,6 +14,7 @@ module.exports = {
     const faucetHelper = require('../../faucet/faucetDB_Helper');
     const wallet = require('../../qrl/walletTools');
     const config = require('../../../_config/config.json');
+    const faucetResponse = require('../faucet-response.json');
     const uuid = `${message.author}`;
     const service_id = uuid.slice(1, -1);
     const GetAllUserInfo = dbHelper.GetAllUserInfo;
@@ -44,6 +45,21 @@ module.exports = {
         message.channel.stopTyping(true);
       }, 1000);
     }
+
+    function dripMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
+      message.channel.startTyping();
+      setTimeout(function() {
+        const embed = new Discord.MessageEmbed()
+          .setColor('BLUE')
+          .setURL(content.source)
+          .setTitle(content.title)
+          .setDescription(content.faqq)
+          .setFooter(footer);
+        message.reply({ embed });
+        message.channel.stopTyping(true);
+      }, 1000);
+    }
+
     function toQuanta(number) {
       const shor = 1000000000;
       return number / shor;
@@ -85,6 +101,18 @@ module.exports = {
           );
           const num = toQuanta(randomNumber);
           return num;
+        }
+
+        function chooseMessage() {
+          const messageCount = faucetResponse.length;
+          const randomNumber = Math.floor(
+            // generate a random number from a range set in the config file passed as min and max.
+            Math.random() * (messageCount - 0) + 0,
+          );
+          const messageArray = JSON.parse(faucetResponse);
+          const message = messageArray[randomNumber];
+          console.log(JSON.stringify(message));
+          return message;
         }
 
         async function checkUser(user) {
@@ -171,7 +199,10 @@ module.exports = {
               drip(dripInfo).then(function() {
               });
               message.channel.stopTyping(true);
-              ReplyMessage(':droplet: ' + Drip + ' Quanta sent! :droplet:\n*Funds take up to 5 min to deposit.*');
+              const message = chooseMessage();
+              console.log(JSON.stringify(message));
+              ReplyMessage(':droplet: ' + Drip + ' Quanta sent from the faucet! :droplet:\n*Funds take up to 5 min to deposit.*');
+              dripMessage(message);
             }
           });
         });
