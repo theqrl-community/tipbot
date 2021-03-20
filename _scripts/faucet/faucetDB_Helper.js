@@ -66,7 +66,7 @@ async function checkPayments(args) {
         return;
       }
       // drip found in db for user Don't pay them.
-      checkPaymentsArray.push({ drip_found: true, faucet_result: JSON.parse(faucet_result) });
+      checkPaymentsArray.push({ drip_found: true, faucet_result: JSON.stringify(faucet_result) });
       // returns for found { drip_found: true }
       // checkPaymentsArray.push(faucet_result);
       // returns for found { drip_found, drip_service, last_drip_amt, request_date, paid, tx_hash, paid_date }
