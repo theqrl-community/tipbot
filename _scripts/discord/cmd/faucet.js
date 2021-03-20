@@ -185,8 +185,16 @@ module.exports = {
         }
 
         checkUser(service_id).then(function() {
+
           checkFaucet(service_id).then(function(faucetCheck) {
+
+            console.log(JSON.stringify(faucetCheck));
+
             if (faucetCheck[0].drip_found === true) {
+
+
+
+
               errorMessage({ error: 'Already Recieved Faucet Payout...', description: 'You\'ve pulled from the faucet recently\n*Faucet will only pay out once every  **' + config.faucet.payout_interval / 60 + '*** hours.' });
               return;
             }
