@@ -1,87 +1,87 @@
 [
 	{
 		"title": "Reverse BTC Keys",
-		"faqq": "A powerful quantum computer can reverse Bitcoin public keys into private keys from their public keys using Shor's algorithm",
+		"message": "A powerful quantum computer can reverse Bitcoin public keys into private keys from their public keys using Shor's algorithm",
 		"source": "https://arxiv.org/abs/quant-ph/0301141"
 	},
 	{
 		"title": "Exposed Keys",
-		"faqq": "36% of all BTC are on addresses with exposed public keys",
+		"message": "36% of all BTC are on addresses with exposed public keys",
 		"source": "https://medium.com/@sashagnip/how-many-bitcoins-are-vulnerable-to-a-hypothetical-quantum-attack-3e59e4172e8"
 	},
 	{
-		"title": "Hack In Transit",
-		"faqq": "100% of BTC addresses can be hacked during transactions by deriving the private key from the public key which is broadcast to the network using a quantum computer.",
+		"title": "Hacked In Transit",
+		"message": "100% of BTC addresses can be hacked during transactions by deriving the private key from the public key which is broadcast to the network using a quantum computer.",
 		"source": "https://faqq.info/wiki/Its_going_to_affect_bitcoin"
 	},
 	{
 		"title": "",
-		"faqq": "Any Bitcoin soft-fork solution requires all users to actively participate in moving their funds to new qc-proof addresses.",
+		"message": "Any Bitcoin soft-fork solution requires all users to actively participate in moving their funds to new qc-proof addresses.",
 		"source": "https://faqq.info/wiki/But_bitcoin_will_fork"
 	},
 	{
 		"title": "Large Signatures",
-		"faqq": "Increasing signature length is not a solution. Example, going 256 to 384 bit curves would mean a quantum computer with 3484 qubits instead of 2330 qubits could break the signature scheme...",
+		"message": "Increasing signature length is not a solution. Example, going 256 to 384 bit curves would mean a quantum computer with 3484 qubits instead of 2330 qubits could break the signature scheme...",
 		"source": "https://faqq.info/wiki/Bitcoin_has_plans_for_this"
 	},
 	{
-		"title": "Quantum Computers are are far away",
-		"faqq": "Some experts predict it will be a problem for Bitcoin’s digital signatures within the decade. Even pessimistic estimates put ‘Y2Q’ at around 30 years away.",
+		"title": "Quantum Computers are far away",
+		"message": "Some experts predict it will be a problem for Bitcoin’s digital signatures within the decade. Even pessimistic estimates put ‘Y2Q’ at around 30 years away.",
 		"source": "https://faqq.info/wiki/Quantum_computing_is_far_away"
 	},
 	{
 		"title": "QR Genesis",
-		"faqq": "Did you know that QRL is quantum resistant from the first block?",
+		"message": "Did you know that QRL is quantum resistant from the first block?",
 		"source": ""
 	},
 	{
 		"title": "Tokens",
-		"faqq": "Did you know that you can easily create tokens without the need for programming?",
+		"message": "Did you know that you can easily create tokens without the need for programming?",
 		"source": "https://docs.theqrl.org/wallet/create-tokens/"
 	},
 	{
 		"title": "NIST standardized",
-		"faqq": "Did you know that QRL is using a NIST recommended post-quantum secure algorithm?",
+		"message": "Did you know that QRL is using a NIST recommended post-quantum secure algorithm?",
 		"source": "https://csrc.nist.gov/publications/detail/sp/800-208/final"
 	},
 	{
 		"title": "Faucet",
-		"faqq": " You can get a faucet drop every 24 hours from me!",
+		"message": " You can get a faucet drop every 24 hours from me!",
 		"source": "https://qrl.tips/"
 	},
 	{
 		"title": "Tipping",
-		"faqq": "Tip users on this discord with `+tip AMOUNT @USER`",
+		"message": "Tip users on this discord with `+tip AMOUNT @USER`",
 		"source": "https://qrl.tips/"
 	},
 	{
 		"title": "QRL Lead",
-		"faqq": "The QRL is crypto's most forward-looking blockchain, secure today for tomorrow's advancements in Quantum Computing that will threaten the very foundation of Bitcoin, Ethereum, and other top projects",
+		"message": "The QRL is crypto's most forward-looking blockchain, secure today for tomorrow's advancements in Quantum Computing that will threaten the very foundation of Bitcoin, Ethereum, and other top projects",
 		"source": "https://theqrl.org"
 	},
 	{
 		"title": "OTS Reuse",
-		"faqq": "Extreme care needs to be taken in order to ensure that no OTS key is ever reused for hash based cryptography. QRL has built in security measures to protect from key re-use",
+		"message": "Extreme care needs to be taken in order to ensure that no OTS key is ever reused for hash based cryptography. QRL has built in security measures to protect from key re-use",
 		"source": "https://docs.theqrl.org/developers/ots/"
 	},
 	{
 		"title": "Keybase",
-		"faqq": "Did you know that you can verify your QRL address on Keybase!",
+		"message": "Did you know that you can verify your QRL address on Keybase!",
 		"source": "https://docs.theqrl.org/tools/keybase/"
 	},
 	{
 		"title": "Notarization",
-		"faqq": "Did you know that you can notarize documents on the QRL blockchain?",
+		"message": "Did you know that you can notarize documents on the QRL blockchain?",
 		"source": "https://docs.theqrl.org/tools/notarisation/"
 	},
 	{
 		"title": "Messages",
-		"faqq": "Did you know that you can send messages on the QRL network?",
+		"message": "Did you know that you can send messages on the QRL network?",
 		"source": "https://docs.theqrl.org/tools/messages/"
 	},
 	{
 		"title": "League of Entropy",
-		"faqq": "Did you know QRL is part of the League of Entropy, helping secure truly random data?",
+		"message": "Did you know QRL is part of the League of Entropy, helping secure truly random data?",
 		"source": "https://en.wikipedia.org/wiki/League_of_entropy"
 	}
 ]

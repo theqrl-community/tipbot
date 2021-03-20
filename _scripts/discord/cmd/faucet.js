@@ -53,7 +53,7 @@ module.exports = {
           .setColor('BLUE')
           .setURL(content.source)
           .setTitle(content.title)
-          .setDescription(content.faqq)
+          .setDescription(`${content.message} [More here](${content.source})`)
           .setFooter(footer);
         message.reply({ embed });
         message.channel.stopTyping(true);
@@ -111,7 +111,7 @@ module.exports = {
           );
           const messageArray = faucetResponse;
           const finalMessage = messageArray[randomNumber];
-          console.log(JSON.stringify(finalMessage));
+          // console.log(JSON.stringify(finalMessage));
           return finalMessage;
         }
 
@@ -199,7 +199,7 @@ module.exports = {
               drip(dripInfo).then(function() {
               });
               const userMessage = chooseMessage();
-              console.log(JSON.stringify(userMessage));
+              // console.log(JSON.stringify(userMessage));
               ReplyMessage(':droplet: ' + Drip + ' Quanta sent from the faucet! :droplet:\n*Funds take up to 5 min to deposit.*');
               dripMessage(userMessage);
             }
