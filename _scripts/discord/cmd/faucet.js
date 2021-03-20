@@ -52,8 +52,8 @@ module.exports = {
         const embed = new Discord.MessageEmbed()
           .setColor('BLUE')
           .setURL(content.source)
-          .setTitle(content.title)
-          .setDescription(`${content.message} [More here](${content.source})`)
+          .setTitle('QRL Faucet Tidbits')
+          .setDescription(`**${content.title}** ${content.message} [More here](${content.source})`)
           .setFooter(footer);
         message.reply({ embed });
         message.channel.stopTyping(true);

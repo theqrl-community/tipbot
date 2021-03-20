@@ -15,17 +15,17 @@
 		"source": "https://faqq.info/wiki/Its_going_to_affect_bitcoin"
 	},
 	{
-		"title": "\"But BTC can fork...\"",
+		"title": "\"But BTC can fork.\"",
 		"message": "Any Bitcoin soft-fork solution requires all users to actively participate in moving their funds to new qc-proof addresses.",
 		"source": "https://faqq.info/wiki/But_bitcoin_will_fork"
 	},
 	{
 		"title": "\"BTC can impliment larger Signatures for quantum resistance\"",
-		"message": "Increasing signature length is not a solution. Example, going 256 to 384 bit curves would mean a quantum computer with 3484 qubits instead of 2330 qubits could break the signature scheme...",
+		"message": "Increasing signature length is not a solution. Example, going 256 to 384 bit curves would mean a quantum computer with 3484 qubits instead of 2330 qubits could break the signature scheme.",
 		"source": "https://faqq.info/wiki/Bitcoin_has_plans_for_this"
 	},
 	{
-		"title": "\"Quantum Computers are too far away...\"",
+		"title": "\"Quantum Computers are too far away.\"",
 		"message": "Some experts predict it will be a problem for Bitcoin’s digital signatures within the decade. Even pessimistic estimates put ‘Y2Q’ at around 30 years away.",
 		"source": "https://faqq.info/wiki/Quantum_computing_is_far_away"
 	},
