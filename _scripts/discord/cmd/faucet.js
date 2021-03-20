@@ -110,9 +110,9 @@ module.exports = {
             Math.random() * (messageCount - 0) + 0,
           );
           const messageArray = JSON.parse(faucetResponse);
-          const message = messageArray[randomNumber];
-          console.log(JSON.stringify(message));
-          return message;
+          const finalMessage = messageArray[randomNumber];
+          console.log(JSON.stringify(finalMessage));
+          return finalMessage;
         }
 
         async function checkUser(user) {
@@ -198,11 +198,10 @@ module.exports = {
               const dripInfo = { user_id: user_id, service: 'discord', drip_amt: Drip };
               drip(dripInfo).then(function() {
               });
-              message.channel.stopTyping(true);
-              const message = chooseMessage();
-              console.log(JSON.stringify(message));
+              const userMessage = chooseMessage();
+              console.log(JSON.stringify(userMessage));
               ReplyMessage(':droplet: ' + Drip + ' Quanta sent from the faucet! :droplet:\n*Funds take up to 5 min to deposit.*');
-              dripMessage(message);
+              dripMessage(userMessage);
             }
           });
         });
