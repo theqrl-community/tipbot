@@ -350,11 +350,11 @@ module.exports = {
 
                 let futureTippedUserUsername = filteredTipList[i].userName;
                 const validUserName = CheckValidChars(futureTippedUserUsername);
-console.log(`validUserName: ${validUserName}`);
+// console.log(`validUserName: ${validUserName}`);
                 if (validUserName) {
                   futureTippedUserUsername = 'haxorDiscordUser';
                 }
-console.log(`futureTippedUserUsername: ${futureTippedUserUsername}`);
+// console.log(`futureTippedUserUsername: ${futureTippedUserUsername}`);
                 
                 const futureTippedUserServiceID = filteredTipList[i].userid;
                 futureTippedUserIDs.push(futureTippedUserId);
@@ -373,11 +373,11 @@ console.log(`futureTippedUserUsername: ${futureTippedUserUsername}`);
 
                 let tippedUserUsername = filteredTipList[i].userName;
                 const validUserName = CheckValidChars(tippedUserUsername);
-console.log(`validUserName: ${validUserName}`);
+// console.log(`validUserName: ${validUserName}`);
                 if (validUserName) {
                   tippedUserUsername = 'haxorDiscordUser';
                 }
-console.log(`tippedUserUsername: ${tippedUserUsername}`);
+// console.log(`tippedUserUsername: ${tippedUserUsername}`);
                 const tipToUserUserWalletPub = tipToUserInfo[0].wallet_pub;
                 // push user data to arrays for tipping
                 tippedUserIDs.push(tipToUserUserId);
@@ -401,6 +401,7 @@ console.log(`tippedUserUsername: ${tippedUserUsername}`);
             }
           // arrays are full, now send the transactions and set database.
           }
+          ReplyMessage('Working on it...');
           // add users to the tips db and create a tip_id to track this tip through
           const addTipInfo = { from_user_id: tippingUserUser_Id, tip_amount: givenTip };
           const addTipResults = await tipDBWrite(addTipInfo);
@@ -409,7 +410,7 @@ console.log(`tippedUserUsername: ${tippedUserUsername}`);
           const check_tip_id = function() {
             if(tip_id == undefined) {
             // check again in a second
-              setTimeout(check_tip_id, 1000);
+              setTimeout(check_tip_id, 500);
             }
           };
           check_tip_id();
