@@ -23,7 +23,7 @@ module.exports = {
       setTimeout(function() {
         message.reply(content);
         message.channel.stopTyping(true);
-      }, 1000);
+      }, 500);
     }
   
     // errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
@@ -37,7 +37,7 @@ module.exports = {
           .setFooter(footer);
         message.reply({ embed });
         message.channel.stopTyping(true);
-      }, 1000);
+      }, 500);
     }
 
     // test the address to the regex pattern

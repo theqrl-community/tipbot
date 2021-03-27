@@ -20,7 +20,7 @@ module.exports = {
       setTimeout(function() {
         message.reply(content);
         message.channel.stopTyping(true);
-      }, 1000);
+      }, 500);
     }
 
     function toQuanta(number) {
@@ -44,7 +44,7 @@ module.exports = {
           .setFooter(footer);
         message.reply({ embed });
         message.channel.stopTyping(true);
-      }, 1000);
+      }, 500);
     }
 
     // Get user info.
