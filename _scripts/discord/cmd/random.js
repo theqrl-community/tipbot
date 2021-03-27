@@ -29,7 +29,7 @@ module.exports = {
           .setFooter(footer);
         message.reply({ embed });
         message.channel.stopTyping(true);
-      }, 1000);
+      }, 500);
     }
 
     function randomMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {

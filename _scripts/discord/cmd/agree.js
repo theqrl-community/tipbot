@@ -25,7 +25,7 @@ module.exports = {
           .setFooter(footer);
         message.reply({ embed });
         message.channel.stopTyping(true);
-      }, 1000);
+      }, 500);
     }
 
     // successReplyMessage({ title: 'You\ve Agreed!!', description: , term_1: , term_2: , term_3: , term_4: , footer: 'You can now use the Bot!' });
@@ -51,7 +51,7 @@ module.exports = {
             errorMessage({ error: 'Direct Message Disabled', description: 'Somethings wrong...' + e.message });
           });
         message.channel.stopTyping(true);
-      }, 1000);
+      }, 500);
     }
 
     // Get user info. Function expects { service: service, service_id: service_id } as usrInfo
