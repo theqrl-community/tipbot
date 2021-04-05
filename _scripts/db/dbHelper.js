@@ -381,7 +381,6 @@ async function lastTxCheck(args) {
           console.log('[mysql error]', err);
         }
       });
-      continue;
     }
 
 
