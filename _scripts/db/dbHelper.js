@@ -372,7 +372,7 @@ async function lastTxCheck(args) {
     }
 
 
-    else if (out.confirmations == 0 && out.tx.transaction_hash === 'undefined') {
+    else if (!out.tx.transaction_hash) {
       console.log('else not found at all');
       // the transaction is not found on the chain, mark as fail and move on
       const dbInfo = 'UPDATE transactions SET pending = "3" WHERE tx_hash = "' + args[i].tx_hash + '" AND tip_id = "' + args[i].tip_id + '"';
@@ -381,6 +381,7 @@ async function lastTxCheck(args) {
           console.log('[mysql error]', err);
         }
       });
+      continue;
     }
 
 
