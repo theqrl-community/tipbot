@@ -363,7 +363,7 @@ async function lastTxCheck(args) {
     if (out.confirmations > 0) {
       console.log('verified');
       // write the changes to the database as the tx is confirmed
-      const dbInfo = 'UPDATE transactions SET pending = "0" WHERE tx_hash = "' + out.tx.transaction_hash + '"';
+      const dbInfo = 'UPDATE transactions SET pending = "0" WHERE tx_hash = "' + out.tx.transaction_hash + '" AND tip_id = "' + args[i].tip_id + '"';
       callmysql.query(dbInfo, function(err) {
         if (err) {
           console.log('[mysql error]', err);
