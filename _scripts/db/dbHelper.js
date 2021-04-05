@@ -352,11 +352,16 @@ async function lastTxCheck(args) {
 
     const pendingTx = await wallet.GetTxInfo(pending.tx_hash);
     const out = JSON.parse(pendingTx);
-    console.log(`out: ${JSON.stringify(out)}`);
+    // console.log(`out: ${JSON.stringify(out)}`);
+    console.log(`out.confirmations: ${out.confirmations}`);
+    console.log(`out.tx: ${out.tx}`);
+    console.log(`out.tx.length: ${out.tx.length}`);
+
 
     // Is the transaction verified
     if (out.confirmations > 0) {
-    // write the changes to the database as the tx is confirmed
+      console.log('if');
+      // write the changes to the database as the tx is confirmed
       const dbInfo = 'UPDATE transactions SET pending = "0" WHERE tx_hash = "' + out.tx.transaction_hash + '"';
       callmysql.query(dbInfo, function(err) {
         if (err) {
@@ -365,14 +370,17 @@ async function lastTxCheck(args) {
       });
     }
 
-    else if (out.confirmations === 0 && out.tx > 0) {
-    // tx is found but not confirmed, add the pending balance and return to user
+
+    else if (out.confirmations === 0 && out.tx.length > 0) {
+      console.log('else if');
+      // tx is found but not confirmed, add the pending balance and return to user
       const txAmt = out.tx.transfer.amounts[0];
       sum = sum + Number(txAmt);
       sumArray.push(Number(txAmt));
     }
 
     else {
+      console.log('else');
       // the transaction is not found on the chain, mark as fail and move on
       const dbInfo = 'UPDATE transactions SET pending = "3" WHERE tx_hash = "' + out.tx.transaction_hash + '" ';
       callmysql.query(dbInfo, function(err) {
