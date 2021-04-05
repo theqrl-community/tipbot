@@ -371,7 +371,7 @@ async function lastTxCheck(args) {
     }
 
 
-    else if (out.confirmations === 0 && JSON.stringify(out.tx).length > 0) {
+    else if (out.confirmations === 0 && out.tx.transaction_hash === args[i].tx_hash) {
       console.log('else if');
       // tx is found but not confirmed, add the pending balance and return to user
       const txAmt = out.tx.transfer.amounts[0];
@@ -382,7 +382,7 @@ async function lastTxCheck(args) {
     else {
       console.log('else');
       // the transaction is not found on the chain, mark as fail and move on
-      const dbInfo = 'UPDATE transactions SET pending = "3" WHERE tx_hash = "' + out.tx.transaction_hash + '" ';
+      const dbInfo = 'UPDATE transactions SET pending = "3" WHERE tx_hash = "' + args[i].tx_hash + '" AND tip_id = "' + args[i].tip_id + '"';
       callmysql.query(dbInfo, function(err) {
         if (err) {
           console.log('[mysql error]', err);
