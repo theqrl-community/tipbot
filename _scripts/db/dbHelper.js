@@ -352,6 +352,8 @@ async function lastTxCheck(args) {
 
     const pendingTx = await wallet.GetTxInfo(pending.tx_hash);
     const out = JSON.parse(pendingTx);
+    console.log(`out: ${JSON.stringify(out)}`);
+
     // Is the transaction verified
     if (out.confirmations > 0) {
     // write the changes to the database as the tx is confirmed
