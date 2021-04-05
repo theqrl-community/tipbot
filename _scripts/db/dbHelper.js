@@ -354,7 +354,7 @@ async function lastTxCheck(args) {
     const out = JSON.parse(pendingTx);
     // console.log(`out: ${JSON.stringify(out)}`);
     console.log(`out.confirmations: ${out.confirmations}`);
-    console.log(`out.tx: ${out.tx}`);
+    console.log(`out.tx: ${JSON.stringify(out.tx)}`);
     console.log(`out.tx.length: ${out.tx.length}`);
 
 
