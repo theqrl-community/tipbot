@@ -348,7 +348,7 @@ async function lastTxCheck(args) {
     const pending = args[i];
     // lookup tx to verify if still pending and clear if not.
     // wallet tools GetTxInfo
-    console.log(`pending TX ${i}: ${args[i]}`);
+    console.log(`pending TX ${i}: ${JSON.stringify(args[i])}`);
 
     const pendingTx = await wallet.GetTxInfo(pending.tx_hash);
     const out = JSON.parse(pendingTx);
