@@ -355,12 +355,13 @@ async function lastTxCheck(args) {
     // console.log(`out: ${JSON.stringify(out)}`);
     console.log(`out.confirmations: ${out.confirmations}`);
     console.log(`out.tx: ${JSON.stringify(out.tx)}`);
-    console.log(`out.tx.length: ${out.tx.length}`);
+    console.log(`out.tx.transaction_hash: ${out.tx.transaction_hash}`);
+    console.log(`args[${i}].tx_hash: ${args[i].tx_hash}`);
 
 
     // Is the transaction verified
     if (out.confirmations > 0) {
-      console.log('if');
+      console.log('verified');
       // write the changes to the database as the tx is confirmed
       const dbInfo = 'UPDATE transactions SET pending = "0" WHERE tx_hash = "' + out.tx.transaction_hash + '"';
       callmysql.query(dbInfo, function(err) {
@@ -371,16 +372,8 @@ async function lastTxCheck(args) {
     }
 
 
-    else if (out.confirmations === 0 && out.tx.transaction_hash === args[i].tx_hash) {
-      console.log('else if');
-      // tx is found but not confirmed, add the pending balance and return to user
-      const txAmt = out.tx.transfer.amounts[0];
-      sum = sum + Number(txAmt);
-      sumArray.push(Number(txAmt));
-    }
-
-    else {
-      console.log('else');
+    else if (out.confirmations === 0 && out.tx.transaction_hash !== args[i].tx_hash) {
+      console.log('else not found at all');
       // the transaction is not found on the chain, mark as fail and move on
       const dbInfo = 'UPDATE transactions SET pending = "3" WHERE tx_hash = "' + args[i].tx_hash + '" AND tip_id = "' + args[i].tip_id + '"';
       callmysql.query(dbInfo, function(err) {
@@ -388,6 +381,15 @@ async function lastTxCheck(args) {
           console.log('[mysql error]', err);
         }
       });
+    }
+
+
+    else {
+      console.log('else if - not yet');
+      // tx is found but not confirmed, add the pending balance and return to user
+      const txAmt = out.tx.transfer.amounts[0];
+      sum = sum + Number(txAmt);
+      sumArray.push(Number(txAmt));
     }
   }
 
