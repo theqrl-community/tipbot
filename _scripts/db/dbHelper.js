@@ -371,7 +371,7 @@ async function lastTxCheck(args) {
     }
 
 
-    else if (out.confirmations === 0 && (out.tx).length > 0) {
+    else if (out.confirmations === 0 && JSON.stringify(out.tx).length > 0) {
       console.log('else if');
       // tx is found but not confirmed, add the pending balance and return to user
       const txAmt = out.tx.transfer.amounts[0];
