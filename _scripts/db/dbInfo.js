@@ -97,41 +97,61 @@ async function tipBotInfo(args) {
 }
 
 
-async function getUserTips(args) {
+async function getSentTips(args) {
   // from user id get user tip info
   // count of all tips sent, count of all tips recieved, users tipped to & from, total tipped, last 10 tips
   // expect { user_id: 1 , service_user_id: @734267018701701242}
+  const array = [];
   const id = args.user_id;
-  const searchDB = 'SELECT tips.*, transactions.*, tips_to.*  FROM users, tips, transactions, tips_to WHERE tips.from_user_id = "' + id + '" AND transactions.tip_id = tips.id AND tips_to.tip_id = tips.id';
-  'SELECT tips.*, transactions.*, discord_users.*, users_info.* FROM tips, transactions, discord_users, users_info WHERE tips.from_user_id = "1" AND transactions.tip_id = tips.id and discord_users.discord_id = "@328611434177101835" AND users_info.user_id = "1";'
-  
-  const tips_recievedSearch = 'SELECT tips_to.*, transactions.* FROM tips_to, transactions WHERE tips_to.user_id = "@734267018701701242" AND transactions.tip_id = tips_to.tip_id';
-  const users_tip_sum = ' SELECT SUM(tip_amount) FROM tips, transactions WHERE tips.from_user_id = "' + args.user_id + '" AND transactions.tip_id = tips.id';
-
-
+  const sumTipsSent = 'SELECT sum(tip_amount)  FROM users, tips, transactions, tips_to WHERE tips.from_user_id = "' + id + '" AND transactions.tip_id = tips.id AND tips_to.tip_id = tips.id';
+  const countTipsSent = 'SELECT count(tip_amount)  FROM users, tips, transactions, tips_to WHERE tips.from_user_id = "' + id + '" AND transactions.tip_id = tips.id AND tips_to.tip_id = tips.id';
   return new Promise(resolve => {
-    callmysql.query(searchDB, function(err, result) {
+
+    callmysql.query(sumTipsSent, function(err, sumResult) {
       if (err) {
         console.log('[mysql error]', err);
       }
-      // console.log('result: ' + JSON.stringify(result));
-      // console.log('result.length: ' + JSON.stringify(result.length));
-      // console.log('result: ' + JSON.stringify(result));
-      for (let i = 0; i < results.length; i++) {
-      }
-
-    })
+      callmysql.query(countTipsSent, function(err, countResult) {
+        if (err) {
+          console.log('[mysql error]', err);
+        }
+        // push found results to the array and resolve to the call
+        array.push({ sum: sumResult, count: countResult });
+        resolve(array);
+      });
+    });
   });
 }
 
+async function getReceivedTips(args) {
+  // from user id get user tip info
+  // count of all tips sent, count of all tips received, users tipped to & from, total tipped, last 10 tips
+  // expect { user_id: 1 , service_user_id: @734267018701701242}
+  const array = [];
+  const id = args.user_id;
+  const sumTipsSent = 'SELECT sum(tip_amount)  FROM users, tips, transactions, tips_to WHERE tips.from_user_id = "' + id + '" AND transactions.tip_id = tips.id AND tips_to.tip_id = tips.id';
+  const countTipsSent = 'SELECT count(tip_amount)  FROM users, tips, transactions, tips_to WHERE tips.from_user_id = "' + id + '" AND transactions.tip_id = tips.id AND tips_to.tip_id = tips.id';
+  return new Promise(resolve => {
 
-
-
-
-
+    callmysql.query(sumTipsSent, function(err, sumResult) {
+      if (err) {
+        console.log('[mysql error]', err);
+      }
+      callmysql.query(countTipsSent, function(err, countResult) {
+        if (err) {
+          console.log('[mysql error]', err);
+        }
+        // push found results to the array and resolve to the call
+        array.push({ sum: sumResult, count: countResult });
+        resolve(array);
+      });
+    });
+  });
+}
 
 module.exports = {
   GetUserWalletBal : GetUserWalletBal,
+  getSentTips : getSentTips,
   tipBotInfo : tipBotInfo,
-
+  getReceivedTips : getReceivedTips,
 };
