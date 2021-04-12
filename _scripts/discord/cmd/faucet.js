@@ -240,9 +240,9 @@ module.exports = {
               const timeTill = waitTimeMS - itsBeen;
 
 
-              console.log(`updated: ${Date.parse(updated)}\nNow: ${Date.parse(now)}\nIt's been : ${itsBeen}ms or ${millisToMinutesAndSeconds(itsBeen)}\nwaitTime: ${waitTimeMS}\nTimetill: ${timeTill} or ${millisToMinutesAndSeconds(timeTill)}`);
+              console.log(`faucetCheck: ${JSON.stringify(faucetCheck)}\nupdated: ${Date.parse(updated)}\nNow: ${Date.parse(now)}\nIt's been : ${itsBeen}ms or ${millisToMinutesAndSeconds(itsBeen)}\nwaitTime: ${waitTimeMS}\nTimetill: ${timeTill} or ${millisToMinutesAndSeconds(timeTill)}`);
 
-              faucetErrorMessage({ error: 'Already Recieved Faucet Payout...', description: '<@' + message.author + '>, come back in another **' + millisToMinutesAndSeconds(timeTill) + ' **Faucet will pay out every  **' + millisToMinutesAndSeconds(waitTimeMS) + '**. Your last withdraw was on **' + updated.toUTCString() + '**.' });
+              faucetErrorMessage({ error: 'Already Recieved Payout...', description: '<@' + message.author + '>, come back in another **' + millisToMinutesAndSeconds(timeTill) + '**. The faucet will pay out every  **' + millisToMinutesAndSeconds(waitTimeMS) + '**. Your last withdraw was on **' + updated.toUTCString() + '**.' });
               return;
             }
             else if (faucetCheck[0].drip_found === false) {
