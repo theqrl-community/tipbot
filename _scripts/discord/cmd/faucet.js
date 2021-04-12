@@ -213,6 +213,16 @@ module.exports = {
           });
         }
 
+        async function getTotalDrips(user_id) {
+          return new Promise(resolve => {
+            const check_info = { service: 'discord', service_id: user_id };
+            const checkFaucetTotalsPromise = totalDrips(check_info);
+            // fail from the start
+            checkFaucetTotalsPromise.then(function(results) {
+              resolve(results);
+            });
+          });
+        }
         async function drip(DripArgs) {
           return new Promise(resolve => {
             const drip_info = DripArgs;
@@ -247,7 +257,7 @@ module.exports = {
 
 
               faucetErrorMessage({ error: 'Already Recieved Payout...', description: '<@' + message.author + '>, come back in another **' + millisToMinutesAndSeconds(timeTill) + '**. The faucet will pay out every  **' + millisToMinutesAndSeconds(waitTimeMS) + '**. Your last withdraw was on **' + updated.toUTCString() + '**.' });
-              totalDrips(service_id).then(function(totalDrips){
+              getTotalDrips(service_id).then(function(totalDrips){
                 
                 console.log(`faucetCheck: ${JSON.stringify(faucetCheck)}\nupdated: ${Date.parse(updated)}\nNow: ${Date.parse(now)}\nIt's been : ${itsBeen}ms or ${millisToMinutesAndSeconds(itsBeen)}\nwaitTime: ${waitTimeMS}\nTimetill: ${timeTill} or ${millisToMinutesAndSeconds(timeTill)}\nTotal Dripped: ${JSON.stringify(totalDrips)}`);
                
