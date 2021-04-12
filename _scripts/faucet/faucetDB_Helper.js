@@ -134,7 +134,7 @@ async function totalPaid(args) {
   return new Promise(resolve => {
     // check the faucet_oayments db for the last time user recieved a tip, if ever.
     // set all results to an array to respond to user.
-    const array = [];
+    const array = {};
     const service_id = args.service_id;
     const service = args.service;
     const FaucetSearch = 'SELECT sum(drip_amt) FROM faucet_payouts, ' + service + '_users, users WHERE ' + service + '_users.' + service + '_id = "' + service_id + '" AND ' + service + '_users.id = users.' + service + '_user_id AND faucet_payouts.user_id = users.id';
