@@ -256,22 +256,18 @@ module.exports = {
 
 
 
-              faucetErrorMessage({ error: 'Already Recieved Payout...', description: '<@' + message.author + '>, come back in another **' + millisToMinutesAndSeconds(timeTill) + '**. The faucet will pay out every  **' + millisToMinutesAndSeconds(waitTimeMS) + '**. Your last withdraw was on **' + updated.toUTCString() + '**.' });
+              faucetErrorMessage({ error: 'Faucet Already Paid Out...', description: '<@' + message.author + '>, come back in **' + millisToMinutesAndSeconds(timeTill) + '**. The faucet will pay out every  **' + millisToMinutesAndSeconds(waitTimeMS) + '**.' });
               getTotalDrips(service_id).then(function(totalDrips){
-                
-                // console.log(`faucetCheck: ${JSON.stringify(faucetCheck)}\nupdated: ${Date.parse(updated)}\nNow: ${Date.parse(now)}\nIt's been : ${itsBeen}ms or ${millisToMinutesAndSeconds(itsBeen)}\nwaitTime: ${waitTimeMS}\nTimetill: ${timeTill} or ${millisToMinutesAndSeconds(timeTill)}\nTotal Dripped: ${JSON.stringify(totalDrips)}`);
-               
-
                 const embed = new Discord.MessageEmbed()
                   .setColor(0x000000)
                   .setTitle('QRL Faucet Information')
                   .setDescription('Here are some details from your faucet history.')
                   .addField('Next Available drip in:', `\`${millisToMinutesAndSeconds(timeTill)}\``, false)
-                  .addField('Last Withdraw Date:', `\`${updated.toUTCString()}\``, false)
-                  .addField('Last Withdraw Amount:', `\`${dripAmt} QRL\``, false)
-                  .addField('Last Withdraw TX_Hash:', `[\`${tx_hash}\`](${config.bot_details.explorer_url}/tx/${tx_hash})`, false)
-                  .addField('Count of all Withdraws:', `\`${totalDrips[0].count} total\``, false)
-                  .addField('Total Funds Received:', `\`${totalDrips[0].total} QRL\``, false)
+                  .addField('Last Faucet Request:', `\`${updated.toUTCString()}\``, false)
+                  .addField('Last Faucet Payment Amount:', `\`${dripAmt} QRL\``, false)
+                  .addField('Last Faucet Payment TX_Hash:', `[\`${tx_hash}\`](${config.bot_details.explorer_url}/tx/${tx_hash})`, false)
+                  .addField('Total Faucet Payment Count:', `\`${totalDrips[0].count} total\``, false)
+                  .addField('Total Faucet Funds Given:', `\`${totalDrips[0].total} QRL\``, false)
                   .setFooter('  .: Tipbot provided by The QRL Contributors :.');
                 message.author.send({ embed })
                   .catch(error => {
