@@ -230,7 +230,7 @@ module.exports = {
 
               console.log(`updated: ${Date.parse(updated)}\nNow: ${Date.parse(now)}\nIt's been : ${itsBeen}ms or ${millisToMinutesAndSeconds(itsBeen)}\nwaitTime: ${waitTimeMS}\nTimetill: ${timeTill} or ${millisToMinutesAndSeconds(timeTill)}`);
 
-              errorMessage({ error: 'Already Recieved Faucet Payout...', description: '@<' + message.author + '>, come back in another **' + millisToMinutesAndSeconds(timeTill) + '**\n*Faucet will pay out every  **' + millisToMinutesAndSeconds(waitTimeMS) + '*** hours. Your last withdraw was on *' + updated.toUTCString() + '*.' });
+              errorMessage({ error: 'Already Recieved Faucet Payout...', description: '<@' + message.author + '>, come back in another **' + millisToMinutesAndSeconds(timeTill) + '**\n*Faucet will pay out every  **' + millisToMinutesAndSeconds(waitTimeMS) + '*** hours. Your last withdraw was on *' + updated.toUTCString() + '*.' });
               return;
             }
             else if (faucetCheck[0].drip_found === false) {
