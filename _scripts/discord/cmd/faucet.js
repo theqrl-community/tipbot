@@ -74,8 +74,8 @@ module.exports = {
       seconds = Math.floor(seconds % 60);
       seconds = (seconds >= 10) ? seconds : '0' + seconds;
       if (hours != '') {
-        if ( seconds === 0) {
-          if (minutes === 0) {
+        if ( seconds == 0) {
+          if (minutes == 0) {
             return hours + 'hr';  
           }
           return hours + 'hr ' + minutes + 'min';  
