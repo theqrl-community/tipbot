@@ -144,7 +144,7 @@ async function totalPaid(args) {
         console.log('[mysql error]', err);
       }
       const faucetTotal = result;
-      array.push({ total: faucetTotal });
+      array.push(faucetTotal);
 
       const FaucetSearchTotal = 'SELECT count(*) FROM faucet_payouts, ' + service + '_users, users WHERE ' + service + '_users.' + service + '_id = "' + service_id + '" AND ' + service + '_users.id = users.' + service + '_user_id AND faucet_payouts.user_id = users.id';
 
@@ -152,7 +152,7 @@ async function totalPaid(args) {
         if (err) {
           console.log('[mysql error]', err);
         }
-        array.push({ count: total });
+        array.push(total);
 
         resolve(array);
       });
