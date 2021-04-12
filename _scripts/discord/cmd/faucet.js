@@ -214,15 +214,16 @@ module.exports = {
               const updated = faucetCheck[0].faucet_result[0].updated_at; // last drip
               const now = new Date(); // time now
               const itsBeen = Date.parse(now) - Date.parse(updated); // difference between updated and now
-              const waitTime = config.faucet.payout_interval;
-              const waitTimeMS = waitTime * 1000;
-              const timeTill = itsBeen - waitTimeMS;
-              const timetill = (config.faucet.payout_interval - itsBeen) + Date.parse(now);
-              
 
+              const waitTime = config.faucet.payout_interval; // time to wait in min
+
+              const waitTimeMS = waitTime * 60000; // waittime in ms
+
+              const timeTill = itsBeen - waitTimeMS;
+
+              const timetill = (config.faucet.payout_interval - itsBeen) + Date.parse(now);
 
               console.log(`updated: ${Date.parse(updated)}\nNow: ${Date.parse(now)}\nIt's been : ${itsBeen}ms or ${millisToMinutesAndSeconds(itsBeen)}\nwaitTime: ${waitTimeMS}\nTimetill: ${timeTill} or ${millisToMinutesAndSeconds(timeTill)}`);
-              
 
               errorMessage({ error: 'Already Recieved Faucet Payout...', description: 'Please come back after ' + new Date(timetill) + '\n*Faucet will only pay out once every  **' + config.faucet.payout_interval / 60 + '*** hours.' });
               return;
