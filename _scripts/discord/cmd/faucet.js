@@ -216,7 +216,7 @@ module.exports = {
               const itsBeen = Date.parse(now) - Date.parse(updated); // difference between updated and now
               const waitTime = config.faucet.payout_interval;
               const waitTimeMS = waitTime * 1000;
-              const timeTill = (itsBeen - waitTimeMS) + Date.parse(now);
+              const timeTill = itsBeen - waitTimeMS;
               const timetill = (config.faucet.payout_interval - itsBeen) + Date.parse(now);
               
 
