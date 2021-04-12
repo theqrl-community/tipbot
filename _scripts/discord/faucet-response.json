@@ -1,87 +1,112 @@
 [
 	{
-		"title": "Quantum computers can Reverse BTC Keys!",
+		"title": "Quantum Computers Can Reverse BTC Keys!",
 		"message": "A powerful quantum computer can reverse Bitcoin public keys into private keys from their public keys using Shor's algorithm",
 		"source": "https://arxiv.org/abs/quant-ph/0301141"
 	},
 	{
-		"title": "BTC Exposed Keys!",
-		"message": "36% of all BTC are on addresses with exposed public keys",
+		"title": "BTC Exposed Keys.",
+		"message": "36% of all BTC are on addresses with exposed public keys vulnerable to a sufficiently powered quantum computer.",
 		"source": "https://medium.com/@sashagnip/how-many-bitcoins-are-vulnerable-to-a-hypothetical-quantum-attack-3e59e4172e8"
 	},
 	{
-		"title": "BTC could be hacked in transit!",
+		"title": "BTC Could Be Hacked In Transit.",
 		"message": "100% of BTC addresses can be hacked during transactions by deriving the private key from the public key which is broadcast to the network using a quantum computer.",
 		"source": "https://faqq.info/wiki/Its_going_to_affect_bitcoin"
 	},
 	{
-		"title": "\"But BTC can fork.\"",
-		"message": "Any Bitcoin soft-fork solution requires all users to actively participate in moving their funds to new qc-proof addresses.",
+		"title": "\"But BTC Can Just Fork...\"",
+		"message": "Any Bitcoin soft-fork solution requires all users to actively participate in moving their funds to new qc-proof addresses, which may prove difficult for the Satoshi wallets.",
 		"source": "https://faqq.info/wiki/But_bitcoin_will_fork"
 	},
 	{
-		"title": "\"BTC can impliment larger Signatures for quantum resistance\"",
+		"title": "\"BTC Can Implement Larger Signatures...\"",
 		"message": "Increasing signature length is not a solution. Example, going 256 to 384 bit curves would mean a quantum computer with 3484 qubits instead of 2330 qubits could break the signature scheme.",
 		"source": "https://faqq.info/wiki/Bitcoin_has_plans_for_this"
 	},
 	{
-		"title": "\"Quantum Computers are too far away.\"",
+		"title": "\"Quantum Computers Are Too Far Away...\"",
 		"message": "Some experts predict it will be a problem for Bitcoin’s digital signatures within the decade. Even pessimistic estimates put ‘Y2Q’ at around 30 years away.",
 		"source": "https://faqq.info/wiki/Quantum_computing_is_far_away"
 	},
 	{
-		"title": "QRL has a quantum resistant ledger from genesis",
-		"message": "Did you know that QRL is quantum resistant from the first block?",
+		"title": "QRL is Quantum Resistant From Genesis!",
+		"message": "Did you know that QRL is quantum resistant from the first block? Using NIST approved XmSS cryptography from the beginning gives future security to the QRL blockchain",
 		"source": "https://github.com/theQRL/Whitepaper/blob/master/QRL_whitepaper.pdf"
 	},
 	{
-		"title": "QRL Tokens",
+		"title": "Quantum Resistant Tokens!",
 		"message": "Did you know that you can easily create tokens without the need for programming?",
 		"source": "https://docs.theqrl.org/wallet/create-tokens/"
 	},
 	{
-		"title": "QRL uses NIST standardized cryptography",
-		"message": "Did you know that QRL is using a NIST recommended post-quantum secure algorithm?",
+		"title": "QRL Uses e**X**tended **m**erkle **S**ignature **S**cheme.",
+		"message": "Did you know that QRL is using a NIST recommended post-quantum secure algorithm [**XmSS**](https://tools.ietf.org/html/rfc8391) instead of the quantum insecure ECDSA algorithm Bitcoin uses?",
 		"source": "https://csrc.nist.gov/publications/detail/sp/800-208/final"
 	},
 	{
-		"title": "Tipbot QRL Faucet",
-		"message": " You can get a faucet drop every 24 hours from me!",
+		"title": "Free QRL from the Tipbot Faucet.",
+		"message": "Tipbot is setup with a faucet that will payout once every 24 hours using the `+faucet` command. Faucet payout amounts are random and selected by the bot. One payment per user per day.",
 		"source": "https://qrl.tips/"
 	},
 	{
-		"title": "Tipping QRL",
-		"message": "Tip users on this discord with `+tip AMOUNT @USER`",
+		"title": "Tipping QRL On-Chain.",
+		"message": "Send tips to users on this discord with the `+tip` command. Example: `+tip AMOUNT @USER`",
 		"source": "https://qrl.tips/"
 	},
 	{
-		"title": "What is the QRL",
+		"title": "What is the Quantum Resistant Ledger?",
 		"message": "The QRL is crypto's most forward-looking blockchain, secure today for tomorrow's advancements in Quantum Computing that will threaten the very foundation of Bitcoin, Ethereum, and other top projects",
 		"source": "https://theqrl.org"
 	},
 	{
-		"title": "OTS Reuse",
-		"message": "Extreme care needs to be taken in order to ensure that no OTS key is ever reused for hash based cryptography. QRL has built in security measures to protect from key re-use",
+		"title": "**O**ne **T**ime **S**ignature Key Reuse.",
+		"message": "Extreme care has be taken to ensure that an OTS key is never reused. This is critical to the security of hash based cryptography. QRL has multiple built in security measures to protect from key re-use.",
 		"source": "https://docs.theqrl.org/developers/ots/"
 	},
 	{
-		"title": "QRL and Keybase",
-		"message": "Did you know that you can verify your QRL address on Keybase!",
+		"title": "QRL and Keybase!",
+		"message": "Did you know that you can verify your QRL address on Keybase! Take a look at our [guide here](https://docs.theqrl.org/tools/keybase/) to connect your Keybase account with a QRL address",
 		"source": "https://docs.theqrl.org/tools/keybase/"
 	},
 	{
-		"title": "QRL Notarization",
-		"message": "Did you know that you can notarize documents on the QRL blockchain?",
+		"title": "QRL Document Notarization.",
+		"message": "Did you know that you can notarize documents on the QRL blockchain? Using the wallet tools to notarize a document is simple, follow the [guide here](https://docs.theqrl.org/tools/notarisation/) or get started with the [QRL web wallet](https://wallet.theqrl.org) tools now!",
 		"source": "https://docs.theqrl.org/tools/notarisation/"
 	},
 	{
-		"title": "QRL Message transactions",
-		"message": "Did you know that you can send messages on the QRL network?",
+		"title": "QRL Message Transactions.",
+		"message": "Did you know that you can send messages on the QRL network? The QRL network supports arbitrary messages up to 80 bytes in length to be stored on chain through the `MessageTransaction` subtype.",
 		"source": "https://docs.theqrl.org/tools/messages/"
 	},
 	{
-		"title": "League of Entropy and the QRL",
-		"message": "Did you know QRL is part of the League of Entropy, helping secure truly random data?",
+		"title": "QRL Web Wallet.",
+		"message": "The QRL offers a secure web wallet available at [https://wallet.theqrl.org](https://wallet.theqrl.org) with a full suite of on-chain tools. Create a wallet, send funds and use the on-chain tools to interact with the QRL network.",
+		"source": "https://docs.theqrl.org/wallet/basics/#qrl-web-wallet"
+	},
+	{
+		"title": "QRL has Hardware Wallet Support!",
+		"message": "One of the most secure ways to store cryptocurrencies is on a hardware wallet. The QRL has integrated with Ledger devices allowing up to 4 QRL addresses or XmSS trees to be stored on a single ledger device.",
+		"source": "https://docs.theqrl.org/wallet/ledger-nano-s/"
+	},
+	{
+		"title": "Quantum Secure Multi-Sig Transactions.",
+		"message": "Weighted threshold multisignature addresses & transactions on the QRL network! This allows multiple parties the ability to approve and control a QRL balance through weighted controls requiring a preset threshold to be met before a transaction will be sent.",
+		"source": "https://www.theqrl.org/blog/the-qrl-bromine-hardfork-a-look-inside/#3065"
+	},
+	{
+		"title": "Mining the QRL!",
+		"message": "Mining QRL is simple, most modern computers are able to contribute and earn rewards. QRL uses the RandomX mining algorithm to find blocks utilizing the CPU instead of GPU's. Setup a miner today and start earning QRL!",
+		"source": "https://docs.theqrl.org/mining/mining"
+	},
+	{
+		"title": "Where to Buy QRL?",
+		"message": "You can find all of the current listings where you can trade QRL on the [main QRL website](https://www.theqrl.org/markets/). For listing inquiries please [email info@theqrl.org](mailto:info@theqrl.org)",
+		"source": "https://docs.theqrl.org/mining/mining"
+	},
+	{
+		"title": "League of Entropy and the QRL.",
+		"message": "Did you know QRL is helping to create truly random data as part of the League of Entropy? The QRL Foundation runs a private node submitting entropy to the DRAND network as a contributor.",
 		"source": "https://en.wikipedia.org/wiki/League_of_entropy"
 	}
 ]

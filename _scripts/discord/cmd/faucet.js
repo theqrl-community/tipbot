@@ -46,14 +46,14 @@ module.exports = {
       }, 500);
     }
 
-    function dripMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
+    function dripMessage(content, footer = '  .: Tipbot Tidbits provided by The QRL Contributors :.') {
       message.channel.startTyping();
       setTimeout(function() {
         const embed = new Discord.MessageEmbed()
           .setColor('BLUE')
           .setURL(content.source)
-          .setTitle('QRL Faucet Tidbits')
-          .setDescription(`**${content.title}** ${content.message} [More here](${content.source})`)
+          .setTitle(content.title)
+          .setDescription(`${content.message} \n[More info here](${content.source})`)
           .setFooter(footer);
         message.reply({ embed });
         message.channel.stopTyping(true);
