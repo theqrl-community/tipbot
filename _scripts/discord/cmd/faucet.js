@@ -74,9 +74,9 @@ module.exports = {
       seconds = Math.floor(seconds % 60);
       seconds = (seconds >= 10) ? seconds : '0' + seconds;
       if (hours != '') {
-        return hours + ':' + minutes + ':' + seconds;
+        return hours + 'hr ' + minutes + 'min ' + seconds + 'sec';
       }
-      return minutes + ':' + seconds;
+      return minutes + 'min ' + seconds + 'sec';
     }
 
 
@@ -221,11 +221,10 @@ module.exports = {
 
               const timeTill = waitTimeMS - itsBeen;
 
-              const timetill = (config.faucet.payout_interval - itsBeen) + Date.parse(now);
 
               console.log(`updated: ${Date.parse(updated)}\nNow: ${Date.parse(now)}\nIt's been : ${itsBeen}ms or ${millisToMinutesAndSeconds(itsBeen)}\nwaitTime: ${waitTimeMS}\nTimetill: ${timeTill} or ${millisToMinutesAndSeconds(timeTill)}`);
 
-              errorMessage({ error: 'Already Recieved Faucet Payout...', description: 'Please come back after ' + new Date(timetill) + '\n*Faucet will only pay out once every  **' + config.faucet.payout_interval / 60 + '*** hours.' });
+              errorMessage({ error: 'Already Recieved Faucet Payout...', description: 'Please come back in another ' + timeTill + '\n*Faucet will only pay out once every  **' + config.faucet.payout_interval / 60 + '*** hours. Your last withdraw was on ' + updated });
               return;
             }
             else if (faucetCheck[0].drip_found === false) {
