@@ -224,7 +224,7 @@ module.exports = {
 
               console.log(`updated: ${Date.parse(updated)}\nNow: ${Date.parse(now)}\nIt's been : ${itsBeen}ms or ${millisToMinutesAndSeconds(itsBeen)}\nwaitTime: ${waitTimeMS}\nTimetill: ${timeTill} or ${millisToMinutesAndSeconds(timeTill)}`);
 
-              errorMessage({ error: 'Already Recieved Faucet Payout...', description: 'Please come back in another ' + timeTill + '\n*Faucet will only pay out once every  **' + config.faucet.payout_interval / 60 + '*** hours. Your last withdraw was on ' + updated });
+              errorMessage({ error: 'Already Recieved Faucet Payout...', description: 'Please come back in another ' + millisToMinutesAndSeconds(timeTill) + '\n*Faucet will only pay out once every  **' + config.faucet.payout_interval / 60 + '*** hours. Your last withdraw was on ' + updated });
               return;
             }
             else if (faucetCheck[0].drip_found === false) {
