@@ -219,7 +219,7 @@ module.exports = {
 
               const waitTimeMS = waitTime * 60000; // waittime in ms
 
-              const timeTill = itsBeen - waitTimeMS;
+              const timeTill = waitTimeMS - itsBeen;
 
               const timetill = (config.faucet.payout_interval - itsBeen) + Date.parse(now);
 
