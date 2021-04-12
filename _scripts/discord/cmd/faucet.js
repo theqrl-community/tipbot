@@ -19,6 +19,7 @@ module.exports = {
     const service_id = uuid.slice(1, -1);
     const GetAllUserInfo = dbHelper.GetAllUserInfo;
     const checkFaucetPayouts = faucetHelper.checkPayments;
+    const totalDrips = faucetHelper.totalPaid;
     const getBalance = wallet.GetBalance;
     const faucetDrip = faucetHelper.Drip;
     const userInfoArray = [];
@@ -46,19 +47,65 @@ module.exports = {
       }, 500);
     }
 
-    function dripMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
+    function faucetErrorMessage(content) {
+      message.channel.startTyping();
+      setTimeout(function() {
+        const embed = new Discord.MessageEmbed()
+          .setColor(0x000000)
+          .setTitle(':warning:  ERROR: ' + content.error)
+          .setDescription(content.description);
+        message.reply({ embed });
+        message.channel.stopTyping(true);
+      }, 500);
+    }
+
+    function dripMessage(content, footer = '  .: Tipbot Tidbits provided by The QRL Contributors :.') {
       message.channel.startTyping();
       setTimeout(function() {
         const embed = new Discord.MessageEmbed()
           .setColor('BLUE')
           .setURL(content.source)
-          .setTitle('QRL Faucet Tidbits')
-          .setDescription(`**${content.title}** ${content.message} [More here](${content.source})`)
+          .setTitle(content.title)
+          .setDescription(`${content.message} \n[More info here](${content.source})`)
           .setFooter(footer);
         message.reply({ embed });
         message.channel.stopTyping(true);
       }, 1000);
     }
+
+
+    function millisToMinutesAndSeconds(millisec) {
+      let seconds = (millisec / 1000).toFixed(0);
+      let minutes = Math.floor(seconds / 60);
+      let hours = '';
+      if (minutes > 59) {
+        hours = Math.floor(minutes / 60);
+        hours = (hours >= 10) ? hours : '0' + hours;
+        minutes = minutes - (hours * 60);
+        minutes = (minutes >= 10) ? minutes : '0' + minutes;
+      }
+      seconds = Math.floor(seconds % 60);
+      seconds = (seconds >= 10) ? seconds : '0' + seconds;
+      if (hours != '') {
+        if ( seconds == 0) {
+          if (minutes == 0) {
+            return hours + 'hr';  
+          }
+          return hours + 'hr ' + minutes + 'min';  
+        }
+        return hours + 'hr ' + minutes + 'min ' + seconds + 'sec';
+      }
+      if (seconds == 0 ) {
+        return minutes + 'min';
+      }
+      else if (minutes == 0 ) {
+        return seconds + 'sec';
+      }
+      else {
+        return minutes + 'min ' + seconds + 'sec';
+      }
+    }
+
 
     function toQuanta(number) {
       const shor = 1000000000;
@@ -174,6 +221,16 @@ module.exports = {
           });
         }
 
+        async function getTotalDrips(user_id) {
+          return new Promise(resolve => {
+            const check_info = { service: 'discord', service_id: user_id };
+            const checkFaucetTotalsPromise = totalDrips(check_info);
+            // fail from the start
+            checkFaucetTotalsPromise.then(function(results) {
+              resolve(results);
+            });
+          });
+        }
         async function drip(DripArgs) {
           return new Promise(resolve => {
             const drip_info = DripArgs;
@@ -188,16 +245,46 @@ module.exports = {
 
           checkFaucet(service_id).then(function(faucetCheck) {
 
-            console.log(JSON.stringify(faucetCheck));
+            // console.log(JSON.stringify(faucetCheck));
 
             if (faucetCheck[0].drip_found === true) {
-              const updated = faucetCheck[0].faucet_result[0].updated_at;
-              const now = new Date();
-              const itsBeen = Date.parse(now) - Date.parse(updated);
-              console.log(itsBeen);
-              const timetill = (config.faucet.payout_interval - itsBeen) + Date.parse(now);
-              errorMessage({ error: 'Already Recieved Faucet Payout...', description: 'Please come back after ' + new Date(timetill) + '\n*Faucet will only pay out once every  **' + config.faucet.payout_interval / 60 + '*** hours.' });
-              return;
+              const updated = faucetCheck[0].faucet_result[0].updated_at; // last drip
+
+              const dripAmt = faucetCheck[0].faucet_result[0].drip_amt; // last drip
+              const tx_hash = faucetCheck[0].faucet_result[0].tx_hash; // last drip
+
+              const now = new Date(); // time now
+              const itsBeen = Date.parse(now) - Date.parse(updated); // difference between updated and now
+
+              const waitTime = config.faucet.payout_interval; // time to wait in min
+
+              const waitTimeMS = waitTime * 60000; // waittime in ms
+
+              const timeTill = waitTimeMS - itsBeen;
+
+
+
+              faucetErrorMessage({ error: 'Faucet Already Paid Out...', description: '<@' + message.author + '>, come back in **' + millisToMinutesAndSeconds(timeTill) + '**. The faucet will pay out every  **' + millisToMinutesAndSeconds(waitTimeMS) + '**.' });
+              getTotalDrips(service_id).then(function(totalDrips){
+                const embed = new Discord.MessageEmbed()
+                  .setColor(0x000000)
+                  .setTitle('QRL Faucet Information')
+                  .setDescription('Here are some details from your faucet history.')
+                  .addField('Next Available drip in:', `\`${millisToMinutesAndSeconds(timeTill)}\``, false)
+                  .addField('Last Faucet Request:', `\`${updated.toUTCString()}\``, false)
+                  .addField('Last Faucet Payment Amount:', `\`${dripAmt} QRL\``, false)
+                  .addField('Last Faucet Payment TX_Hash:', `[\`${tx_hash}\`](${config.bot_details.explorer_url}/tx/${tx_hash})`, false)
+                  .addField('Total Faucet Payment Count:', `\`${totalDrips[0].count} total\``, false)
+                  .addField('Total Faucet Funds Given:', `\`${totalDrips[0].total} QRL\``, false)
+                  .setFooter('  .: Tipbot provided by The QRL Contributors :.');
+                message.author.send({ embed })
+                  .catch(error => {
+                    errorMessage({ error: 'Direct Message Disabled...', description: 'It seems you have DM\'s blocked, please enable and try again...' });
+                    if (error) return error;
+                  });
+
+                return;
+              });
             }
             else if (faucetCheck[0].drip_found === false) {
               // no drip found. Do things here.

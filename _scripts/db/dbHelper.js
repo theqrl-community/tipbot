@@ -350,27 +350,43 @@ async function lastTxCheck(args) {
     // wallet tools GetTxInfo
     const pendingTx = await wallet.GetTxInfo(pending.tx_hash);
     const out = JSON.parse(pendingTx);
+
+    // Is the transaction verified
     if (out.confirmations > 0) {
-    // write the changes to the database as the tx is confirmed
-      const dbInfo = 'UPDATE transactions SET pending = "0" WHERE tx_hash = "' + out.tx.transaction_hash + '"';
+      // write the changes to the database as the tx is confirmed
+      const dbInfo = 'UPDATE transactions SET pending = "0" WHERE tx_hash = "' + out.tx.transaction_hash + '" AND tip_id = "' + args[i].tip_id + '"';
       callmysql.query(dbInfo, function(err) {
         if (err) {
           console.log('[mysql error]', err);
         }
       });
     }
+
+
+    else if (!out.tx.transaction_hash) {
+      // the transaction is not found on the chain, mark as fail and move on
+      const dbInfo = 'UPDATE transactions SET pending = "3" WHERE tx_hash = "' + args[i].tx_hash + '" AND tip_id = "' + args[i].tip_id + '"';
+      callmysql.query(dbInfo, function(err) {
+        if (err) {
+          console.log('[mysql error]', err);
+        }
+      });
+    }
+
     else {
-    // tx is not confirmed, add the pending balance and return to user
+      // tx is found but not confirmed, add the pending balance and return to user
       const txAmt = out.tx.transfer.amounts[0];
       sum = sum + Number(txAmt);
       sumArray.push(Number(txAmt));
     }
   }
+
   sum = sumArray.reduce(function(a, b) {
     return a + b;
   }, 0);
   return sum;
 }
+
 // expects { user_id: user_id }
 // expects { user_id: @734267018701701242 }
 
