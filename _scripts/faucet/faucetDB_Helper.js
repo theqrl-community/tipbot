@@ -154,7 +154,7 @@ async function totalPaid(args) {
         }
         array.push({ count: total });
 
-        resolve(faucetTotal);
+        resolve(array);
       });
     });
   });

@@ -254,11 +254,12 @@ module.exports = {
 
                 const embed = new Discord.MessageEmbed()
                   .setColor(0x000000)
-                  .setTitle('Faucet Information!')
+                  .setTitle('QRL Faucet Information')
                   .setDescription('Here are some details from your faucet history. Next available drip will be in ' + millisToMinutesAndSeconds(timeTill))
                   .addField('Last drip date:', updated.toUTCString(), false)
                   .addField('Last Drip Amount:', dripAmt, false)
-                  .addField('Total Faucet Funds recieved:', totalDrips, true)
+                  .addField('Last Drip TX_Hash:', tx_hash, false)
+                  .addField('Total Faucet Funds recieved:', totalDrips, false)
                   .setFooter('  .: Tipbot provided by The QRL Contributors :.');
                 message.author.send({ embed })
                   .catch(error => {
