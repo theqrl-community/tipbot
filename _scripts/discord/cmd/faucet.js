@@ -237,7 +237,7 @@ module.exports = {
 
           checkFaucet(service_id).then(function(faucetCheck) {
 
-            console.log(JSON.stringify(faucetCheck));
+            // console.log(JSON.stringify(faucetCheck));
 
             if (faucetCheck[0].drip_found === true) {
               const updated = faucetCheck[0].faucet_result[0].updated_at; // last drip
@@ -259,7 +259,7 @@ module.exports = {
               faucetErrorMessage({ error: 'Already Recieved Payout...', description: '<@' + message.author + '>, come back in another **' + millisToMinutesAndSeconds(timeTill) + '**. The faucet will pay out every  **' + millisToMinutesAndSeconds(waitTimeMS) + '**. Your last withdraw was on **' + updated.toUTCString() + '**.' });
               getTotalDrips(service_id).then(function(totalDrips){
                 
-                console.log(`faucetCheck: ${JSON.stringify(faucetCheck)}\nupdated: ${Date.parse(updated)}\nNow: ${Date.parse(now)}\nIt's been : ${itsBeen}ms or ${millisToMinutesAndSeconds(itsBeen)}\nwaitTime: ${waitTimeMS}\nTimetill: ${timeTill} or ${millisToMinutesAndSeconds(timeTill)}\nTotal Dripped: ${JSON.stringify(totalDrips)}`);
+                // console.log(`faucetCheck: ${JSON.stringify(faucetCheck)}\nupdated: ${Date.parse(updated)}\nNow: ${Date.parse(now)}\nIt's been : ${itsBeen}ms or ${millisToMinutesAndSeconds(itsBeen)}\nwaitTime: ${waitTimeMS}\nTimetill: ${timeTill} or ${millisToMinutesAndSeconds(timeTill)}\nTotal Dripped: ${JSON.stringify(totalDrips)}`);
                
 
                 const embed = new Discord.MessageEmbed()
@@ -269,7 +269,8 @@ module.exports = {
                   .addField('Last drip date:', updated.toUTCString(), false)
                   .addField('Last Drip Amount:', dripAmt, false)
                   .addField('Last Drip TX_Hash:', tx_hash, false)
-                  .addField('Total Faucet Funds recieved:', totalDrips, false)
+                  .addField('Total Faucet Withdraw:', totalDrips[0].count, false)
+                  .addField('Total Faucet Funds recieved:', totalDrips[0].total, false)
                   .setFooter('  .: Tipbot provided by The QRL Contributors :.');
                 message.author.send({ embed })
                   .catch(error => {
