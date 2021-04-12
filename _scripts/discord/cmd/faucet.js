@@ -61,15 +61,22 @@ module.exports = {
     }
 
 
-    function millisToMinutesAndSeconds(ms) {
-      let seconds = (ms / 1000).toFixed(1);
-      let minutes = (ms / (1000 * 60)).toFixed(1);
-      let hours = (ms / (1000 * 60 * 60)).toFixed(1);
-      let days = (ms / (1000 * 60 * 60 * 24)).toFixed(1);
-      if (seconds < 60) return seconds + ' Sec';
-      else if (minutes < 60) return minutes + ' Min';
-      else if (hours < 24) return hours + ' Hrs';
-      else return days + ' Days';
+    function millisToMinutesAndSeconds(millisec) {
+      let seconds = (millisec / 1000).toFixed(0);
+      let minutes = Math.floor(seconds / 60);
+      let hours = '';
+      if (minutes > 59) {
+        hours = Math.floor(minutes / 60);
+        hours = (hours >= 10) ? hours : '0' + hours;
+        minutes = minutes - (hours * 60);
+        minutes = (minutes >= 10) ? minutes : '0' + minutes;
+      }
+      seconds = Math.floor(seconds % 60);
+      seconds = (seconds >= 10) ? seconds : '0' + seconds;
+      if (hours != '') {
+        return hours + ':' + minutes + ':' + seconds;
+      }
+      return minutes + ':' + seconds;
     }
 
 
