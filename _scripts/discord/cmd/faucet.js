@@ -95,7 +95,15 @@ module.exports = {
         }
         return hours + 'hr ' + minutes + 'min ' + seconds + 'sec';
       }
-      return minutes + 'min ' + seconds + 'sec';
+      if (seconds == 0 ) {
+        return minutes + 'min';
+      }
+      else if (minutes == 0 ) {
+        return seconds + 'sec';
+      }
+      else {
+        return minutes + 'min ' + seconds + 'sec';
+      }
     }
 
 
