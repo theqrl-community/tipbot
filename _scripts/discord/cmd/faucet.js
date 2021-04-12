@@ -207,9 +207,9 @@ module.exports = {
               const updated = faucetCheck[0].faucet_result[0].updated_at; // last drip
               const now = new Date(); // time now
               const itsBeen = Date.parse(now) - Date.parse(updated); // difference between updated and now
+              const waitTime = config.faucet.payout_interval;
 
-
-              const timeTill = config.faucet.payout_interval - itsBeen;
+              const timeTill = itsBeen - waitTime;
               const timetill = (config.faucet.payout_interval - itsBeen) + Date.parse(now);
               
 
