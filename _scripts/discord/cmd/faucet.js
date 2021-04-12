@@ -60,6 +60,12 @@ module.exports = {
       }, 1000);
     }
 
+    function millisToMinutesAndSeconds(millis) {
+      var minutes = Math.floor(millis / 60000);
+      var seconds = ((millis % 60000) / 1000).toFixed(0);
+      return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+    }
+
     function toQuanta(number) {
       const shor = 1000000000;
       return number / shor;
@@ -194,8 +200,13 @@ module.exports = {
               const updated = faucetCheck[0].faucet_result[0].updated_at;
               const now = new Date();
               const itsBeen = Date.parse(now) - Date.parse(updated);
-              console.log(itsBeen);
+
+
               const timetill = (config.faucet.payout_interval - itsBeen) + Date.parse(now);
+              
+              console.log(`it's been : ${itsBeen}ms or ${millisToMinutesAndSeconds(itsBeen)}\nTimetill: ${timetill} or ${millisToMinutesAndSeconds(timetill)}`);
+              
+
               errorMessage({ error: 'Already Recieved Faucet Payout...', description: 'Please come back after ' + new Date(timetill) + '\n*Faucet will only pay out once every  **' + config.faucet.payout_interval / 60 + '*** hours.' });
               return;
             }
