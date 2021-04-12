@@ -129,10 +129,41 @@ async function allDrips(args) {
   });
 }
 
+async function totalPaid(args) {
+  // expect { service: 'discord, service_id: service_id }
+  return new Promise(resolve => {
+    // check the faucet_oayments db for the last time user recieved a tip, if ever.
+    // set all results to an array to respond to user.
+    const array = [];
+    const service_id = args.service_id;
+    const service = args.service;
+    const FaucetSearch = 'SELECT sum(drip_amt) FROM faucet_payouts, ' + service + '_users, users WHERE ' + service + '_users.' + service + '_id = "' + service_id + '" AND ' + service + '_users.id = users.' + service + '_user_id AND faucet_payouts.user_id = users.id';
+    // console.log(`FaucetSearch: ${FaucetSearch}`);
+    callmysqlTipBot.query(FaucetSearch, function(err, result) {
+      if (err) {
+        console.log('[mysql error]', err);
+      }
+      const faucetTotal = result;
+      array.push({ total: faucetTotal });
+
+      const FaucetSearchTotal = 'SELECT count(*) FROM faucet_payouts, ' + service + '_users, users WHERE ' + service + '_users.' + service + '_id = "' + service_id + '" AND ' + service + '_users.id = users.' + service + '_user_id AND faucet_payouts.user_id = users.id';
+
+      callmysqlTipBot.query(FaucetSearchTotal, function(err, total) {
+        if (err) {
+          console.log('[mysql error]', err);
+        }
+        array.push({ count: total });
+
+        resolve(faucetTotal);
+      });
+    });
+  });
+}
 
 module.exports = {
   Drip : Drip,
   checkPayments : checkPayments,
   lastDrip : lastDrip,
   allDrips : allDrips,
+  totalPaid : totalPaid,
 };

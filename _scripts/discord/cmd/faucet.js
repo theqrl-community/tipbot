@@ -19,6 +19,7 @@ module.exports = {
     const service_id = uuid.slice(1, -1);
     const GetAllUserInfo = dbHelper.GetAllUserInfo;
     const checkFaucetPayouts = faucetHelper.checkPayments;
+    const totalDrips = faucetHelper.totalPaid;
     const getBalance = wallet.GetBalance;
     const faucetDrip = faucetHelper.Drip;
     const userInfoArray = [];
@@ -230,6 +231,10 @@ module.exports = {
 
             if (faucetCheck[0].drip_found === true) {
               const updated = faucetCheck[0].faucet_result[0].updated_at; // last drip
+
+              const dripAmt = faucetCheck[0].faucet_result[0].drip_amt; // last drip
+              const tx_hash = faucetCheck[0].faucet_result[0].tx_hash; // last drip
+
               const now = new Date(); // time now
               const itsBeen = Date.parse(now) - Date.parse(updated); // difference between updated and now
 
@@ -240,10 +245,29 @@ module.exports = {
               const timeTill = waitTimeMS - itsBeen;
 
 
-              console.log(`faucetCheck: ${JSON.stringify(faucetCheck)}\nupdated: ${Date.parse(updated)}\nNow: ${Date.parse(now)}\nIt's been : ${itsBeen}ms or ${millisToMinutesAndSeconds(itsBeen)}\nwaitTime: ${waitTimeMS}\nTimetill: ${timeTill} or ${millisToMinutesAndSeconds(timeTill)}`);
 
               faucetErrorMessage({ error: 'Already Recieved Payout...', description: '<@' + message.author + '>, come back in another **' + millisToMinutesAndSeconds(timeTill) + '**. The faucet will pay out every  **' + millisToMinutesAndSeconds(waitTimeMS) + '**. Your last withdraw was on **' + updated.toUTCString() + '**.' });
-              return;
+              totalDrips(service_id).then(function(totalDrips){
+                
+                console.log(`faucetCheck: ${JSON.stringify(faucetCheck)}\nupdated: ${Date.parse(updated)}\nNow: ${Date.parse(now)}\nIt's been : ${itsBeen}ms or ${millisToMinutesAndSeconds(itsBeen)}\nwaitTime: ${waitTimeMS}\nTimetill: ${timeTill} or ${millisToMinutesAndSeconds(timeTill)}\nTotal Dripped: ${JSON.stringify(totalDrips)}`);
+               
+
+                const embed = new Discord.MessageEmbed()
+                  .setColor(0x000000)
+                  .setTitle('Faucet Information!')
+                  .setDescription('Here are some details from your faucet history. Next available drip will be in ' + millisToMinutesAndSeconds(timeTill))
+                  .addField('Last drip date:', updated.toUTCString(), false)
+                  .addField('Last Drip Amount:', dripAmt, false)
+                  .addField('Total Faucet Funds recieved:', totalDrips, true)
+                  .setFooter('  .: Tipbot provided by The QRL Contributors :.');
+                message.author.send({ embed })
+                  .catch(error => {
+                    errorMessage({ error: 'Direct Message Disabled...', description: 'It seems you have DM\'s blocked, please enable and try again...' });
+                    if (error) return error;
+                  });
+
+                return;
+              });
             }
             else if (faucetCheck[0].drip_found === false) {
               // no drip found. Do things here.
