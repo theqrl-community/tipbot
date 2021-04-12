@@ -143,7 +143,7 @@ async function totalPaid(args) {
       if (err) {
         console.log('[mysql error]', err);
       }
-      const faucetTotal = result;
+      const faucetTotal = result[0]['"sum(drip_amt)"'];
       console.log(`total: ${JSON.stringify(faucetTotal)}`);
 
       const FaucetSearchTotal = 'SELECT count(*) FROM faucet_payouts, ' + service + '_users, users WHERE ' + service + '_users.' + service + '_id = "' + service_id + '" AND ' + service + '_users.id = users.' + service + '_user_id AND faucet_payouts.user_id = users.id';
@@ -153,8 +153,8 @@ async function totalPaid(args) {
           console.log('[mysql error]', err);
         }
         console.log(`count: ${JSON.stringify(total)}`);
-
-        array.push(total, faucetTotal);
+        const calcTotal = total[0]['"count(*)"'];
+        array.push(calcTotal, faucetTotal);
         resolve(array);
       });
     });
