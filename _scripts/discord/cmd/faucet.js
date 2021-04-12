@@ -46,6 +46,18 @@ module.exports = {
       }, 500);
     }
 
+    function faucetErrorMessage(content) {
+      message.channel.startTyping();
+      setTimeout(function() {
+        const embed = new Discord.MessageEmbed()
+          .setColor(0x000000)
+          .setTitle(':warning:  ERROR: ' + content.error)
+          .setDescription(content.description);
+        message.reply({ embed });
+        message.channel.stopTyping(true);
+      }, 500);
+    }
+
     function dripMessage(content, footer = '  .: Tipbot Tidbits provided by The QRL Contributors :.') {
       message.channel.startTyping();
       setTimeout(function() {
@@ -230,7 +242,7 @@ module.exports = {
 
               console.log(`updated: ${Date.parse(updated)}\nNow: ${Date.parse(now)}\nIt's been : ${itsBeen}ms or ${millisToMinutesAndSeconds(itsBeen)}\nwaitTime: ${waitTimeMS}\nTimetill: ${timeTill} or ${millisToMinutesAndSeconds(timeTill)}`);
 
-              errorMessage({ error: 'Already Recieved Faucet Payout...', description: '<@' + message.author + '>, come back in another **' + millisToMinutesAndSeconds(timeTill) + '**\n*Faucet will pay out every  **' + millisToMinutesAndSeconds(waitTimeMS) + '*** hours. Your last withdraw was on *' + updated.toUTCString() + '*.' });
+              faucetErrorMessage({ error: 'Already Recieved Faucet Payout...', description: '<@' + message.author + '>, come back in another **' + millisToMinutesAndSeconds(timeTill) + ' **Faucet will pay out every  **' + millisToMinutesAndSeconds(waitTimeMS) + '**. Your last withdraw was on **' + updated.toUTCString() + '**.' });
               return;
             }
             else if (faucetCheck[0].drip_found === false) {
