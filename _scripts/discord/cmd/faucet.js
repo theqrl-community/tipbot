@@ -60,11 +60,18 @@ module.exports = {
       }, 1000);
     }
 
-    function millisToMinutesAndSeconds(millis) {
-      var minutes = Math.floor(millis / 60000);
-      var seconds = ((millis % 60000) / 1000).toFixed(0);
-      return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+
+    function millisToMinutesAndSeconds(ms) {
+      let seconds = (ms / 1000).toFixed(1);
+      let minutes = (ms / (1000 * 60)).toFixed(1);
+      let hours = (ms / (1000 * 60 * 60)).toFixed(1);
+      let days = (ms / (1000 * 60 * 60 * 24)).toFixed(1);
+      if (seconds < 60) return seconds + ' Sec';
+      else if (minutes < 60) return minutes + ' Min';
+      else if (hours < 24) return hours + ' Hrs';
+      else return days + ' Days';
     }
+
 
     function toQuanta(number) {
       const shor = 1000000000;
