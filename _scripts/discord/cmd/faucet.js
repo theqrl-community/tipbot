@@ -269,7 +269,7 @@ module.exports = {
                   .addField('Next Available drip in:', `\`${millisToMinutesAndSeconds(timeTill)}\``, false)
                   .addField('Last Withdraw Date:', `\`${updated.toUTCString()}\``, false)
                   .addField('Last Withdraw Amount:', `\`${dripAmt} QRL\``, false)
-                  .addField('Last Withdraw TX_Hash:', `\`[${tx_hash}](${config.bot_details.explorer_url}/tx/${tx_hash})\``, false)
+                  .addField('Last Withdraw TX_Hash:', `[\`${tx_hash}\`](${config.bot_details.explorer_url}/tx/${tx_hash})`, false)
                   .addField('Count of all Withdraws:', `\`${totalDrips[0].count} total\``, false)
                   .addField('Total Funds Received:', `\`${totalDrips[0].total} QRL\``, false)
                   .setFooter('  .: Tipbot provided by The QRL Contributors :.');
