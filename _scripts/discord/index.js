@@ -293,6 +293,13 @@ client.on('message', message => {
     }
   }
 */
+
+  // check that the user is not a bot
+  if(message.author.bot) {
+    errorMessage({ error: 'Bots Can\'t access the Tipbot!', description: 'Please come back as a human and try again!' });
+    return;
+  }
+
   // check that the message starts with our prefix called out in the config file or direct to the bot
   const prefixRegex = new RegExp(`^(<@!?${client.user.id}>|${escapeRegex(config.discord.prefix)})\\s*`);
   // test message content for prefex or client id of the bot. Fail if not found
