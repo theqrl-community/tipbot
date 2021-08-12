@@ -337,7 +337,7 @@ client.on('message', message => {
     command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
   }
 
-console.log(message.author.bot)
+console.log(JSON.stringify(message.author));
   // check that the user is not a bot
   if(message.author.bot === true) {
     errorMessage({ error: 'Bots Can\'t access the Tipbot!', description: 'Please come back as a human and try again!' });
