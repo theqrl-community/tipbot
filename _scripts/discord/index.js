@@ -356,13 +356,17 @@ client.on('message', message => {
   // ///////////////////////////////////////////////////////
   // log everthing with ${config.discord.prefix} or BOT user mention to console
   // ///////////////////////////////////////////////////////
+
+  const d = new Date( message.author.createdTimestamp );
+  const joinedDate = d.getHours() + ':' + d.getMinutes() + ', ' + d.toDateString();
+
   if (message.channel.type === 'dm') {
     console.log(chalk.yellow('Message Recieved:..') +
       chalk.cyan('\nTime:\t') + chalk.green(now1) +
       chalk.cyan('\nGuild:\t') + chalk.green('Private Message') +
       chalk.cyan('\nChan:\t') + chalk.green(message.channel.name) +
       chalk.cyan('\nAuth:\t') + chalk.green(message.author.username + chalk.dim(' <@' + message.author.id + '>')) +
-      chalk.cyan('\ncreatedTS:\t') + chalk.green(message.author.createdTimestamp) +
+      chalk.cyan('\nJoined:\t') + chalk.green(joinedDate) +
       chalk.cyan('\nBot:\t') + chalk.green(message.author.bot) +
       chalk.cyan('\nMesg:\t') + chalk.green(message.content));
   }
@@ -372,7 +376,7 @@ client.on('message', message => {
       chalk.cyan('\nGuild:\t') + chalk.green(message.guild.name) +
       chalk.cyan('\nChan:\t') + chalk.green(message.channel.name) +
       chalk.cyan('\nAuth:\t') + chalk.green(message.author.username + chalk.dim(' <@' + message.author.id + '>')) +
-      chalk.cyan('\ncreatedTS:\t') + chalk.green(message.author.createdTimestamp) +
+      chalk.cyan('\nJoined:\t') + chalk.green(joinedDate) +
       chalk.cyan('\nBot:\t') + chalk.green(message.author.bot) +
       chalk.cyan('\nCMD:\t') + chalk.green(command.name) +
       chalk.cyan('\nMesg:\t') + chalk.green(message.content));
