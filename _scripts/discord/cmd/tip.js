@@ -479,7 +479,7 @@ module.exports = {
                     errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' + e.message });
                   });
 
-                ReplyMessage('your tip was sent! Thanks for using the tipbot :smiley: \n*All tips are on-chain, and will take some time to process...*');
+                ReplyMessage('your tip was sent! Thanks for using the tipbot :smiley: \n*All tips are on-chain, and will take some time to process...*')
                   // delete the message after a bit
                   .then(msg => {
                     setTimeout(() => msg.delete(), 10000)
