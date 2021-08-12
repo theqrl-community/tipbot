@@ -294,11 +294,7 @@ client.on('message', message => {
   }
 */
 
-  // check that the user is not a bot
-  if(message.author.bot) {
-    errorMessage({ error: 'Bots Can\'t access the Tipbot!', description: 'Please come back as a human and try again!' });
-    return;
-  }
+
 
   // check that the message starts with our prefix called out in the config file or direct to the bot
   const prefixRegex = new RegExp(`^(<@!?${client.user.id}>|${escapeRegex(config.discord.prefix)})\\s*`);
@@ -340,6 +336,15 @@ client.on('message', message => {
     // Is not a DM
     command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
   }
+
+console.log(message.author.bot)
+  // check that the user is not a bot
+  if(message.author.bot === true) {
+    errorMessage({ error: 'Bots Can\'t access the Tipbot!', description: 'Please come back as a human and try again!' });
+    return;
+  }
+
+
   // get the command name set to command either from admin commands or user commands.
   // const command = (client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName))) || (client.adminCommands.get(commandName) || client.adminCommands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName)));
   // console.log('command: ' + JSON.stringify(command));
