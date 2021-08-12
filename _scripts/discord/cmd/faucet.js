@@ -124,7 +124,7 @@ module.exports = {
     // check if the message is in an approved channel
     // TODO: Add this to the config and parse from a list of approved channels
 
-console.log(message.channel.id)
+console.log(JSON.stringify(message.channel))
 
     if (message.channel.id !== 'bot') {
       message.channel.startTyping();
