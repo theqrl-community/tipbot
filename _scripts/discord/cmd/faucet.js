@@ -122,8 +122,19 @@ module.exports = {
     }
 
     // check if the message is in an approved channel
+    // TODO: Add this to the config and parse from a list of approved channels
+    
     if (message.channel.id !== 'bot') {
-      errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
+      message.channel.startTyping();
+      setTimeout(function() {
+        message.channel.stopTyping(true);
+        message.reply('Please use the #bot channel for faucet functions...')
+          // delete the message after a bit
+          .then(msg => {
+            setTimeout(() => msg.delete(), 10000)
+          })
+          .catch( );
+      }, 500);
       return;
     }
 
