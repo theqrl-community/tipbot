@@ -24,7 +24,7 @@ module.exports = {
         message.reply(content)
           // delete the message after a bit
           .then(msg => {
-            setTimeout(() => msg.delete(), 10000)
+            setTimeout(() => msg.delete(), 60000)
           })
           .catch( );
       }, 100);
