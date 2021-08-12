@@ -337,9 +337,9 @@ client.on('message', message => {
     command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
   }
 
-console.log(JSON.stringify(message.author));
   // check that the user is not a bot
   if(message.author.bot === true) {
+    console.log(JSON.stringify(message.author));
     errorMessage({ error: 'Bots Can\'t access the Tipbot!', description: 'Please come back as a human and try again!' });
     return;
   }
@@ -362,6 +362,8 @@ console.log(JSON.stringify(message.author));
       chalk.cyan('\nGuild:\t') + chalk.green('Private Message') +
       chalk.cyan('\nChan:\t') + chalk.green(message.channel.name) +
       chalk.cyan('\nAuth:\t') + chalk.green(message.author.username + chalk.dim(' <@' + message.author.id + '>')) +
+      chalk.cyan('\ncreatedTS:\t') + chalk.green(message.author.createdTimestamp) +
+      chalk.cyan('\nBot:\t') + chalk.green(message.author.bot) +
       chalk.cyan('\nMesg:\t') + chalk.green(message.content));
   }
   else {
@@ -370,6 +372,8 @@ console.log(JSON.stringify(message.author));
       chalk.cyan('\nGuild:\t') + chalk.green(message.guild.name) +
       chalk.cyan('\nChan:\t') + chalk.green(message.channel.name) +
       chalk.cyan('\nAuth:\t') + chalk.green(message.author.username + chalk.dim(' <@' + message.author.id + '>')) +
+      chalk.cyan('\ncreatedTS:\t') + chalk.green(message.author.createdTimestamp) +
+      chalk.cyan('\nBot:\t') + chalk.green(message.author.bot) +
       chalk.cyan('\nCMD:\t') + chalk.green(command.name) +
       chalk.cyan('\nMesg:\t') + chalk.green(message.content));
   }
