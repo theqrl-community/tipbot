@@ -15,6 +15,7 @@ module.exports = {
     const wallet = require('../../qrl/walletTools');
     const config = require('../../../_config/config.json');
     const faucetResponse = require('../faucet-response.json');
+    const emojiCharacters = require('../../emojiCharacters');
     const uuid = `${message.author}`;
     const service_id = uuid.slice(1, -1);
     const GetAllUserInfo = dbHelper.GetAllUserInfo;
@@ -28,9 +29,14 @@ module.exports = {
     function ReplyMessage(content) {
       message.channel.startTyping();
       setTimeout(function() {
-        message.reply(content);
         message.channel.stopTyping(true);
-      }, 500);
+        message.reply(content)
+          // delete the message after a bit
+          .then(msg => {
+            setTimeout(() => msg.delete(), 10000)
+          })
+          .catch( );
+      }, 100);
     }
 
     // errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
@@ -118,6 +124,24 @@ module.exports = {
     // check if this is a DM and if so, block forcing user into the chat room
     if (message.channel.type === 'dm') {
       errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
+      return;
+    }
+
+    // check if the message is in an approved channel
+    // TODO: Add this to the config and parse from a list of approved channels
+
+
+    if (message.channel.name !== 'bot') {
+      message.channel.startTyping();
+      setTimeout(function() {
+        message.channel.stopTyping(true);
+        message.reply('Please use the #bot channel for faucet functions...')
+          // delete the message after a bit
+          .then(msg => {
+            setTimeout(() => msg.delete(), 10000)
+          })
+          .catch( );
+      }, 500);
       return;
     }
 
@@ -297,6 +321,12 @@ module.exports = {
               const userMessage = chooseMessage();
               // console.log(JSON.stringify(userMessage));
               ReplyMessage(':droplet: ' + Drip + ' Quanta sent from the faucet! :droplet:\n*Funds take up to 5 min to deposit.*');
+              message.react(emojiCharacters.q)
+                .then(() => message.react(emojiCharacters.r))
+                .then(() => message.react(emojiCharacters.l))
+              .catch(() => console.error('One of the emojis failed to react.'));
+            
+
               dripMessage(userMessage);
             }
           });

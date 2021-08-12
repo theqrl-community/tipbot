@@ -1,10 +1,5 @@
 const config = require('../../../_config/config.json');
 module.exports = {
-
-
-  // WRITE TO THE TRANSACTIONS DATABASE!!!!
-
-
   name: 'withdraw',
   description: 'Withdraw QRL from your TipBot account to a QRL wallet.',
   args: false,

@@ -293,6 +293,9 @@ client.on('message', message => {
     }
   }
 */
+
+
+
   // check that the message starts with our prefix called out in the config file or direct to the bot
   const prefixRegex = new RegExp(`^(<@!?${client.user.id}>|${escapeRegex(config.discord.prefix)})\\s*`);
   // test message content for prefex or client id of the bot. Fail if not found
@@ -333,6 +336,15 @@ client.on('message', message => {
     // Is not a DM
     command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
   }
+
+  // check that the user is not a bot
+  if(message.author.bot === true) {
+    errorMessage({ error: 'Bots Can\'t access the Tipbot!', description: 'Please come back as a human and try again!' });
+    console.log('\nBot Detected!');
+    return;
+  }
+
+
   // get the command name set to command either from admin commands or user commands.
   // const command = (client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName))) || (client.adminCommands.get(commandName) || client.adminCommands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName)));
   // console.log('command: ' + JSON.stringify(command));
@@ -344,12 +356,18 @@ client.on('message', message => {
   // ///////////////////////////////////////////////////////
   // log everthing with ${config.discord.prefix} or BOT user mention to console
   // ///////////////////////////////////////////////////////
+
+  const d = new Date( message.author.createdTimestamp );
+  const joinedDate = d.toDateString();
+
   if (message.channel.type === 'dm') {
     console.log(chalk.yellow('Message Recieved:..') +
       chalk.cyan('\nTime:\t') + chalk.green(now1) +
       chalk.cyan('\nGuild:\t') + chalk.green('Private Message') +
       chalk.cyan('\nChan:\t') + chalk.green(message.channel.name) +
       chalk.cyan('\nAuth:\t') + chalk.green(message.author.username + chalk.dim(' <@' + message.author.id + '>')) +
+      chalk.cyan('\nJoined:\t') + chalk.green(joinedDate) +
+      chalk.cyan('\nBot:\t') + chalk.green(message.author.bot) +
       chalk.cyan('\nMesg:\t') + chalk.green(message.content));
   }
   else {
@@ -358,6 +376,8 @@ client.on('message', message => {
       chalk.cyan('\nGuild:\t') + chalk.green(message.guild.name) +
       chalk.cyan('\nChan:\t') + chalk.green(message.channel.name) +
       chalk.cyan('\nAuth:\t') + chalk.green(message.author.username + chalk.dim(' <@' + message.author.id + '>')) +
+      chalk.cyan('\nJoined:\t') + chalk.green(joinedDate) +
+      chalk.cyan('\nBot:\t') + chalk.green(message.author.bot) +
       chalk.cyan('\nCMD:\t') + chalk.green(command.name) +
       chalk.cyan('\nMesg:\t') + chalk.green(message.content));
   }

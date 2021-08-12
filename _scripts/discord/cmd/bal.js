@@ -21,9 +21,14 @@ module.exports = {
     function ReplyMessage(content) {
       message.channel.startTyping();
       setTimeout(function() {
-        message.reply(content);
         message.channel.stopTyping(true);
-      }, 500);
+        message.reply(content)
+          // delete the message after a bit
+          .then(msg => {
+            setTimeout(() => msg.delete(), 10000)
+          })
+          .catch( );
+      }, 100);
     }
   
     // errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
@@ -197,10 +202,12 @@ module.exports = {
                 if (message.channel.type === 'dm') return;
                 message.channel.stopTyping(true);
               })
+
               .catch(e => {
                 errorMessage({ error: 'Direct Message Disabled', description: 'It seems you have DM\'s blocked, please enable and try again...' + e.message });
               });
           }
+          ReplyMessage('\n:moneybag: Balance is in your DM :moneybag:');
           message.react(emojiCharacters.q)
             .then(() => message.react(emojiCharacters.r))
             .then(() => message.react(emojiCharacters.l))

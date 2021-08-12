@@ -11,16 +11,23 @@ module.exports = {
     const dbHelper = require('../../db/dbHelper');
     const wallet = require('../../qrl/walletTools');
     const config = require('../../../_config/config.json');
+    const emojiCharacters = require('../../emojiCharacters');
     const uuid = `${message.author}`;
     const userID = uuid.slice(1, -1);
     let success = '';
+
     // ReplyMessage(' Check your DM\'s');
     function ReplyMessage(content) {
       message.channel.startTyping();
       setTimeout(function() {
-        message.reply(content);
         message.channel.stopTyping(true);
-      }, 500);
+        message.reply(content)
+          // delete the message after a bit
+          .then(msg => {
+            setTimeout(() => msg.delete(), 10000)
+          })
+          .catch( );
+      }, 100);
     }
 
     function toQuanta(number) {
@@ -170,6 +177,10 @@ module.exports = {
         return;
       }
       ReplyMessage('You\'ve opted back in! :thumbsup:');
+      message.react(emojiCharacters.q)
+        .then(() => message.react(emojiCharacters.r))
+        .then(() => message.react(emojiCharacters.l))
+      .catch(() => console.error('One of the emojis failed to react.'));
     });
   },
 };

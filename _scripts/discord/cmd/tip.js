@@ -11,6 +11,8 @@ module.exports = {
     const Discord = require('discord.js');
     const dbHelper = require('../../db/dbHelper');
     const wallet = require('../../qrl/walletTools');
+    const emojiCharacters = require('../../emojiCharacters');
+
     const futureTippedUserInfo = [];
     const futureTippedUserIDs = [];
     const futureTippedUserServiceIDs = [];
@@ -48,8 +50,13 @@ module.exports = {
     function ReplyMessage(content) {
       message.channel.startTyping();
       setTimeout(function() {
-        message.reply(content);
         message.channel.stopTyping(true);
+        message.reply(content)
+          // delete the message after a bit
+          .then(msg => {
+            setTimeout(() => msg.delete(), 10000)
+          })
+          .catch( );
       }, 100);
     }
 
@@ -402,6 +409,7 @@ module.exports = {
           // arrays are full, now send the transactions and set database.
           }
           ReplyMessage('Working on it...');
+
           // add users to the tips db and create a tip_id to track this tip through
           const addTipInfo = { from_user_id: tippingUserUser_Id, tip_amount: givenTip };
           const addTipResults = await tipDBWrite(addTipInfo);
@@ -474,6 +482,10 @@ module.exports = {
                   });
 
                 ReplyMessage('your tip was sent! Thanks for using the tipbot :smiley: \n*All tips are on-chain, and will take some time to process...*');
+                message.react(emojiCharacters.q)
+                  .then(() => message.react(emojiCharacters.r))
+                  .then(() => message.react(emojiCharacters.l))
+                  .catch(() => console.error('One of the emojis failed to react.'));
               });
             }
             if (bannedUsersArray.length > 0) {

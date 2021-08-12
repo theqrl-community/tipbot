@@ -13,6 +13,7 @@ module.exports = {
     const wallet = require('../../qrl/walletTools');
     const config = require('../../../_config/config.json');
     const bcrypt = require('bcryptjs');
+    const emojiCharacters = require('../../emojiCharacters');
     const salt = bcrypt.genSaltSync(25);
     const MessageAuthorID = message.author.id;
     let MessageAuthorUsername = 'haxerFromDiscord';
@@ -43,9 +44,14 @@ module.exports = {
     function ReplyMessage(content) {
       message.channel.startTyping();
       setTimeout(function() {
-        message.reply(content);
         message.channel.stopTyping(true);
-      }, 500);
+        message.reply(content)
+          // delete the message after a bit
+          .then(msg => {
+            setTimeout(() => msg.delete(), 60000)
+          })
+          .catch( );
+      }, 100);
     }
 
     // errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
@@ -104,6 +110,10 @@ module.exports = {
           }).then(function(AddusrResult) {
             // message user of status
             ReplyMessage('You\'re now opted out.\nIf you change your mind `' + config.discord.prefix + 'opt-in` :wave: ...');
+            message.react(emojiCharacters.q)
+              .then(() => message.react(emojiCharacters.r))
+              .then(() => message.react(emojiCharacters.l))
+            .catch(() => console.error('One of the emojis failed to react.'));
             return AddusrResult;
           });
         });
@@ -145,6 +155,11 @@ module.exports = {
                 // message.author.send('You have a balance of `' + wallet_bal_quanta + ' qrl` in your tip wallet. Please `' + config.discord.prefix + 'withdraw` the funds before you opt-out.\n\nTo donate your funds to the TipBot faucet `' + config.discord.prefix + 'withdraw all ' + config.faucet.faucet_wallet_pub + '`')
                   .then(function() {
                     ReplyMessage('Check Your DM\'s');
+                    message.react(emojiCharacters.q)
+                      .then(() => message.react(emojiCharacters.r))
+                      .then(() => message.react(emojiCharacters.l))
+                    .catch(() => console.error('One of the emojis failed to react.'));
+
                   }).catch(e => {
                     errorMessage({ error: 'Direct Message Disabled', description: 'You have a balance and it seems like I can\'t DM you! Enable DM\'s and try again...' + e.message });
                   });
