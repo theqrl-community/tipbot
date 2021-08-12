@@ -121,6 +121,12 @@ module.exports = {
       return;
     }
 
+    // check if the message is in an approved channel
+    if (message.channel.id === 'bot') {
+      errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
+      return;
+    }
+
     // check for a balance in the faucet wallet first
     async function faucetBalance() {
       return new Promise(function(resolve) {
