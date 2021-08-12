@@ -358,7 +358,7 @@ client.on('message', message => {
   // ///////////////////////////////////////////////////////
 
   const d = new Date( message.author.createdTimestamp );
-  const joinedDate = d.getHours() + ':' + d.getMinutes() + ', ' + d.toDateString();
+  const joinedDate = d.toDateString();
 
   if (message.channel.type === 'dm') {
     console.log(chalk.yellow('Message Recieved:..') +
