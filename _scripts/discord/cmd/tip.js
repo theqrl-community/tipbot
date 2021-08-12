@@ -48,8 +48,13 @@ module.exports = {
     function ReplyMessage(content) {
       message.channel.startTyping();
       setTimeout(function() {
-        message.reply(content);
         message.channel.stopTyping(true);
+        message.reply(content)
+          // delete the message after a bit
+          .then(msg => {
+            setTimeout(() => msg.delete(), 10000)
+          })
+          .catch( );
       }, 100);
     }
 
@@ -401,10 +406,7 @@ module.exports = {
             }
           // arrays are full, now send the transactions and set database.
           }
-          ReplyMessage('Working on it...').then(msg => {
-              setTimeout(() => msg.delete(), 10000)
-            })
-            .catch( );
+          ReplyMessage('Working on it...')
 
           // add users to the tips db and create a tip_id to track this tip through
           const addTipInfo = { from_user_id: tippingUserUser_Id, tip_amount: givenTip };
@@ -478,12 +480,6 @@ module.exports = {
                   });
 
                 ReplyMessage('your tip was sent! Thanks for using the tipbot :smiley: \n*All tips are on-chain, and will take some time to process...*')
-                  // delete the message after a bit
-                  .then(msg => {
-                    setTimeout(() => msg.delete(), 10000)
-                  })
-                  .catch( );
-
               });
             }
             if (bannedUsersArray.length > 0) {
