@@ -401,7 +401,7 @@ module.exports = {
             }
           // arrays are full, now send the transactions and set database.
           }
-          ReplyMessage('Working on it...');
+          ReplyMessage('Working on it...')
             // delete the message after a bit
             .then(msg => {
               setTimeout(() => msg.delete(), 10000)
@@ -485,7 +485,7 @@ module.exports = {
                     setTimeout(() => msg.delete(), 10000)
                   })
                   .catch( );
-                  
+
               });
             }
             if (bannedUsersArray.length > 0) {
