@@ -1,10 +1,5 @@
 const config = require('../../../_config/config.json');
 module.exports = {
-
-
-  // WRITE TO THE TRANSACTIONS DATABASE!!!!
-
-
   name: 'withdraw',
   description: 'Withdraw QRL from your TipBot account to a QRL wallet.',
   args: false,
@@ -278,14 +273,7 @@ module.exports = {
         return false;
       }
       else {
-        ReplyMessage('Sending your withdraw transaction now, Be right back..')
-          // delete the message after a bit
-          .then(msg => {
-            setTimeout(() => msg.delete(), 10000)
-          })
-          .catch( );
-
-
+        ReplyMessage('Sending your withdraw transaction now, Be right back..');
         // check passed, do stuff
         const transferAmount = check[0].amtArray;
         const transferInfo = { address_to: check[0].addressArray, amount: transferAmount, fee: fee, address_from: check[0].userArray[0][0].wallet_pub };
