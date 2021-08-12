@@ -338,9 +338,9 @@ client.on('message', message => {
   }
 
   // check that the user is not a bot
-    console.log(JSON.stringify(message.author));
   if(message.author.bot === true) {
     errorMessage({ error: 'Bots Can\'t access the Tipbot!', description: 'Please come back as a human and try again!' });
+    console.log('\nBot Detected!');
     return;
   }
 
