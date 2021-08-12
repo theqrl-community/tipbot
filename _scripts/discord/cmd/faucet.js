@@ -28,9 +28,14 @@ module.exports = {
     function ReplyMessage(content) {
       message.channel.startTyping();
       setTimeout(function() {
-        message.reply(content);
         message.channel.stopTyping(true);
-      }, 500);
+        message.reply(content)
+          // delete the message after a bit
+          .then(msg => {
+            setTimeout(() => msg.delete(), 10000)
+          })
+          .catch( );
+      }, 100);
     }
 
     // errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
@@ -315,6 +320,12 @@ module.exports = {
               const userMessage = chooseMessage();
               // console.log(JSON.stringify(userMessage));
               ReplyMessage(':droplet: ' + Drip + ' Quanta sent from the faucet! :droplet:\n*Funds take up to 5 min to deposit.*');
+              message.react(emojiCharacters.q)
+                .then(() => message.react(emojiCharacters.r))
+                .then(() => message.react(emojiCharacters.l))
+              .catch(() => console.error('One of the emojis failed to react.'));
+            
+
               dripMessage(userMessage);
             }
           });

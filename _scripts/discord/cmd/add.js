@@ -28,15 +28,20 @@ module.exports = {
     const getBalance = wallet.GetBalance;
 
 
-    // use to send a reply to user with delay and stop typing
     // ReplyMessage(' Check your DM\'s');
     function ReplyMessage(content) {
       message.channel.startTyping();
       setTimeout(function() {
-        message.reply(content);
         message.channel.stopTyping(true);
-      }, 500);
+        message.reply(content)
+          // delete the message after a bit
+          .then(msg => {
+            setTimeout(() => msg.delete(), 60000)
+          })
+          .catch( );
+      }, 100);
     }
+
 
     // errorMessage({ error: 'Can\'t access faucet from DM!', description: 'Please try again from the main chat, this function will only work there.' });
     function ErrorMessage(content, footer = '  .: Tipbot provided by The QRL Contributors :.') {
