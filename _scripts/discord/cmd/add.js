@@ -15,6 +15,7 @@ module.exports = {
     const wallet = require('../../qrl/walletTools');
     const discordHelpers = require('../discord-helpers.js');
     const bcrypt = require('bcryptjs');
+    const emojiCharacters = require('../../emojiCharacters');
     const salt = bcrypt.genSaltSync(25);
     const checkUser = dbHelper.CheckUser;
     const addUser = dbHelper.AddUser;

@@ -11,6 +11,7 @@ module.exports = {
     const Discord = require('discord.js');
     const dbHelper = require('../../db/dbHelper');
     const config = require('../../../_config/config.json');
+    const emojiCharacters = require('../../emojiCharacters');
     const username = `${message.author}`;
     const userName = username.slice(1, -1);
     const user_info = { service: 'discord', user_id: userName };

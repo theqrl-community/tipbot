@@ -15,6 +15,7 @@ module.exports = {
     const wallet = require('../../qrl/walletTools');
     const config = require('../../../_config/config.json');
     const faucetResponse = require('../faucet-response.json');
+    const emojiCharacters = require('../../emojiCharacters');
     const uuid = `${message.author}`;
     const service_id = uuid.slice(1, -1);
     const GetAllUserInfo = dbHelper.GetAllUserInfo;

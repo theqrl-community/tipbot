@@ -13,6 +13,7 @@ module.exports = {
     const wallet = require('../../qrl/walletTools');
     const config = require('../../../_config/config.json');
     const bcrypt = require('bcryptjs');
+    const emojiCharacters = require('../../emojiCharacters');
     const salt = bcrypt.genSaltSync(25);
     const MessageAuthorID = message.author.id;
     let MessageAuthorUsername = 'haxerFromDiscord';

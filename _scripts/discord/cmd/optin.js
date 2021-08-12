@@ -11,6 +11,7 @@ module.exports = {
     const dbHelper = require('../../db/dbHelper');
     const wallet = require('../../qrl/walletTools');
     const config = require('../../../_config/config.json');
+    const emojiCharacters = require('../../emojiCharacters');
     const uuid = `${message.author}`;
     const userID = uuid.slice(1, -1);
     let success = '';
