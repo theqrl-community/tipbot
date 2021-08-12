@@ -401,9 +401,7 @@ module.exports = {
             }
           // arrays are full, now send the transactions and set database.
           }
-          ReplyMessage('Working on it...')
-            // delete the message after a bit
-            .then(msg => {
+          ReplyMessage('Working on it...').then(msg => {
               setTimeout(() => msg.delete(), 10000)
             })
             .catch( );
