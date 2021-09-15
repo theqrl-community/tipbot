@@ -105,7 +105,7 @@ module.exports = {
             const btcValue = data.market_data.current_price.btc;
             const results = balanceResult.balance;
             const res = toQuanta(results).toFixed(9);
-            const userBTCValue = (res * btcValue).toFixed(9);
+            const userBTCValue = (res * btcValue).toFixed(8);
             const userUSDValue = (res * usdValue).toFixed(3);
             const embed = new Discord.MessageEmbed()
               .setColor(0x000000)
@@ -165,7 +165,7 @@ module.exports = {
           const data = JSON.parse(cg);
           const usdValue = data.market_data.current_price.usd;
           const btcValue = data.market_data.current_price.btc;
-          const userBTCValue = (res * btcValue).toFixed(9);
+          const userBTCValue = (res * btcValue).toFixed(8);
           const userUSDValue = (res * usdValue).toFixed(3);
           if (pending > 0) {
             const embed = new Discord.MessageEmbed()
