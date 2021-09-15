@@ -113,7 +113,7 @@ module.exports = {
               .setDescription('Details from the balance query. \n*Transactions may take a some time to post. Please be patient*')
               .addField('QRL Address Balance:', `\`${res}\``, false)
               .addField('QRL/USD Balance:', '`\u0024' + thousandths(userUSDValue) + '`', true)
-              .addField('QRL/BTC Balance:', '`\u0024' + thousandths(userBTCValue) + '`', true)
+              .addField('QRL/BTC Balance:', '`\u20BF' + thousandths(userBTCValue) + '`', true)
               .addField('QRL Address:', '[' + givenAddress + '](' + config.bot_details.explorer_url + '/a/' + givenAddress + ')')
               .setFooter('  .: Tipbot provided by The QRL Contributors :.');
             message.author.send({ embed })
@@ -174,7 +174,7 @@ module.exports = {
               .setDescription('Details from the balance query. \n*Transactions may take a some time to post. Please be patient*')
               .addField('Balance:', `\`${res} QRL\``, false)
               .addField('QRL/USD Balance:', '`\u0024' + thousandths(userUSDValue) + '`', true)
-              .addField('QRL/BTC Balance:', '`\u0024' + thousandths(userBTCValue) + '`', true)
+              .addField('QRL/BTC Balance:', '`\u20BF' + thousandths(userBTCValue) + '`', true)
               .addField('Approx Pending TXn\'s:', '`' + pending + ' QRL`', true)
               .addField('QRL Address:', '[' + UserAddress + '](' + config.bot_details.explorer_url + '/a/' + UserAddress + ')')
               .setFooter('  .: Tipbot provided by The QRL Contributors :.');
@@ -194,7 +194,7 @@ module.exports = {
               .setDescription('Details from the balance query. \n*Transactions may take a some time to post. Please be patient*')
               .addField('Balance:', `\`${res} QRL\``, false)
               .addField('QRL/USD Balance:', '`\u0024' + thousandths(userUSDValue) + '`', true)
-              .addField('QRL/BTC Balance:', '`\u0024' + thousandths(userBTCValue) + '`', true)
+              .addField('QRL/BTC Balance:', '`\u20BF' + thousandths(userBTCValue) + '`', true)
               .addField('QRL Address:', '[' + UserAddress + '](' + config.bot_details.explorer_url + '/a/' + UserAddress + ')')
               .setFooter('  .: Tipbot provided by The QRL Contributors :.');
             message.author.send({ embed })
