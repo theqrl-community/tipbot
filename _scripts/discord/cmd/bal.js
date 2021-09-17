@@ -105,7 +105,7 @@ module.exports = {
             const btcValue = data.market_data.current_price.btc;
             const results = balanceResult.balance;
             const res = toQuanta(results).toFixed(9);
-            const userBTCValue = (res * btcValue).toFixed(9);
+            const userBTCValue = (res * btcValue).toFixed(8);
             const userUSDValue = (res * usdValue).toFixed(3);
             const embed = new Discord.MessageEmbed()
               .setColor(0x000000)
@@ -113,7 +113,7 @@ module.exports = {
               .setDescription('Details from the balance query. \n*Transactions may take a some time to post. Please be patient*')
               .addField('QRL Address Balance:', `\`${res}\``, false)
               .addField('QRL/USD Balance:', '`\u0024' + thousandths(userUSDValue) + '`', true)
-              .addField('QRL/BTC Balance:', '`\u0024' + thousandths(userBTCValue) + '`', true)
+              .addField('QRL/BTC Balance:', '`\u20BF' + thousandths(userBTCValue) + '`', true)
               .addField('QRL Address:', '[' + givenAddress + '](' + config.bot_details.explorer_url + '/a/' + givenAddress + ')')
               .setFooter('  .: Tipbot provided by The QRL Contributors :.');
             message.author.send({ embed })
@@ -165,7 +165,7 @@ module.exports = {
           const data = JSON.parse(cg);
           const usdValue = data.market_data.current_price.usd;
           const btcValue = data.market_data.current_price.btc;
-          const userBTCValue = (res * btcValue).toFixed(9);
+          const userBTCValue = (res * btcValue).toFixed(8);
           const userUSDValue = (res * usdValue).toFixed(3);
           if (pending > 0) {
             const embed = new Discord.MessageEmbed()
@@ -174,7 +174,7 @@ module.exports = {
               .setDescription('Details from the balance query. \n*Transactions may take a some time to post. Please be patient*')
               .addField('Balance:', `\`${res} QRL\``, false)
               .addField('QRL/USD Balance:', '`\u0024' + thousandths(userUSDValue) + '`', true)
-              .addField('QRL/BTC Balance:', '`\u0024' + thousandths(userBTCValue) + '`', true)
+              .addField('QRL/BTC Balance:', '`\u20BF' + thousandths(userBTCValue) + '`', true)
               .addField('Approx Pending TXn\'s:', '`' + pending + ' QRL`', true)
               .addField('QRL Address:', '[' + UserAddress + '](' + config.bot_details.explorer_url + '/a/' + UserAddress + ')')
               .setFooter('  .: Tipbot provided by The QRL Contributors :.');
@@ -194,7 +194,7 @@ module.exports = {
               .setDescription('Details from the balance query. \n*Transactions may take a some time to post. Please be patient*')
               .addField('Balance:', `\`${res} QRL\``, false)
               .addField('QRL/USD Balance:', '`\u0024' + thousandths(userUSDValue) + '`', true)
-              .addField('QRL/BTC Balance:', '`\u0024' + thousandths(userBTCValue) + '`', true)
+              .addField('QRL/BTC Balance:', '`\u20BF' + thousandths(userBTCValue) + '`', true)
               .addField('QRL Address:', '[' + UserAddress + '](' + config.bot_details.explorer_url + '/a/' + UserAddress + ')')
               .setFooter('  .: Tipbot provided by The QRL Contributors :.');
             message.author.send({ embed })
