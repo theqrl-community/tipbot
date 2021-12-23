@@ -173,7 +173,7 @@
 		"title": "The QRL Node on a Raspberry Pi!",
 		"message": "Thanks to Discord user `0xFF` and the winter hackathon you can now run a QRL node on a Raspberry Pi. [See the instructions here to get started](https://github.com/0xFF0/QRL_rpi)",
 		"source": "https://github.com/0xFF0/QRL_rpi"
-	},
+	}
 ]
 
 
