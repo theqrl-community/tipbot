@@ -219,6 +219,7 @@ module.exports = {
         return returnArray;
       }
       trans_amt = await withdrawAmount(wallet_bal);
+      trans_amt =  parseInt( (trans_amt).toFixed(0) );
       // get the pending amount, if any from the database
       const pending = userInfo[0].pending;
       if (pending > 0) {
