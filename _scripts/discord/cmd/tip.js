@@ -82,7 +82,7 @@ module.exports = {
 
     function toShor(number) {
       const shor = 1000000000;
-      return number * shor;
+      return parseInt( (number * shor).toFixed(0) );
     }
 
     function toQuanta(number) {
