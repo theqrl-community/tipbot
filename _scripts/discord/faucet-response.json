@@ -41,12 +41,12 @@
 	},
 	{
 		"title": "QRL Uses e**X**tended **m**erkle **S**ignature **S**cheme.",
-		"message": "Did you know that QRL is using a NIST recommended post-quantum secure algorithm [**XmSS**](https://tools.ietf.org/html/rfc8391) instead of the quantum insecure ECDSA algorithm Bitcoin uses?",
+		"message": "QRL is using a NIST recommended post-quantum secure algorithm [**XmSS**](https://tools.ietf.org/html/rfc8391) instead of the quantum *insecure* ECDSA algorithm most other blockchains rely on.",
 		"source": "https://csrc.nist.gov/publications/detail/sp/800-208/final"
 	},
 	{
 		"title": "Free QRL from the Tipbot Faucet.",
-		"message": "Tipbot is setup with a faucet that will payout once every 24 hours using the `+faucet` command. Faucet payout amounts are random and selected by the bot. One payment per user per day.",
+		"message": "Tipbot has a faucet that will payout once every 24 hours using the `+faucet` command. Faucet payout amounts are random and selected by the bot. One payment per user per day.",
 		"source": "https://qrl.tips/"
 	},
 	{
@@ -106,7 +106,74 @@
 	},
 	{
 		"title": "League of Entropy and the QRL.",
-		"message": "Did you know QRL is helping to create truly random data as part of the League of Entropy? The QRL Foundation runs a private node submitting entropy to the DRAND network as a contributor.",
+		"message": "Did you know QRL is helping to create truly random data as part of the League of Entropy? The QRL Foundation runs a private DRAND node submitting entropy to the DRAND network as a contributor.",
 		"source": "https://en.wikipedia.org/wiki/League_of_entropy"
-	}
+	},
+	{
+		"title": "Congratulations!",
+		"message": "You just received some of the only cryptocurrency around that will withstand the quantum event. [theqrl.org](https://theqrl.org)",
+		"source": "https://theqrl.org/"
+	},
+	{
+		"title": "Is Bitcoin (BTC) Safe from Grover's Algorithm?",
+		"message": "Grover’s algorithm is more of a threat to cryptographic hashing than encryption. When cryptographic hashes are compromised, both blockchain integrity and block mining suffer...[Benzinga](https://www.benzinga.com/markets/cryptocurrency/21/07/22200214/is-bitcoin-btc-safe-from-grovers-algorithm)",
+		"source": "https://www.benzinga.com/markets/cryptocurrency/21/07/22200214/is-bitcoin-btc-safe-from-grovers-algorithm"
+	},
+	{
+		"title": "Breaking Bitcoin: ECDSA vs XMSS",
+		"message": "ECDSA simply cannot withstand a powerful quantum computer intent on deriving a user’s private key from their public key...[Benzinga](https://www.benzinga.com/markets/cryptocurrency/21/05/21283700/breaking-bitcoin-ecdsa-vs-xmss)",
+		"source": "https://www.benzinga.com/markets/cryptocurrency/21/05/21283700/breaking-bitcoin-ecdsa-vs-xmss"
+	},
+	{
+		"title": "Is Bitcoin (BTC) Safe from Grover's Algorithm?",
+		"message": "Grover’s algorithm is more of a threat to cryptographic hashing than encryption. When cryptographic hashes are compromised, both blockchain integrity and block mining suffer...[Benzinga](https://www.benzinga.com/markets/cryptocurrency/21/07/22200214/is-bitcoin-btc-safe-from-grovers-algorithm)",
+		"source": "https://www.benzinga.com/markets/cryptocurrency/21/07/22200214/is-bitcoin-btc-safe-from-grovers-algorithm"
+	},
+	{
+		"title": "The Story of the World's First Post Quantum Block Chain",
+		"message": "In 2016, the idea of a practical quantum computer seemed like science fiction to many in the blockchain space. Peter was convinced that this technology would quickly emerge, however, and that a quantum-proof blockchain would soon be needed...[Benzinga](https://www.benzinga.com/markets/cryptocurrency/21/06/21587258/from-scalpels-to-qubits-the-story-of-the-worlds-first-post-quantum-block-chain)",
+		"source": "https://www.benzinga.com/markets/cryptocurrency/21/06/21587258/from-scalpels-to-qubits-the-story-of-the-worlds-first-post-quantum-block-chain"
+	},
+	{
+		"title": "Quantum Computing: The Cause of the Next Crypto Crash",
+		"message": "The notion that a quantum computer might someday break bitcoin is quickly gaining ground...[Benzinga](https://www.benzinga.com/markets/cryptocurrency/21/06/21766439/quantum-computing-the-cause-of-the-next-crypto-crash)",
+		"source": "https://www.benzinga.com/markets/cryptocurrency/21/06/21766439/quantum-computing-the-cause-of-the-next-crypto-crash"
+	},
+	{
+		"title": "Cryptocurrency faces a quantum computing problem",
+		"message": "Some people are building new cryptocurrency and blockchain technology designed for the quantum computing era. That includes The Quantum Resistant Ledger...[CNET](https://www.cnet.com/personal-finance/crypto/cryptocurrency-faces-a-quantum-computing-problem/)",
+		"source": "https://www.cnet.com/personal-finance/crypto/cryptocurrency-faces-a-quantum-computing-problem/"
+	},
+	{
+		"title": "THE FUTURE OF POST-QUANTUM RESISTANT BLOCKCHAINS",
+		"message": "The rise of quantum computers poses a world changing threat capable of breaking current blockchain systems, except for QRL, the first full-featured quantum-resistant blockchain protocol...[theqrl.org](https://www.theqrl.org/the-future-of-post-quantum-resistant-blockchains/)",
+		"source": "https://www.theqrl.org/the-future-of-post-quantum-resistant-blockchains/"
+	},
+	{
+		"title": "Aggregating hash-based signatures using STARKs",
+		"message": "Our constructions can be immediately applicable to post-quantum resistant blockchains deployed today [29] without requiring users to update their existing private keys. For example, Quantum Resistant Ledger uses XMSS (recommended by [NIST in SP 800-208 (pdf)](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-208.pdf)) and [WOTS+](https://eprint.iacr.org/2011/484.pdf)...[eprint.iacr.org (pdf)](https://eprint.iacr.org/2021/1048.pdf)",
+		"source": "https://eprint.iacr.org/2021/1048.pdf"
+	},
+	{
+		"title": "Post-quantum blockchain using one-time signature chains",
+		"message": "An example of a post-quantum secure crypto-currency is the Quantum Resistant Ledger (QRL), which uses the hash-based signature scheme XMSS...[semanticscholar.org (pdf)](https://pdfs.semanticscholar.org/f38c/562c21fa1a94871e5f577669f7c4b9520632.pdf)",
+		"source": "https://pdfs.semanticscholar.org/f38c/562c21fa1a94871e5f577669f7c4b9520632.pdf"
+	},
+	{
+		"title": "Blockchained Post-Quantum Signatures",
+		"message": "There are however blockchain solutions that already support post-quantum techniques, such as the Quantum Resistant Ledger (QRL)...[eprint.iacr.org (pdf)](https://eprint.iacr.org/2018/658.pdf)",
+		"source": "https://eprint.iacr.org/2018/658.pdf"
+	},
+	{
+		"title": "Application and Implementation of Multivariate Public Key Cryptosystem in Blockchain",
+		"message": "With the rapid development of quantum computing technologies, as long as large-scale quantum computers appear, these kind of encryption systems can be deciphered by shor algorithm in polynomial time. Therefore, blockchain technologies are going to face potential security threats. To solve this problem, the best solution at present is to replace the asymmetric encryption algorithms in the blockchain with post-quantum cryptosystems...[springer.com](https://link.springer.com/chapter/10.1007%2F978-3-030-30146-0_29)",
+		"source": "https://link.springer.com/chapter/10.1007%2F978-3-030-30146-0_29"
+	},
+	{
+		"title": "The QRL Node on a Raspberry Pi!",
+		"message": "Thanks to Discord user `0xFF` and the winter hackathon you can now run a QRL node on a Raspberry Pi. [See the instructions here to get started](https://github.com/0xFF0/QRL_rpi)",
+		"source": "https://github.com/0xFF0/QRL_rpi"
+	},
 ]
+
+
