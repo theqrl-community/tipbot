@@ -315,11 +315,12 @@ module.exports = {
               // insert into faucet_payments to request a payment
               const user_id = userInfoArray[0][0].user_id;
               const fixedPayout = new Boolean(config.faucet.fixed_payout);
+              let Drip
               if (fixedPayout) {
-                const Drip = config.faucet.fixed_amount;
+                Drip = config.faucet.fixed_amount;
               }
               else {
-                const Drip = dripAmount(config.faucet.min_payout, config.faucet.max_payout);
+                Drip = dripAmount(config.faucet.min_payout, config.faucet.max_payout);
               }
               const dripInfo = { user_id: user_id, service: 'discord', drip_amt: Drip };
               drip(dripInfo).then(function() {
