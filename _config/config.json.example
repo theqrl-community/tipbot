@@ -38,7 +38,9 @@
     "faucet_wallet_pub" : "Q...",
     "payout_interval" : "1440",
     "min_payout" : "0.000000001",
-    "max_payout" : "0.5"
+    "max_payout" : "0.5",
+    "fixed_payout" : "true",
+    "fixed_amount" : "1"
   },
   "backup" : {
     "location" : "/FULL/PATH/OF/THE/BACKUP/DIR",
