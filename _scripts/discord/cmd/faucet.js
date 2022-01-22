@@ -314,9 +314,9 @@ module.exports = {
               // no drip found. Do things here.
               // insert into faucet_payments to request a payment
               const user_id = userInfoArray[0][0].user_id;
-              const fixedPayout = new Boolean(config.faucet.fixed_payout);
+              const fixedPayout = config.faucet.fixed_payout;
               let Drip
-              if (fixedPayout) {
+              if (fixedPayout === "true") {
                 Drip = config.faucet.fixed_amount;
               }
               else {
