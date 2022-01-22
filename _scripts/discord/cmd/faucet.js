@@ -316,7 +316,7 @@ module.exports = {
               const user_id = userInfoArray[0][0].user_id;
               const fixedPayout = config.faucet.fixed_payout;
               let Drip
-              if (fixedPayout === true) {
+              if (fixedPayout === "true") {
                 Drip = config.faucet.fixed_amount;
               }
               else {
