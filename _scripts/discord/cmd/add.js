@@ -104,6 +104,10 @@ module.exports = {
             return;
           }
 
+
+          // add else if here to check if user was banned before, and if they need a new address create one
+          // fails with the next search if the user has been banned then un-banned
+
           const getUserWalletPub = dbHelper.GetUserWalletPub;
           const walletPub = getUserWalletPub({ user_id: result.user_id });
           walletPub.then(function(address) {

@@ -10,6 +10,25 @@ const callmysqlTipBot = mysql.createPool({
   database: `${config.database.db_name}`,
 });
 
+
+
+
+// SELECT count(*), sum(drip_amt) FROM faucet_payouts WHERE user_id = 3;
+
+// all tips
+// SELECT count(*), sum(tip_amount) FROM tips;
+
+// all users tips sent
+// SELECT sum(tip_amt), count(*) from tips_to WHERE from_user_id = 3;
+
+
+// all users withdraws
+// SELECT sum(amt), count(*) FROM withdrawls WHERE user_id = 3;
+
+// all withdraws
+// SELECT sum(amt), count(*) FROM withdrawls;
+
+
 async function Drip(args) {
   return new Promise(resolve => {
     const resultsArray = [];
