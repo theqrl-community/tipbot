@@ -42,6 +42,15 @@
     "fixed_payout" : "true",
     "fixed_amount" : "1"
   },
+  
+  "plusone" : {
+    "wallet_pub" : "Q...",
+    "payouts_allowed" : "1",
+    "fixed_payout" : "true",
+    "fixed_amount" : "1",
+    "plusone_admin" : "DISCORD_ID"
+
+  },  
   "backup" : {
     "location" : "/FULL/PATH/OF/THE/BACKUP/DIR",
     "encPass" : "PASSPHRASE_TO_ENCRYPT_THE_DUMP_USING_MYSQLDUMP_TOOLS",

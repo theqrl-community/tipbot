@@ -528,6 +528,39 @@ const createUserAgree = `create table if not exists users_agree(
     }
   });
 
+
+
+  // Create the 'discord_users' table to store to users info from Discord
+  const createPlusOne = `create table if not exists plusone(
+                               id int primary key auto_increment,
+                               user_id int not null,
+                               service ENUM('discord', 'keybase', 'github', 'reddit', 'trello', 'twitter', 'slack', 'telegram', 'whatsapp'),
+                               one_paid BOOLEAN default 0,
+                               one_key varchar(255),
+                               one_amt DECIMAL(24,9),
+                               tx_hash varchar(255), 
+                               updated_at DATETIME not null,
+                               time_stamp DATETIME not null
+                             )`;
+  callmysql.query(createPlusOne, function(err, results) {
+    if (err) {
+      console.log(chalk.red('! ') + chalk.bgRed(err.message));
+    }
+    // log the output of sql command
+    if (results.warningCount == '0') {
+      console.log(chalk.cyan(' ✔ ') + chalk.blue(' createPlusOne results: ') + chalk.green(' SQL Table created!'));
+    }
+    else if (results.warningCount == '1') {
+      console.log(chalk.yellow(' ⚠ ') + chalk.blue(' createPlusOne results: ') + chalk.grey(' Table exists'));
+    }
+    else {
+      console.log(chalk.red('! ') + chalk.bgRed('Something else happened with createPlusOne...') + chalk.grey(' SQL warningCount: ' + results.warningCount));
+    }
+  });
+
+
+
+
   // close the sql connection
   callmysql.end(function(err) {
     if (err) {

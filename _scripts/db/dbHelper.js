@@ -627,7 +627,7 @@ async function addFutureTip(args) {
     // this will write a user to database
     // we expect { service: SERVICE, user_id: SERVICE_ID, user_name: SERVICE_user_name, tip_from: TIP_FROM_TIPBOT_user_id, tip_amount: tip_to_user_amount, time_stamp: date_tip_was_made }
     const input = JSON.parse(JSON.stringify(args));
-    console.log(input);
+    // console.log(input);
     const futureTipResultsArray = [];
     const service = input.service;
     const service_id = input.service_id;
@@ -677,7 +677,7 @@ async function checkFutureTips(args) {
 
 async function clearFutureTips(args) {
   return new Promise(resolve => {
-    console.log('clearFututreTips args:' + JSON.stringify(args));
+    // console.log('clearFututreTips args:' + JSON.stringify(args));
     callmysql.query('UPDATE future_tips SET tip_paidout = "1" WHERE user_id = ? AND tip_paidout = "0"', [args.user_id], function(err, result) {
       if (err) {
         console.log('[mysql error]', err);

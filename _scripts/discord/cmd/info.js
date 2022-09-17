@@ -8,6 +8,7 @@ module.exports = {
   execute(message, args) {
     const Discord = require('discord.js');
     const dbHelper = require('../../db/dbHelper');
+    const plusOneHelper = require('../../plusone/plusoneDB_Helper');
     const dbInfo = require('../../db/dbHelper');
     const config = require('../../../_config/config.json');
     const wallet = require('../../qrl/walletTools');
@@ -92,6 +93,13 @@ module.exports = {
       });
     }
 
+    function plusoneWalletBalance() {
+      return new Promise(resolve => {
+        const walletBal = wallet.GetBalance;
+        resolve(walletBal(config.plusone.wallet_pub));
+      });
+    }
+
     function userWalletBalance(address) {
       return new Promise(resolve => {
         const walletBal = wallet.GetBalance;
@@ -168,6 +176,12 @@ module.exports = {
       const btcPriceChange24h = cgData.market_data.price_change_24h_in_currency.btc;
       const btcMarketCapChange24h = cgData.market_data.market_cap_change_24h_in_currency.btc;
 
+      // PlusOne Data
+      const plusoneAddress = config.plusone.wallet_pub;
+      const plusOneBalShor = await plusoneWalletBalance();
+      const plusOneBal = toQuanta(faucetBalShor.balance).toFixed(9);
+      const plusOneCount = await plusOneHelper.CountPlusOneSignup();
+
       // ///////////////////////////////
       // Market Request               //
       // ///////////////////////////////
@@ -220,6 +234,32 @@ module.exports = {
             message.channel.stopTyping(true);
           });
       }
+
+
+      // ///////////////////////////////
+      // Plusone Request                  //
+      // ///////////////////////////////
+
+      else if (args[0] == 'one' || args[0] == 'One' || args[0] == '1' || args[0] == 'plusone' || args[0] == 'PlusOne' || args[0] == 'OneQRL' || args[0] == 'oneqrl' || args[0] == 'otdto' || args[0] == 'Plus1') {
+        // serve the bot info here
+        const embed = new Discord.MessageEmbed()
+          .setColor('GREEN')
+          .setTitle('**One QRL Info**')
+          .setURL('https://oneqrl.com')
+          .setDescription('Information on the One QRL promotion that the community team over at [OneQRL](https://oneqrl.com/community/#oneteam) has setup.')
+          .addFields(
+            { name: 'Total Users Signed Up: ', value: `\`${plusOneCount}\``, inline: false },
+            { name: 'PlusOne Wallet Balance: ', value: `\`${plusOneBal}\``, inline: false },
+            { name: 'PlusOne Wallet Address', value: '[' + plusoneAddress + '](' + config.bot_details.explorer_url + '/a/' + plusoneAddress + ')' },
+          )
+          .setTimestamp()
+          .setFooter('  .: Tipbot provided by The QRL Contributors :.');
+        message.reply({ embed })
+              .then(() => {
+                message.channel.stopTyping(true);
+              });
+      }
+
       // ///////////////////////////////
       // Exchange Request             //
       // ///////////////////////////////

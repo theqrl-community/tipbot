@@ -77,13 +77,12 @@ The `discord_users` table will store all discord user information at account sig
 
 
 
-
 ### `faucet_payouts` Table
 
 Used to track the payouts from the faucet. This will store all of the transaction details including the user_id, tx_hash from the qrl transaction, total amount transfered and the time it all happened.
 
 - **id** *primary_key* is created at entry time
-- **user_ids** the user id from `users.id`
+- **user_id** the user id from `users.id`
 - **tx_hash** tx hash from the qrl tx
 - **total_payout_amt** - total amount sent through the faucet
 - **time_stamp** the timestamp of entry
@@ -139,6 +138,37 @@ after this time frame is up the bot will keep these tips in internal wallets.
 | time_stamp         | datetime                                                                                     | NO   |     | NULL    |                |
 +--------------------+----------------------------------------------------------------------------------------------+------+-----+---------+----------------+
 ```
+
+### `plusone` Table
+
+The `plusone` table collects user info connected to the Plus One promotion. This table is going to be filled when user initiates the one command.
+
+- **id** *primary_key* created at entry time
+- **user_id** from `users.id` table.field to join user and wallet
+- **one_paid** boolean paid or not
+- **plusone_payouts_id** ID from the plusone_payouts transaction table
+- **one_key**  Random salt sent to user, hashed into the database used to validate account with additional promotions and events.
+- **time_stamp** time signed up
+
+```sql
++------------+------------------------------------------------------------------------------------------------------+------+-----+---------+----------------+
+| Field      | Type                                                                                                 | Null | Key | Default | Extra          |
++------------+------------------------------------------------------------------------------------------------------+------+-----+---------+----------------+
+| id                 | int(11)                                                                                      | NO   | PRI | NULL    | auto_increment |
+| user_id            | int(11)                                                                                      | NO   |     | NULL    |                |
+| service            | enum('discord','keybase','github','reddit','trello','twitter','slack','telegram','whatsapp') | YES  |     | NULL    |                |
+| one_paid           | tinyint(1)                                                                                   | NO   |     | NULL    |                |
+| one_key            | varchar(255)                                                                                 | NO   |     | NULL    |                |
+| one_amt            | decimal(24,9)                                                                                | NO   |     | NULL    |                |
+| tx_hash            | varchar(255)                                                                                 | YES  |     | NULL    |                |
+| updated_at         | datetime                                                                                     | NO   |     | NULL    |                |
+| time_stamp         | datetime                                                                                     | NO   |     | NULL    |                |
++------------+------------------------------------------------------------------------------------------------------+------+-----+---------+----------------+
+```
+
+
+
+
 ### `tips` Table
 
 Store details from the tip transaction
@@ -291,6 +321,30 @@ The `users_agree` table collects the user agreement from the user. This allows t
 | updated_at        | datetime                                                                                     | NO   |     | NULL    |                |
 +-------------------+----------------------------------------------------------------------------------------------+------+-----+---------+----------------+
 ```
+### `plusone` Table
+
+The `plusone` table collects user info connected to the Plus One promotion. This table is going to be filled when user initiates the one command.
+
+- **id** *primary_key* created at entry time
+- **user_id** from `users.id` table.field to join user and wallet
+- **one_paid** boolean agree or not
+- **plusone_payouts_id** ID from the plusone_payouts transaction table
+- **one_key** Random hash sent to user to validate their account with additional promotions and events. 
+- **time_stamp** time signed up
+
+```sql
++------------+----------------------------------------------------------------------------------------------+------+-----+---------+----------------+
+| Field      | Type                                                                                         | Null | Key | Default | Extra          |
++------------+----------------------------------------------------------------------------------------------+------+-----+---------+----------------+
+| id         | int(11)                                                                                      | NO   | PRI | NULL    | auto_increment |
+| user_id    | int(11)                                                                                      | NO   |     | NULL    |                |
+| agree      | tinyint(1)                                                                                   | NO   |     | NULL    |                |
+| service    | enum('discord','keybase','github','reddit','trello','twitter','slack','telegram','whatsapp') | YES  |     | NULL    |                |
+| one_key    | varchar(255)                                                                                 | NO   |     | NULL    |                |
+| time_stamp | datetime                                                                                     | NO   |     | NULL    |                |
++------------+----------------------------------------------------------------------------------------------+------+-----+---------+----------------+
+```
+
 
 ### `wallets` Table
 

@@ -61,7 +61,7 @@
 	},
 	{
 		"title": "**O**ne **T**ime **S**ignature Key Reuse.",
-		"message": "Extreme care has be taken to ensure that an OTS key is never reused. This is critical to the security of hash based cryptography. QRL has multiple built in security measures to protect from key re-use.",
+		"message": "Extreme care has been taken to ensure that an OTS key is never reused. This is critical to the security of hash based cryptography. QRL has multiple built in security measures to protect from key re-use.",
 		"source": "https://docs.theqrl.org/developers/ots/"
 	},
 	{
