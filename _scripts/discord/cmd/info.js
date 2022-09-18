@@ -179,7 +179,7 @@ module.exports = {
       // PlusOne Data
       const plusoneAddress = config.plusone.wallet_pub;
       const plusOneBalShor = await plusoneWalletBalance();
-      const plusOneBal = toQuanta(faucetBalShor.balance).toFixed(9);
+      const plusOneBal = toQuanta(plusOneBalShor.balance).toFixed(9);
       const plusOneCount = await plusOneHelper.CountPlusOneSignup();
 
       // ///////////////////////////////
