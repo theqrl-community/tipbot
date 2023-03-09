@@ -85,7 +85,7 @@
 		"source": "https://docs.theqrl.org/wallet/basics/#qrl-web-wallet"
 	},
 	{
-		"title": "QRL has Hardware Wallet Support!",
+		"title": "QRL Hardware Wallet Support!",
 		"message": "One of the most secure ways to store cryptocurrencies is on a hardware wallet. The QRL has integrated with Ledger devices allowing up to 4 QRL addresses or XmSS trees to be stored on a single ledger device.",
 		"source": "https://docs.theqrl.org/wallet/ledger-nano-s/"
 	},
@@ -95,14 +95,14 @@
 		"source": "https://www.theqrl.org/blog/the-qrl-bromine-hardfork-a-look-inside/#3065"
 	},
 	{
-		"title": "Mining the QRL!",
+		"title": "Mining QRL!",
 		"message": "Mining QRL is simple, most modern computers are able to contribute and earn rewards. QRL uses the RandomX mining algorithm to find blocks utilizing the CPU instead of GPU's. Setup a miner today and start earning QRL!",
 		"source": "https://docs.theqrl.org/mining/mining"
 	},
 	{
 		"title": "Where to Buy QRL?",
 		"message": "You can find all of the current listings where you can trade QRL on the [main QRL website](https://www.theqrl.org/markets/). For listing inquiries please [email info@theqrl.org](mailto:info@theqrl.org)",
-		"source": "https://docs.theqrl.org/mining/mining"
+		"source": "https://www.theqrl.org/markets/"
 	},
 	{
 		"title": "League of Entropy and the QRL.",
