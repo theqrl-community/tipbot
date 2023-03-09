@@ -17,7 +17,7 @@ async function explorerData() {
 
 async function poolData() {
   // pulls stats from pool identified here
-  const { stdout, stderr } = await exec('curl -H "Expect: 100-continue" -s -f -XGET "http://pool.qrlmining.com:8117/stats"');
+  const { stdout, stderr } = await exec('curl -H "Expect: 100-continue" -s -f -XGET "https://qrlstats.miningocean.org/stats"');
   if (stderr) {
     console.error(`error: ${stderr}`);
     return stderr;
