@@ -67,18 +67,22 @@ main().then(function () {
   const holdWalletPromise = qrlWal();
   const botWalletPromise = qrlWal();
   const plusoneWalletPromise = qrlWal();
+
   // create the faucet wallet
   console.log("Create the faucet wallet");
+
   faucetWalletPromise.then(function (faucet_Wallet_Info) {
     const faucetWalletInfo = JSON.parse(faucet_Wallet_Info);
     console.log("faucet_wallet_info: " + JSON.stringify(faucetWalletInfo));
     walletInfoArray.push({ faucetInfo: faucetWalletInfo });
     console.log("walletInfoArray: " + JSON.stringify(walletInfoArray));
+
     // print public key to terminal
     console.log(
       chalk.cyan.bold("\nFaucet Pub Address: ") +
         chalk.blue.bold(JSON.stringify(walletInfoArray[0].faucetInfo.address))
     );
+
     // get private key and print to terminal
     const faucetSecretKeyPromise = secretKey(
       walletInfoArray[0].faucetInfo.address
@@ -88,6 +92,7 @@ main().then(function () {
       console.log(
         chalk.cyan.bold("Faucet Secret Keys: ") + chalk.red.bold(faucetSec)
       );
+
       // create hold wallet
       holdWalletPromise.then(function (hold_Wallet_Info) {
         const holdWalletInfo = JSON.parse(hold_Wallet_Info);
@@ -112,13 +117,11 @@ main().then(function () {
             walletInfoArray.push({ plusoneInfo: plusoneWalletInfo });
             console.log(
               chalk.cyan.bold("\nPlusOne Pub Address: ") +
-                chalk.blue.bold(
-                  JSON.stringify(walletInfoArray[1].plusoneInfo.address)
-                )
+                chalk.blue.bold(JSON.stringify(walletInfoArray[2].plusoneInfo.address))
             );
             // get the private keys and print to the terminal
             const plusoneSecretKeyPromise = secretKey(
-              walletInfoArray[1].plusoneInfo.address
+              walletInfoArray[2].plusoneInfo.address
             );
             plusoneSecretKeyPromise.then(function (plusoneSecrets) {
               const plusoneSec = JSON.stringify(JSON.parse(plusoneSecrets));
@@ -153,11 +156,11 @@ main().then(function () {
                 console.log(
                   chalk.cyan.bold("\nBot Pub Address: ") +
                     chalk.blue.bold(
-                      JSON.stringify(walletInfoArray[2].botInfo.wallet_pub)
+                      JSON.stringify(walletInfoArray[3].botInfo.wallet_pub)
                     )
                 );
                 const botSecretKeyPromise = secretKey(
-                  walletInfoArray[2].botInfo.wallet_pub
+                  walletInfoArray[3].botInfo.wallet_pub
                 );
                 botSecretKeyPromise.then(function (botSecrets) {
                   const botSec = JSON.stringify(JSON.parse(botSecrets));
@@ -167,7 +170,7 @@ main().then(function () {
                   );
                   // return walletInfoArray;
                   // console.log('userInfo: ' + JSON.stringify(userInfo));
-                  const AddUserPromise = addUser(walletInfoArray[2].botInfo);
+                  const AddUserPromise = addUser(walletInfoArray[3].botInfo);
                   AddUserPromise.then(function () {
                     const encryptWallet = wallet.encrypt;
                     encryptWallet(infoArray[2].wallet_encryption_pass);
