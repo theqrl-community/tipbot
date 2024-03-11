@@ -131,7 +131,7 @@ module.exports = {
     // TODO: Add this to the config and parse from a list of approved channels
 
 
-    if (message.channel.name !== 'bot') {
+    if (!message.channel.name.includes('bot')) {
       message.channel.startTyping();
       setTimeout(function() {
         message.channel.stopTyping(true);
