@@ -173,6 +173,11 @@
 		"title": "The QRL Node on a Raspberry Pi!",
 		"message": "Thanks to Discord user `0xFF` and the winter hackathon you can now run a QRL node on a Raspberry Pi. [See the instructions here to get started](https://github.com/0xFF0/QRL_rpi)",
 		"source": "https://github.com/0xFF0/QRL_rpi"
+	},
+	{
+		"title": "Project Zond: QRL's next generation network",
+		"message": "QRL Zond is our proof-of-stake protocol with EVM (Ethereum Virtual Machine) smart contract compatibility and available as beta-testnet. See our [TEST ZOND](https://test-zond.theqrl.org) website to get started staking and getting creative with smart-contracts!",
+		"source": "https://get-zond.theqrl.org"
 	}
 ]
 
